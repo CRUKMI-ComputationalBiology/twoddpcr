@@ -1,0 +1,540 @@
+---
+title: "twoddpcr: A package for Droplet Digital PCR analysis"
+author: "Anthony Chiu"
+date: "`r doc_date()`"
+package: "`r pkg_ver('twoddpcr')`"
+output:
+  BiocStyle::html_document:
+    fig_width: 5
+    fig_height: 4
+vignette: >
+  %\VignetteIndexEntry{twoddpcr: A package for Droplet Digital PCR analysis}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+# Introduction
+
+Droplet Digital PCR (ddPCR) is a system from Bio-Rad for estimating the number 
+of genomic fragments in samples. ddPCR attaches fluorochromes to targets of 
+interest, for example, mutant and wild type KRAS. Each sample is then divided 
+into 20,000 droplets and qPCR is run on each droplet. The brightness of these 
+droplets is measured in two channels, each corresponding to our targets.
+The amplitudes of the droplets can be plotted and the results analysed to see 
+whether droplets can be called as:
+
+* Positive in both channels (PP),
+* Positive in Channel 1 only (PN),
+* Positive in Channel 2 only (NP), or
+* Negative in both channels (NN).
+
+There are variations in the brightnesses of the droplets; this can be 
+particularly evident in and around the PP cluster, where there may be some 
+crosstalk due the presence of both fluorochromes. The classification of 
+droplets is therefore not necessarily as simple as deciding on brightness 
+thresholds for each channel, above which a positive reading is called in that 
+channel.
+
+This vignette demonstrates how the `twoddpcr` package may be used to load data, 
+classified and how to quickly create summaries.
+
+# Installing the `twoddpcr` package
+
+The package can be installed from Bioconductor using:
+
+```{r eval=FALSE}
+source("https://bioconductor.org/biocLite.R")
+biocLite("twoddpcr")
+```
+
+Alternatively, it can be installed from GitHub using:
+
+```{r eval=FALSE}
+library(devtools)
+install_github("CRUKMI-ComputationalBiology/twoddpcr")
+```
+
+Another alternative is to install the package from source:
+
+```{r eval=FALSE}
+install.packages("</path/to/twoddpcr/>", repos=NULL, type="source")
+```
+
+
+# Loading the `twoddpcr` package
+
+Once the package has been installed, it can be loaded in the usual way:
+
+```{r results="hide", warning=FALSE, message=FALSE}
+library(twoddpcr)
+```
+
+
+# Using the in-built dataset
+
+Our example uses the `KRASdata` dataset, which comes as part of the package.
+To follow along with this dataset, create a `ddpcrPlate` object using:
+
+```{r}
+plate <- ddpcrPlate(wells=KRASdata)
+```
+
+To follow along with your own dataset, see the 
+[Appendix](#using-other-datasets).
+
+
+# Basic plots
+
+All of the droplets can be plotted to see how they tend cluster:
+
+```{r fig.ext='png'}
+dropletPlot(plate)
+```
+
+This might not be particularly informative; for example, a density plot may be 
+more appropriate:
+
+```{r fig.ext='png'}
+heatPlot(plate)
+```
+
+It can be seen here that most of the droplets are concentrated in the 
+bottom-left and bottom-right clusters.
+
+To take a different view, all of the wells could be plotted side-by-side:
+
+```{r fig.ext='png', fig.width=6, fig.height=5}
+facetPlot(plate)
+```
+
+
+# Plotting the droplets and existing classifications
+
+Since the droplet amplitudes were extracted from Bio-Rad's _QuantaSoft_, there 
+may already be some kind of classification. This can be checked with the 
+`commonClassificationMethod` method, which retrieves the classification methods 
+that exist for all of the wells in the plate:
+
+```{r}
+commonClassificationMethod(plate)
+```
+
+The `Cluster` classification can be plotted:
+
+```{r fig.ext='png'}
+dropletPlot(plate, cMethod="Cluster")
+```
+
+Again, these are all of the wells in the plate superimposed onto the same plot.
+This gives a good overall picture, but the detection of rare alleles in 
+_individual_ wells is where ddPCR is particularly useful. The wells that used 
+in the plate are:
+
+```{r}
+names(plate)
+```
+
+Individual wells can be selected using the `[[...]]` syntax (as with lists in 
+_R_). These can be plotted in the same way using `dropletPlot`. For example:
+
+```{r fig.ext='png'}
+dropletPlot(plate[["F03"]], cMethod="Cluster")
+dropletPlot(plate[["E04"]], cMethod="Cluster")
+```
+
+
+# Independent linear gating on the channels (`thresholdClassify`)
+
+This section illustrates how the `Cluster` classification was obtained, 
+although the original classification was found using _QuantaSoft_.
+The classification here involves setting linear gates (thresholds) for the two 
+channels `Ch1.Amplitude` and `Ch2.Amplitude`, above each of which we will call 
+a positive reading for that channel.
+
+```{r}
+plate <- thresholdClassify(plate, ch1Threshold=6789, ch2Threshold=3000)
+```
+
+The `commonClassificationMethod` method shows that there is now a new 
+classification method:
+
+```{r}
+commonClassificationMethod(plate)
+```
+
+The `thresholds` classification can be plotted using `dropletPlot` but changing 
+the `cMethod` parameter:
+
+```{r fig.ext='png'}
+dropletPlot(plate, cMethod="thresholds")
+```
+
+
+# Classifying using the k-means algorithm (`kmeansClassify`)
+
+Visually, it appears that the classification in the previous section does not 
+accurately classify a region between the main `NP` and `PP` clusters. There are 
+a number of algorithms that could be used to better classify the clusters; one 
+such example is the k-means clustering algorithm. The k-means algorithm is 
+relatively fast but requires that we know how many clusters there are. With 
+this in mind, it helps to classify all of the wells together so that human 
+intervention is not required to judge whether some clusters in individual wells 
+are empty. To run the algorithm on `ddpcrPlate` objects, the `kmeansClassify` 
+method is used:
+
+```{r fig.ext='png'}
+plate <- kmeansClassify(plate)
+commonClassificationMethod(plate)
+dropletPlot(plate, cMethod="kmeans")
+```
+
+Notice how the `PP` cluster incorporates more of the droplets when compared to 
+the `thresholds` case. Visually, it appears that k-means captures the 
+clustering behaviour of the droplets more accurately.
+
+Using the same wells chosen before, it is interesting to see how the individual 
+wells classify:
+
+```{r fig.ext='png'}
+dropletPlot(plate[["F03"]], cMethod="kmeans")
+dropletPlot(plate[["E04"]], cMethod="kmeans")
+```
+
+
+# Adding "rain"
+
+There are regions between clusters where the classification is ambiguous, e.g. 
+above and to the left of the NP cluster. These regions can be labelled as 
+"Rain" and removed from the droplet counts in each of the clusters.
+To achieve this, the `mahalanobisRain` method can be used.
+
+```{r}
+plate <- mahalanobisRain(plate, cMethod="kmeans", maxDistances=3)
+```
+
+The classification methods are now:
+
+```{r}
+commonClassificationMethod(plate)
+```
+
+Whenever droplets are relabelled as `Rain` using the `mahalanobisRain` method, 
+the character string "MahRain" is appended to the classification name to 
+distinguish it from the original. This classification is plotted as:
+
+```{r fig.ext='png', fig.width=5, fig.height=4}
+dropletPlot(plate, cMethod="kmeansMahRain")
+```
+
+This does not look particularly good; a lot of droplets that should be 
+classified have been labelled as "Rain" instead. To remedy this, the 
+`maxDistances` parameter can be adjusted to control the maximum (Mahalanobis) 
+distance that droplets can be from the cluster centres.
+Some fine-tuning of this parameter gives:
+
+```{r}
+plate <- mahalanobisRain(plate, cMethod="kmeans",
+                         maxDistances=list(NN=35, NP=30, PN=30, PP=30))
+commonClassificationMethod(plate)
+```
+
+The plot now looks slightly different:
+
+```{r fig.ext='png', fig.width=5, fig.height=4}
+dropletPlot(plate, cMethod="kmeansMahRain")
+```
+
+
+# Creating a summary
+
+Using the number of droplets in each classification, the Poisson distribution 
+can be used to estimate the number of fragments/molecules in the starting 
+sample. For the k-means classification with rain, this gives the summary:
+
+```{r fig.ext='png', fig.width=5, fig.height=4}
+kmeansSummary <- plateSummary(plate, cMethod="kmeansMahRain")
+head(kmeansSummary)
+```
+
+The first few columns `PP`, `PN`, `NP` and `NN` are the numbers of droplets in 
+each class, whereas `AcceptedDroplets` is the sum of these. `MtPositives` is 
+the number of droplets where a mutant has been called and conversely 
+`MtNegatives` is the number of droplets with no mutants called. The 
+`MtConcentration` is the Poisson estimate of how many mutant fragments there 
+are per 1uL, while the `MtCopiesPer20uLWell` is the same figure multiplied
+by 20. There are `Wt` (wild type) analogues of all of these `Mt` figures. 
+Finally, `Ratio` is the figure `MtConcentration/WtConcentration` and `FracAbun` 
+is the fractional abundance of mutants in the sample, i.e. `100 
+* MtConcentration/(MtConcentration + WtConcentration)`.
+
+The summaries for other classifications can still be produced by changing the 
+`cMethod` parameter to one of those that exist in 
+`commonClassificationMethod(plate)`.
+
+This concludes the main walkthrough of this vignette.
+
+
+# Other classification tools
+
+This section explains how other classification methods can be used. The methods 
+already described above should suffice, but there are some droplet patterns 
+that prevent them from working as well as we would like. The following methods 
+are alternative techniques that can be used.
+
+
+## Classifying using the k-NN algorithm (`knnClassify`)
+
+Another classification algorithm is the k-nearest neighbour (k-NN) algorithm. 
+The algorithm is very simple: For each droplet in the plate, look at the 
+classifications of its nearest $k$-neighbours in a training set.
+Assign the majority classification to the droplet.
+
+The challenge now is to find a good dataset that is not too large, since this 
+would slow the algorithm considerably for marginal gains. A training set should 
+also have minimal noise.
+
+To start, two wells `E03` and `A04` are chosen that reflect the clustering 
+pattern of the plate without too much noise. We create a new (virtual) plate 
+with the amplitudes from these wells.
+
+```{r}
+trainWells <- plate[c("E03", "A04")]
+trainPlate <- ddpcrPlate(wells=trainWells)
+```
+
+To create the training classification, the k-means algorithm is useful:
+
+```{r fig.ext='png'}
+trainPlate <- kmeansClassify(trainPlate)
+dropletPlot(trainPlate, cMethod="kmeans")
+```
+
+We see that k-means has worked quite well here, since the training set is 
+relatively noise-free. However, it is clear that there is a `PN` droplet that 
+is much closer to other `PP` droplets than the rest of the `PN` cluster. Noise 
+can be removed by adding rain:
+
+```{r fig.ext='png', fig.width=5, fig.height=4}
+trainPlate <- mahalanobisRain(trainPlate, cMethod="kmeans", maxDistances=3)
+dropletPlot(trainPlate, cMethod="kmeansMahRain")
+```
+
+This is a much less noisy classification to use. The training data needs to be 
+a data frame and should also ignore the droplets classified as `Rain`; the 
+`removeDropletClasses` method removes these droplets:
+
+```{r}
+trainSet <- removeDropletClasses(trainPlate, cMethod="kmeansMahRain")
+trainSet <- do.call(rbind, trainSet)
+colnames(trainSet)
+```
+
+We can check that the `Rain` droplets have been removed:
+
+```{r}
+table(trainSet$kmeansMahRain)
+```
+
+Next, we use this classification as the training set for the k-NN algorithm:
+
+```{r}
+trainAmplitudes <- trainSet[, c("Ch1.Amplitude", "Ch2.Amplitude")]
+trainCl <- trainSet$kmeansMahRain
+plate <- knnClassify(plate, trainData=trainAmplitudes, cl=trainCl, k=3)
+```
+
+Again, it can be checked that there is a new classification method:
+
+```{r}
+commonClassificationMethod(plate)
+```
+
+This classification can be plotted in the same way as before:
+
+```{r fig.ext='png'}
+dropletPlot(plate, cMethod="knn")
+```
+
+
+## Classifying the four 'corners' of a plot (`gridClassify`)
+
+There may be some datasets where the above classification techniques do not 
+work satisfactorily. As long as the main clusters have good separation from 
+each other, the `gridClassify` method may be used. This method defines four 
+'corner' regions with linear cut-offs in each channel; the remaining droplets 
+are labelled as "Rain". To see how this works, consider the following (crude) 
+example:
+
+```{r}
+plate <- gridClassify(plate,
+                      ch1NNThreshold=6500, ch2NNThreshold=2110,
+                      ch1NPThreshold=5765, ch2NPThreshold=5150,
+                      ch1PNThreshold=8550, ch2PNThreshold=2450,
+                      ch1PPThreshold=6700, ch2PPThreshold=3870)
+dropletPlot(plate, cMethod="grid")
+```
+
+This is not a particularly great classification, but this option exists should 
+it be required. It is tedious to set the parameters above, so it may be helpful 
+to use the [Shiny app](#shiny-app-for-non-r-users) to aid in this process.
+
+
+## Adding rain with `sdRain`
+
+Since droplets tend to cluster into ellipse-like structures, the 
+`mahalanobisRain` method should usually suffice for labelling ambiguous 
+droplets as "Rain". An alternative way is to use the mean and standard 
+deviation of each of the clusters (in both channels). To do this, use the 
+`sdRain` method:
+
+```{r}
+plate <- sdRain(plate, cMethod="kmeans")
+dropletPlot(plate, cMethod="kmeansSdRain")
+```
+
+As is the case with Mahalanobis rain, the rain levels could be tweaked a little:
+
+```{r}
+plate <- sdRain(plate, cMethod="kmeans",
+                errorLevel=list(NN=5, NP=5, PN=3, PP=3))
+dropletPlot(plate, cMethod="kmeansSdRain")
+```
+
+
+
+## Custom classifications
+
+If you wish to use your own classification methods, the droplet information 
+would need to be extracted and can also be added to the `ddpcrPlate` object. 
+The basic workflow would be:
+
+1. Retrieve the droplet amplitudes using `amplitudes` and combine them in a 
+   single data frame:
+    ```{r eval=FALSE}
+    allDrops <- amplitudes(plate)
+    allDrops <- do.call(rbind, amplitudes)
+    ```
+2. Classify the droplets using your own method:
+    ```{r eval=FALSE}
+    allDrops$class <- someClassificationMethod(allDrops)
+    ```
+3. Add the classification to `plate`:
+    ```{r eval=FALSE}
+    plateClassification(plate, cMethod="nameOfCMethod") <- allDrops$class
+    ```
+
+The `ddpcrPlate` class only understands classifications if it is a factor with 
+levels `c("NN", "NP", "PN", "PP", "Rain", "N/A")`. If the result of your custom 
+classification method returns a vector/factor with four classes (with maybe 
+some "Rain" or "N/A"), then the vector/factor may be relabelled by:
+
+```{r eval=FALSE}
+relabelClasses(allDrops, classCol="class")
+```
+
+If there are fewer than four classes, `relabelClasses` will try to guess which 
+of the classes are present. To help the method correctly label the clusters, 
+set the `presentClasses` parameter:
+   
+```{r eval=FALSE}
+relabelClasses(allDrops, classCol="class", presentClasses=c("NN", "NP", "PN"))
+```
+
+
+# Appendix
+
+## Shiny app for non-R users
+
+A Shiny app is included in the package that allows interactive use of the 
+package for ddPCR analysis. This can be run from an interactive R session 
+using:
+
+```{r eval=FALSE}
+shinyVisApp()
+```
+
+This can currently be accessed at [http://shiny.cruk.manchester.ac.uk/twoddpcr/](http://shiny.cruk.manchester.ac.uk/twoddpcr/).
+
+To run on your own Shiny server, a file called `app.R` should be created with 
+the following code:
+
+```{r eval=FALSE}
+library(shiny)
+library(twoddpcr)
+
+# Disable warnings.
+options(warn=-1)
+
+shiny::shinyApp(
+  ui=shinyVisUI(),
+  server=function(input, output, session)
+  {
+    shinyVisServer(input, output, session)
+  }
+)
+```
+
+
+## Exporting droplet amplitudes from _QuantaSoft_ to CSV files
+
+If you have run your own ddPCR experiments that have produced a _QuantaSoft_ 
+Plate (`.qlp`) file, then the raw droplet amplitudes can be extracted for use 
+with the `twoddpcr` package. To do this:
+
+1. Run _QuantaSoft_.
+2. Load a plate (from a _QuantaSoft_ Plate `.qlp` file).
+3. Select the samples to use by using the `Ctrl` and/or `Shift` key with the 
+   mouse.
+4. Click `Options` in the top-right.
+5. Click `Export Amplitude and Cluster Data`.
+6. Select a location to export the amplitude files to.
+   This can take a while to complete.
+
+The amplitudes will be exported to a number of CSV files in the chosen 
+location, with one file for each well. Each file is named 
+`<PlateName>_<WellNumber>_Amplitude.csv`, where `<PlateName>` is the name of 
+the `.qlp` file without the extension and `<WellNumber>` is the position in the 
+plate, e.g. `B03`. These amplitude files are now ready to be loaded using the 
+`twoddpcr` package.
+
+
+## Using other datasets
+
+The example in this vignette can be followed using a different dataset, such as 
+those from your own ddPCR experiments. To load a dataset:
+
+1. Follow the instructions in the [exporting droplet amplitudes 
+   section](#exporting-droplet-amplitudes-from-quantasoft-to-csv-files).
+2. The droplets can be imported using:
+   
+    ```{r eval=FALSE}
+    plate <- ddpcrPlate(well="data/amplitudes")
+    ```
+  Here, `data/amplitudes` should be changed to the directory containing the 
+  droplet amplitude files.
+
+
+## Problems reading files
+
+While loading data, the following error message may appear:
+
+```
+Error in read.table(file = file, header = header, sep = sep, quote = quote,  :
+  duplicate 'row.names' are not allowed
+```
+
+Possible solution: The number of columns in the header row might differ from 
+the number of columns in the other rows. For example, there may be extra 
+commas/tabs at the end of some lines. In such cases, the removal of 'empty' 
+columns should fix the problem.
+
+
+# Session information
+
+Here is the output of `sessionInfo()` on the system on which this document 
+was compiled:
+
+```{r sessionInfo, echo=FALSE}
+sessionInfo()
+```
+

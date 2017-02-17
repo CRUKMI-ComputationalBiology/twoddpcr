@@ -1,0 +1,28 @@
+twoddpcr v0.99.1 (Release date: 2017-02-16)
+============
+
+More R-like changes as suggested by Martin Morgan at Bioconductor.
+
+Main changes:
+
+* ddpcrPlate objects can be subsetted like a list
+* The amplitudes() function replaces getDroplets() and getAllDroplets()
+* wellClassification() and plateClassification() replace the old get/set
+  methods and can be set using <-
+* Changes to improve the robustness and clarity of the code
+
+
+twoddpcr v0.99.0 (Release date: 2017-01-24)
+============
+
+First devel release.
+
+twoddpcr is an R package for Droplet Digitial PCR (ddPCR) analysis. The name of 
+the package reflects the package's support for analysing two channel ddPCR 
+data.
+
+Key functionality:
+
+* Create ddpcrPlate objects
+* kmeansClassify() classifies droplets using k-means clustering
+* mahalanobisRain() refines the classification, removing ambiguous droplets
