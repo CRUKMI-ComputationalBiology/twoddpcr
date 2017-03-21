@@ -1,8 +1,8 @@
 # twoddpcr
 
-An R package for Droplet Digital PCR (ddPCR) analysis. The package is named for 
-its ability to classify two channel ddPCR data (the amalgamation of "2-d" and 
-"ddPCR").
+An R/Bioconductor package for Droplet Digital PCR (ddPCR) analysis. The package 
+is named for its ability to classify two channel ddPCR data (the amalgamation 
+of "2-d" and "ddPCR").
 
 Example usage of the package with a sample dataset is included in the package's 
 [vignette](vignettes/twoddpcr.Rmd), where the Appendix also explains how to 
@@ -11,14 +11,21 @@ extract raw droplet data from Bio-Rad's QuantaSoft.
 
 ## Installing the `twoddpcr` package
 
-The package can be installed from GitHub using:
+The package can be installed from Bioconductor using:
+
+```
+source("https://bioconductor.org/biocLite.R")
+biocLite("twoddpcr")
+```
+
+Alternatively, it can be installed from GitHub using:
 
 ```
 library(devtools)
 install_github("CRUKMI-ComputationalBiology/twoddpcr")
 ```
 
-Alternatively, the package can be installed from source:
+Another alternative is to install the package from source:
 
 ```
 install.packages("</path/to/twoddpcr/>", repos=NULL, type="source")
@@ -105,10 +112,19 @@ plateSummary(plate, cMethod="kmeansMahRain")
 ```
 
 
-## Shiny app for non-R users
+## Shiny-based GUI for non-R users
 
-A [Shiny web 
-application](http://shiny.cruk.manchester.ac.uk/twoddpcr/) is 
-available for interactive use of the package. It is particularly useful for the 
-fine-tuning of parameters.
+A Shiny app is included in the package, which provides a GUI that allows 
+interactive use of the package for ddPCR analysis. This can be run from an 
+interactive R session using:
+
+```
+shinyVisApp()
+```
+
+It can also be accessed at 
+[http://shiny.cruk.manchester.ac.uk/twoddpcr/](http://shiny.cruk.manchester.ac.uk/twoddpcr/).
+
+If you wish to run the app from your own server, instructions are given in the 
+[vignette](vignettes/twoddpcr.Rmd).
 

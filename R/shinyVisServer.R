@@ -49,6 +49,24 @@ shinyVisServer <- function(input, output, session)
     errorMsg=""
   )
   
+  # The internally used symbol for the selected class.
+  selectedClass <- reactiveValues(
+    value="NN"
+  )
+  
+  # Labels using the user-specified prefixes.
+  abbrevLabels <- function(decreasing=FALSE)
+  {
+    abbrevs <- c(chLabels$ch1Abbrev, chLabels$ch2Abbrev)
+    labels <- c(paste0(abbrevs, "-", collapse=""),
+                paste0(abbrevs, c("-", "+"), collapse=""),
+                paste0(abbrevs, c("+", "-"), collapse=""),
+                paste0(abbrevs, "+", collapse=""))
+    if(decreasing)
+      labels <- rev(labels)
+    return(labels)
+  }
+  
   # Other global variables.
   globals <- reactiveValues(
     minSeparation=2000,
@@ -389,7 +407,8 @@ shinyVisServer <- function(input, output, session)
                         ch1Label=chLabels$ch1Abbrev,
                         ch2Label=chLabels$ch2Abbrev,
                         sortByLetter=sortByLetter)
-      results$summary <- data.frame("Well"=rownames(s), s)
+      colnames(s)[1:4] <- abbrevLabels(decreasing=TRUE)
+      results$summary <- data.frame("Well"=rownames(s), s, check.names=FALSE)
     }
     else
       results$summary <- NULL
@@ -440,6 +459,25 @@ shinyVisServer <- function(input, output, session)
     )
   })
   
+  # Radio buttons for the currently selected class.
+  output$selectedClassPH <- renderUI({
+    radioButtons("selectedClass", "Selected Class", abbrevLabels(), 
+                 inline=TRUE)
+  })
+  
+  # Get the currently selected centre.
+  observeEvent(input$selectedClass, {
+    abbLabels <- abbrevLabels()
+    if(input$selectedClass == abbLabels[1])
+      selectedClass$value <- "NN"
+    else if(input$selectedClass == abbLabels[2])
+      selectedClass$value <- "NP"
+    else if(input$selectedClass == abbLabels[3])
+      selectedClass$value <- "PN"
+    else if(input$selectedClass == abbLabels[4])
+      selectedClass$value <- "PP"
+  })
+  
   # Are we viewing thresholds classification and have thresholds been saved?
   output$thresholdsSet <- reactive({
     return(!is.null(results$baseMode) && !is.na(results$baseMode) &&
@@ -451,13 +489,13 @@ shinyVisServer <- function(input, output, session)
   
   # Toggle the status of the selected class.
   observeEvent(input$removeThisClass, {
-    initialCentres[[input$selectedClass]]$removed <- input$removeThisClass
+    initialCentres[[selectedClass$value]]$removed <- input$removeThisClass
   })
   
   # Update the "Remove This Class" checkbox depending on the selected class.
-  observeEvent(input$selectedClass, {
+  observeEvent(selectedClass$value, {
     updateCheckboxInput(session, "removeThisClass",
-                        value=initialCentres[[input$selectedClass]]$removed)
+                        value=initialCentres[[selectedClass$value]]$removed)
   })
   
   # Update the mode based on the selected classification to show.
@@ -504,13 +542,13 @@ shinyVisServer <- function(input, output, session)
     }
     else if(clMode() == "grid")
     {
-      gridThresholds[[input$selectedClass]]$ch1 <- ch1
-      gridThresholds[[input$selectedClass]]$ch2 <- ch2
+      gridThresholds[[selectedClass$value]]$ch1 <- ch1
+      gridThresholds[[selectedClass$value]]$ch2 <- ch2
     }
     # Setting cluster centres.
     else if(clMode() == "kmeans" && !input$removeThisClass)
     {
-      initialCentres[[input$selectedClass]] <-
+      initialCentres[[selectedClass$value]] <-
         list(val=c(ch1, ch2), removed=FALSE)
     }
   })
@@ -625,6 +663,42 @@ shinyVisServer <- function(input, output, session)
       messages$error <- as.character(e) ######## protect
     })
     updateNavbarPage(session, "tdNavbarPage", selected="Results")
+  })
+  
+  # Show the Mahalanobis rain sliders with correct labels.
+  output$mvnRainNNPH <- renderUI({
+    label <- abbrevLabels()
+    sliderInput("mvnRainNN", label[1], 1, 100, 30)
+  })
+  output$mvnRainNPPH <- renderUI({
+    label <- abbrevLabels()
+    sliderInput("mvnRainNP", label[2], 1, 100, 30)
+  })
+  output$mvnRainPNPH <- renderUI({
+    label <- abbrevLabels()
+    sliderInput("mvnRainPN", label[3], 1, 100, 30)
+  })
+  output$mvnRainPPPH <- renderUI({
+    label <- abbrevLabels()
+    sliderInput("mvnRainPP", label[4], 1, 100, 30)
+  })
+  
+  # Show the SD rain sliders with correct labels.
+  output$sdRainNNPH <- renderUI({
+    label <- abbrevLabels()
+    sliderInput("sdRainNN", label[1], 1, 100, 30)
+  })
+  output$sdRainNPPH <- renderUI({
+    label <- abbrevLabels()
+    sliderInput("sdRainNP", label[2], 1, 100, 30)
+  })
+  output$sdRainPNPH <- renderUI({
+    label <- abbrevLabels()
+    sliderInput("sdRainPN", label[3], 1, 100, 30)
+  })
+  output$sdRainPPPH <- renderUI({
+    label <- abbrevLabels()
+    sliderInput("sdRainPP", label[4], 1, 100, 30)
   })
   
   # Toggle rain: this will change the mode; update the summary.
@@ -765,7 +839,7 @@ shinyVisServer <- function(input, output, session)
       if(clMode() == "kmeans")
       {
         centres <- startingCentres()
-        selectedCentre <- input$selectedClass
+        selectedCentre <- selectedClass$value
         p <- p +
           geom_point(data=centres[rownames(centres) == selectedCentre, ],
                      aes_string(x="Ch2.Amplitude", y="Ch1.Amplitude"),
@@ -790,11 +864,15 @@ shinyVisServer <- function(input, output, session)
     
     withProgress(message="Rendering the plot",
         detail="This can take a moment...", value=0, {
+      # Re-label the legend.
+      labels <- c(abbrevLabels(), "Rain", "N/A")
+        
       p <- dropletPlot(results$selected,
                        ch1Label=chLabels$ch1,
                        ch2Label=chLabels$ch2,
                        cMethod=results$mode,
-                       plotLimits=globals$plotLimits)
+                       plotLimits=globals$plotLimits,
+                       legendLabels=labels)
       
       # Retrieve thresholds and plot them.
       if(!is.null(results$baseMode) &&
@@ -826,11 +904,13 @@ shinyVisServer <- function(input, output, session)
     )
     withProgress(message="Rendering the plot",
         detail="This can take a moment...", value=0, {
+      labels <- c(abbrevLabels(), "Rain", "N/A")
       p <- dropletPlot(trainingData$drops,
                        ch1Label=chLabels$ch1,
                        ch2Label=chLabels$ch2,
                        cMethod="class",
-                       plotLimits=globals$plotLimits)
+                       plotLimits=globals$plotLimits,
+                       legendLabels=labels)
       return(p)
       incProgress(1)
     })
@@ -879,7 +959,7 @@ shinyVisServer <- function(input, output, session)
       )
   })
   
-  # Export the data summary to file.
+  # Export the amplitudes to file.
   output$exportAmplitudesButton <- downloadHandler(
     filename=function() { paste0(wells$plateName, "_", results$mode,
                                  "-amplitudes.zip") },
@@ -909,9 +989,62 @@ shinyVisServer <- function(input, output, session)
     }
   )
   
+  # Export the data summary to file.
+  output$generateHtmlReport <- downloadHandler(
+    filename=function()
+    {
+      paste0(wells$plateName, "-", results$mode, "-report.html")
+    },
+    content=function(file)
+    {
+      # Copy the report file to a temporary directory before processing it.
+      tempReport <- file.path(normalizePath(tempdir()), "report-html.Rmd")
+      file.copy("inst/rmd/report-html.Rmd", tempReport, overwrite=TRUE)
+
+      # Check the rain type of the current mode.
+      if(length(grep("MahRain", results$mode)) > 0)
+        rainType <- "Mahalanobis"
+      else if(length(grep("SdRain", results$mode)) > 0)
+        rainType <- "Standard deviation"
+      else
+        rainType <- "None"
+      
+      # Set up parameters to pass to the Rmd document.
+      print(longMode(results$baseMode))
+      params <- list(plateName=wells$plateName,
+                     plate=results$all,
+                     cMethod=results$mode,
+                     longMode=longMode(results$baseMode),
+                     rainType=rainType,
+                     summaryTable=results$summary[, -1])
+
+
+      rmarkdown::render(tempReport, output_file=file,
+        params = params,
+        envir = new.env(parent = globalenv())
+      )
+    }
+  )
+  
   # Show the initial centres used in k-means clustering.
   output$centresOutput <- renderPrint({
-    startingCentres()
+    sc <- startingCentres()
+    
+    # Add a class column
+    labels <- abbrevLabels()
+    lab <- vapply(rownames(sc),
+           function(x)
+           {
+             if(x == "NN")
+               "NN"=labels[1]
+             else if(x == "NP")
+               "NP"=labels[2]
+             else if(x == "PN")
+               "PN"=labels[3]
+             else if(x == "PP")
+               "PP"=labels[4]
+           }, character(1))
+    cbind("class"=lab, sc)
   })
   
   output$gridThesholdsOutput <- renderPrint({

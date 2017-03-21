@@ -1,3 +1,21 @@
+twoddpcr v0.99.2 (Release date: 2017-03-21)
+============
+
+Updates as suggested by anonymous reviewers.
+
+Shiny app:
+* Simple dynamic HTML report generation.
+* Re-use the user-specified labels in plots and tables (where possible). NN, 
+  NP, PN and PP are still used internally and for file input/output.
+* Add captions to pages, improve the help sidebars and page.
+
+Vignette:
+* Describe the KRASdata dataset.
+* Compare the classification methods with discussion.
+
+Bug fixes:
+* k-means failed when only one class was present.
+
 twoddpcr v0.99.1 (Release date: 2017-02-16)
 ============
 

@@ -16,19 +16,34 @@ dropletPlot(droplets, ch1Label = "Ch1 Amplitude",
   ch2Label = "Ch2 Amplitude", cMethod = "None", mapping = aes_string(x =
   "Ch2.Amplitude", y = "Ch1.Amplitude", colour = cMethod),
   finalCentres = NULL, initialCentres = NULL, selectedCentre = NULL,
+<<<<<<< HEAD
   plotLimits = list(x = c(1000, 9000), y = c(3000, 13500)))
+=======
+  plotLimits = list(x = c(1000, 9000), y = c(3000, 13500)),
+  legendLabels = ddpcr$classesRain)
+>>>>>>> master
 
 \S4method{dropletPlot}{ddpcrWell}(droplets, ch1Label = "Ch1 Amplitude",
   ch2Label = "Ch2 Amplitude", cMethod = "None", mapping = aes_string(x =
   "Ch2.Amplitude", y = "Ch1.Amplitude", colour = cMethod),
   finalCentres = NULL, initialCentres = NULL, selectedCentre = NULL,
+<<<<<<< HEAD
   plotLimits = list(x = c(1000, 9000), y = c(3000, 13500)))
+=======
+  plotLimits = list(x = c(1000, 9000), y = c(3000, 13500)),
+  legendLabels = ddpcr$classesRain)
+>>>>>>> master
 
 \S4method{dropletPlot}{ddpcrPlate}(droplets, ch1Label = "Ch1 Amplitude",
   ch2Label = "Ch2 Amplitude", cMethod = "None", mapping = aes_string(x =
   "Ch2.Amplitude", y = "Ch1.Amplitude", colour = cMethod),
   finalCentres = NULL, initialCentres = NULL, selectedCentre = NULL,
+<<<<<<< HEAD
   plotLimits = list(x = c(1000, 9000), y = c(3000, 13500)))
+=======
+  plotLimits = list(x = c(1000, 9000), y = c(3000, 13500)),
+  legendLabels = ddpcr$classesRain)
+>>>>>>> master
 }
 \arguments{
 \item{droplets}{An object corresponding to droplet amplitudes and their 
@@ -78,6 +93,13 @@ to \code{NULL}. This parameter is useful for illustrative reasons.}
 \code{y}. These are used to fix the x and y limits of the plot, which is 
 especially useful for comparing plots. Defaults to \code{list(x=c(1000, 
 9000), y=c(3000, 13500))}.}
+<<<<<<< HEAD
+=======
+
+\item{legendLabels}{The character vector corresponding to the labels for the 
+legend. The elements of the vector should correspond to the NN, NP, PN, PP, 
+Rain and N/A classes, respectively. Defaults to \code{ddpcr$classesRain}.}
+>>>>>>> master
 }
 \value{
 A \code{ggplot} object with all of the given information above.

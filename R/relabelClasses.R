@@ -43,6 +43,13 @@ relabelClasses <- function(droplets, classCol="class",
   # Everything is easier if we use the column name instead of number.
   if(is.numeric(classCol))
     classCol <- colnames(droplets)[classCol]
+  
+  # Only one class: label everything as given by presentClasses.
+  if(length(unique(droplets[, classCol])) == 1)
+  {
+    newClassification <- rep(presentClasses[1], length(droplets[, classCol]))
+    return(factor(newClassification, levels=ddpcr$classesRain))
+  }
       
   # Bottom-left of each cluster with a shift-factor to the origin.
   bl <- stats::aggregate(

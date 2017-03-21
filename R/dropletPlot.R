@@ -80,6 +80,9 @@ drawBlank <- function()
 #' \code{y}. These are used to fix the x and y limits of the plot, which is 
 #' especially useful for comparing plots. Defaults to \code{list(x=c(1000, 
 #' 9000), y=c(3000, 13500))}.
+#' @param legendLabels The character vector corresponding to the labels for the 
+#' legend. The elements of the vector should correspond to the NN, NP, PN, PP, 
+#' Rain and N/A classes, respectively. Defaults to \code{ddpcr$classesRain}.
 #'
 #' @return A \code{ggplot} object with all of the given information above.
 #'
@@ -136,10 +139,12 @@ dropletPlot.gg <- function(droplets,
                            ch2Label="Ch2 Amplitude",
                            finalCentres=NULL, initialCentres=NULL,
                            selectedCentre=NULL,
-                           plotLimits=list(x=c(1000, 9000), y=c(3000, 13500)))
+                           plotLimits=list(x=c(1000, 9000), y=c(3000, 13500)),
+                           legendLabels=ddpcr$classesRain)
 {
   p <- droplets +
-    geom_point(alpha=0.3) + scale_colour_manual(values=ddpcr$dropColours)
+    geom_point(alpha=0.3) +
+    scale_colour_manual(values=ddpcr$dropColours, labels=legendLabels)
 
   # Plot the final centres.
   if(!is.null(finalCentres))
@@ -192,7 +197,8 @@ setMethod("dropletPlot", "data.frame",
                               y="Ch1.Amplitude",
                               colour=cMethod),
            finalCentres=NULL, initialCentres=NULL, selectedCentre=NULL,
-           plotLimits=list(x=c(1000, 9000), y=c(3000, 13500)))
+           plotLimits=list(x=c(1000, 9000), y=c(3000, 13500)),
+           legendLabels=ddpcr$classesRain)
 
   {
     if(nrow(droplets) > 0)
@@ -211,7 +217,8 @@ setMethod("dropletPlot", "data.frame",
                 ch1Label=ch1Label, ch2Label=ch2Label,
                 finalCentres=finalCentres,
                 initialCentres=initialCentres,
-                plotLimits=plotLimits)
+                plotLimits=plotLimits,
+                legendLabels=legendLabels)
   }
 )
 
@@ -232,14 +239,16 @@ setMethod("dropletPlot", "ddpcrWell",
                               y="Ch1.Amplitude",
                               colour=cMethod),
            finalCentres=NULL, initialCentres=NULL, selectedCentre=NULL,
-           plotLimits=list(x=c(1000, 9000), y=c(3000, 13500)))
+           plotLimits=list(x=c(1000, 9000), y=c(3000, 13500)),
+           legendLabels=ddpcr$classesRain)
   {
     p <- ggplot.well(droplets, cMethod=cMethod, mapping=mapping)
     dropletPlot(p,
                 ch1Label=ch1Label, ch2Label=ch2Label,
                 finalCentres=finalCentres,
                 initialCentres=initialCentres,
-                plotLimits=plotLimits)
+                plotLimits=plotLimits,
+                legendLabels=legendLabels)
   }
 )
 
@@ -260,13 +269,15 @@ setMethod("dropletPlot", "ddpcrPlate",
                               y="Ch1.Amplitude",
                               colour=cMethod),
            finalCentres=NULL, initialCentres=NULL, selectedCentre=NULL,
-           plotLimits=list(x=c(1000, 9000), y=c(3000, 13500)))
+           plotLimits=list(x=c(1000, 9000), y=c(3000, 13500)),
+           legendLabels=ddpcr$classesRain)
   {
     p <- ggplot.plate(droplets, cMethod=cMethod, mapping=mapping)
     dropletPlot(p, ch1Label=ch1Label, ch2Label=ch2Label,
                 finalCentres=finalCentres,
                 initialCentres=initialCentres,
-                plotLimits=plotLimits)
+                plotLimits=plotLimits,
+                legendLabels=legendLabels)
   }
 )
 

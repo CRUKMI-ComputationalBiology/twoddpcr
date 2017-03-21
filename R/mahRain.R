@@ -1,7 +1,6 @@
 #' @include global.R
 #' @include themes.R
 #' @import methods
-#' @import ellipse
 #' @import stats
 NULL
 

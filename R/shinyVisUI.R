@@ -182,6 +182,9 @@ shinyVisUI <- function()
           ), # sidebarPanel
           mainPanel(width=8,
             h4("Wells in Plate"),
+            p("This shows an overview of the plate. Each of the smaller boxes 
+              represents a well in the plate. Droplet amplitudes are plotted 
+              for wells that were used."),
             plotOutput("plotFacetGrid", height="650")
           ) # mainPanel
         ) #sidebarLayout
@@ -226,9 +229,7 @@ shinyVisUI <- function()
               conditionalPanel(
                 "input.classifyMode == 'K-means Clustering' ||
                  input.classifyMode == 'Grid'",
-                radioButtons("selectedClass", "Selected Class",
-                  c("NN", "NP", "PN", "PP"), inline=TRUE
-                )
+               uiOutput("selectedClassPH")
               ),
               conditionalPanel(
                 "input.classifyMode == 'K-means Clustering'",
@@ -269,8 +270,14 @@ shinyVisUI <- function()
                       tags$li("Choose a class from 'Selected Class'."),
                       tags$li("Click on the plot to set a new centre.")
                     ),
-                    "Use the 'Remove This Class' checkbox if there is no ",
-                    "cluster."
+                    p("Use the 'Remove This Class' checkbox if there is no
+                    cluster."),
+                    p(
+                      "Note that badly chosen centres could lead to error 
+                      messages. In this case, try setting centres close to the 
+                      centres of clusters and remove classes if they are not 
+                      present."
+                    )
                   )
                 )
               ),
@@ -281,9 +288,7 @@ shinyVisUI <- function()
                     tags$ul(
                       tags$li("Divide the plot into four quadrants."),
                       tags$li("Click on the plot to set new thresholds.")
-                    ),
-                    "Use the 'Remove This Class' checkbox if there is no ",
-                    "cluster."
+                    )
                   )
                 )
               ),
@@ -327,6 +332,7 @@ shinyVisUI <- function()
           ), # sidebarPanel
           mainPanel(width=8,
             h4("Droplets in Selected Wells"),
+            p("A density plot of the selected wells."),
             plotOutput("plotSelectedWells", height="650",
                               click="plot_click")
           ) # mainPanel
@@ -358,16 +364,12 @@ shinyVisUI <- function()
                 c("No Rain", "Mahalanobis", "Standard Deviation")
               ),
               conditionalPanel("input.rainType == 'Mahalanobis'",
-                sliderInput("mvnRainNN", "NN", 1, 100, 30),
-                sliderInput("mvnRainNP", "NP", 1, 100, 30),
-                sliderInput("mvnRainPN", "PN", 1, 100, 30),
-                sliderInput("mvnRainPP", "PP", 1, 100, 30)
+                uiOutput("mvnRainNNPH"), uiOutput("mvnRainNPPH"),
+                uiOutput("mvnRainPNPH"), uiOutput("mvnRainPPPH")
               ),
               conditionalPanel("input.rainType == 'Standard Deviation'",
-                sliderInput("sdRainNN", "NN", 1, 10, 5),
-                sliderInput("sdRainNP", "NP", 1, 10, 5),
-                sliderInput("sdRainPN", "PN", 1, 10, 5),
-                sliderInput("sdRainPP", "PP", 1, 10, 5)
+                uiOutput("sdRainNNPH"), uiOutput("sdRainNPPH"),
+                uiOutput("sdRainPNPH"), uiOutput("sdRainPPPH")
               ),
               conditionalPanel("input.rainType != 'No Rain'",
                 div(style="padding-bottom: 2ex",
@@ -383,6 +385,12 @@ shinyVisUI <- function()
                       "file containing CSV droplet amplitude files."
                     ),
                     tags$li(
+                      "Note: the exported amplitudes are classifed as 'NN', 
+                      'NP', 'PN' and 'PP' (N=Negative, P=Positive). Using the 
+                      default labels, these are abbreviations for 'Mt-Wt-', 
+                      'Mt-Wt'+, 'Mt+Wt-' and 'Mt+Wt+', respectively."
+                    ),
+                    tags$li(
                       "The 'Set as Training Data' button creates training ",
                       "data to be used with the K-NN algorithm."
                     )
@@ -393,13 +401,17 @@ shinyVisUI <- function()
                 strong("Rain Help"),
                 helpText(
                   tags$ul(
-                    tags$li("Add rain to remove ambiguous droplets."),
+                    tags$li(
+                      "Droplets can fall between clusters and therefore have 
+                      classifications that can be subjective. Defining these 
+                      droplets as 'rain' helps to remove ambiguity."
+                    ),
                     tags$li(
                       "Recommended: 'Mahalanobis' takes cluster rotations into
                       account."
                     ),
                     tags$li(
-                      "'Standard Deviation gives linear cut-offs.'"
+                      "'Standard Deviation' gives linear cut-offs."
                     )
                   )
                 )
@@ -408,6 +420,7 @@ shinyVisUI <- function()
           ), # sidebarPanel
           mainPanel(width=8,
             h4("Classification"),
+            p("The outcome of the chosen classification method."),
             plotOutput("plotClassification", height="650"),
             uiOutput("exportAmplitudesPH")
           ) # mainPanel
@@ -419,11 +432,16 @@ shinyVisUI <- function()
             conditionalPanel("output.uploadSuccess ||
                 input.datasetType == 'Sample KRAS'",
               div(
-                  conditionalPanel("output.summarySet",
-                    strong("File Options"),
-                    div(style="padding-bottom: 2ex",
+                conditionalPanel("output.summarySet",
+                  strong("File Options"),
+                  div(style="padding-bottom: 2ex",
                     downloadButton("exportSummaryButton",
-                      "Export summary to file"
+                      "Export Summary to File"
+                    )
+                  ),
+                  div(style="padding-bottom: 2ex",
+                    downloadButton("generateHtmlReport",
+                      "Generate HTML Report"
                     )
                   )
                 ),
@@ -434,11 +452,30 @@ shinyVisUI <- function()
                       "Positive/negative droplets counts are summarised here."
                     ),
                     tags$li(
-                      "The summary can be exported to a CSV file using the ",
-                      "button above."
+                      "The summary can be exported to a CSV file or a report 
+                      generated using the buttons above."
                     ),
                     tags$li(
-                      "'Standard Deviation' gives linear cut-offs."
+                      "'AcceptedDroplets' is the total number of droplets in 
+                      each well (if necessary, after subtracting rain)."
+                    ),
+                    tags$li(
+                      "The 'Concentration' figures are estimates for the number 
+                      of starting molecules per uL."
+                    ),
+                    tags$li(
+                      "The 'CopiesPer20uLWell' figures are estimates for the 
+                      number of starting molecules in a 20uL well."
+                    ),
+                    tags$li(
+                      "'Ratio' is the ratio of channel 1 molecules to channel 2 
+                      molecules."
+                    ),
+                    tags$li(
+                      "'FracAbun' is short for 'fractional abundance'. It 
+                      estimates how many starting channel 1 molecules there 
+                      were out of all molecules. The reported figure is a 
+                      percentage."
                     )
                   )
                 )
@@ -447,6 +484,9 @@ shinyVisUI <- function()
           ), # sidebarPanel
           mainPanel(width=8,
             h4("Plate summary"),
+            p("A summary of the number of droplets in each of the chosen wells. 
+              Poisson estimates of the starting numbers of molecules is also 
+              provided."),
             dataTableOutput("wellsSummary")
           ) # mainPanel
         ) #sidebarLayout
@@ -520,8 +560,8 @@ shinyVisUI <- function()
                     ),
                     tags$li(
                       "To create new training data, classify some data and in 
-                      the 'Results' tab click the 'Use Classification For 
-                      Training' button."
+                      the 'Results' tab click the 'Set as Training Data' 
+                      button."
                     )
                   )
                 )
@@ -529,6 +569,9 @@ shinyVisUI <- function()
             ), # sidebarPanel
             mainPanel(width=8,
               h4("Current training data"),
+              p("If set, the current training data will be shown below. This 
+                will be used as training data for the k-nearest neighbour 
+                alogrithm."),
               plotOutput("plotTraining", height="650")
             ) # mainPanel
           ) # sidebarLayout
@@ -550,8 +593,8 @@ shinyVisUI <- function()
             p(
               "A Shiny web application for ddPCR analysis. It is part of
               the ",
-              a(href="https://github.com/CRUKMI-ComputationalBiology/twoddpcr", "twoddpcr"),
-              "package."
+              a(href="https://github.com/CRUKMI-ComputationalBiology/twoddpcr",
+                "twoddpcr"), "package."
             ),
             p(
               "The package and this Shiny app are maintained by Anthony
@@ -647,6 +690,11 @@ shinyVisUI <- function()
             p(
               "Use the 'Remove This Class' checkbox if there is no cluster."
             ),
+            p(
+              "Note that badly chosen centres could lead to error messages. In 
+              this case, try setting centres close to the centres of clusters 
+              and remove classes if they are not present."
+            ),
             h5("Thresholds"),
             p(
               "This works well if the clusters are well separated. This mode
@@ -736,7 +784,8 @@ shinyVisUI <- function()
             ),
             p(
               "This summary table can be exported as a CSV file, which can
-              then be imported in a spreadsheet."
+              then be imported in a spreadsheet. The results and summary table 
+              can also be used to create an HTML report."
             )
           )
         ) # sidebarLayout
