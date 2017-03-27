@@ -128,3 +128,13 @@ It can also be accessed at
 If you wish to run the app from your own server, instructions are given in the 
 [vignette](vignettes/twoddpcr.Rmd).
 
+
+# Citing `twoddpcr`
+
+If you use the `twoddpcr` package in your work, please cite it. The citation 
+can be obtained within R using:
+
+```
+citation("twoddpcr")
+```
+

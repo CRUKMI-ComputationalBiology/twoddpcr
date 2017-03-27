@@ -38,6 +38,7 @@ channel.
 This vignette demonstrates how the `twoddpcr` package may be used to load data, 
 classified and how to quickly create summaries.
 
+
 # Installing the `twoddpcr` package
 
 The package can be installed from Bioconductor using:
@@ -602,6 +603,15 @@ commas/tabs at the end of some lines. In such cases, the removal of 'empty'
 columns should fix the problem.
 
 
+# Citing `twoddpcr`
+
+If you use the `twoddpcr` package in your work, please cite it:
+
+```{r}
+citation("twoddpcr")
+```
+
+
 # Further reading
 
 [@rodiger15] describes how to use R in order to analyse ddPCR data using the 
@@ -616,6 +626,7 @@ was compiled:
 ```{r sessionInfo, echo=FALSE}
 sessionInfo()
 ```
+
 
 # References
 
