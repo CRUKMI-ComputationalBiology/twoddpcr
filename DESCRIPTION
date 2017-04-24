@@ -1,7 +1,7 @@
 Package: twoddpcr
 Title: Classify 2-d Droplet Digital PCR (ddPCR) data and quantify the number
     of starting molecules
-Version: 1.0.0
+Version: 1.1.0
 Authors@R: person("Anthony", "Chiu",
     email="anthony.chiu@cruk.manchester.ac.uk",
     role=c("aut", "cre"))
