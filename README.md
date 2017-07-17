@@ -1,12 +1,14 @@
 # twoddpcr
 
-An R/Bioconductor package for Droplet Digital PCR (ddPCR) analysis. The package 
-is named for its ability to classify two channel ddPCR data (the amalgamation 
-of "2-d" and "ddPCR").
-
+[twoddpcr](https://bioconductor.org/packages/twoddpcr/) is an R/Bioconductor 
+package for Droplet Digital PCR (ddPCR) analysis. The package is named for its 
+ability to classify two channel ddPCR data (the amalgamation of "2-d" and 
+"ddPCR").
+                
 Example usage of the package with a sample dataset is included in the package's 
-[vignette](vignettes/twoddpcr.Rmd), where the Appendix also explains how to 
-extract raw droplet data from Bio-Rad's QuantaSoft.
+[vignette](https://bioconductor.org/packages/release/bioc/vignettes/twoddpcr/inst/doc/twoddpcr.html), 
+where the Appendix also explains how to extract raw droplet data from Bio-Rad's 
+QuantaSoft.
 
 
 ## Installing the `twoddpcr` package
@@ -126,13 +128,14 @@ It can also be accessed at
 [http://shiny.cruk.manchester.ac.uk/twoddpcr/](http://shiny.cruk.manchester.ac.uk/twoddpcr/).
 
 If you wish to run the app from your own server, instructions are given in the 
-[vignette](vignettes/twoddpcr.Rmd).
+[vignette](https://bioconductor.org/packages/devel/bioc/vignettes/twoddpcr/inst/doc/twoddpcr.html#shiny-based-gui-for-non-r-users).
 
 
 # Citing `twoddpcr`
 
-If you use the `twoddpcr` package in your work, please cite it. The citation 
-can be obtained within R using:
+If you use the `twoddpcr` package in your work, please cite the [Bioinformatics 
+paper](http://dx.doi.org/10.1093/bioinformatics/btx308). The citation can be 
+obtained within R using:
 
 ```
 citation("twoddpcr")

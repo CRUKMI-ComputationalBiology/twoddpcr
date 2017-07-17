@@ -1,3 +1,56 @@
+twoddpcr v1.0.6 (Release date: 2017-06-08)
+============
+
+Bug fixes:
+* Fix Issue #1 further: Catch all errors from uploading droplet amplitude CSVs.
+
+
+twoddpcr v1.0.5 (Release date: 2017-06-01)
+============
+
+Bug fixes:
+* Fix Issue #1 further: Stop the Shiny app from crashing when one channel data 
+  or data in the wrong format is uploaded. Emphasis throughout that only two
+  channel data is accepted.
+* Make all hyperlinks open in a new tab/page. This prevents the user from 
+  accidentally ending a session in the app.
+
+
+twoddpcr v1.0.4 (Release date: 2017-05-30)
+============
+
+Bug fixes:
+* Fix Issue #1: Loading a QuantaSoft classification no longer looks for a 
+  column named "Cluster".
+
+twoddpcr v1.0.3 (Release date: 2017-05-26)
+============
+
+Bug fixes:
+* Ensure that the Rmd template is copied for report generation in the Shiny 
+  app.
+
+twoddpcr v1.0.2 (Release date: 2017-05-05)
+============
+
+Documentation:
+* Update the citation information for the Bioinformatics paper.
+
+twoddpcr v1.0.1 (Release date: 2017-05-04)
+============
+
+Documentation:
+* In the Shiny app, add a reference to the Bioconductor vignette comparing the
+  classification methods.
+
+Bug fixes:
+* Minor fix removing conflicts in the dropletPlot documentation.
+
+twoddpcr v1.0.0 (Release date: 2017-04-25)
+============
+
+First full release incorporating all of the devel updates.
+
 twoddpcr v0.99.2 (Release date: 2017-03-21)
 ============
 

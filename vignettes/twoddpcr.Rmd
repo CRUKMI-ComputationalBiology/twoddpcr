@@ -551,9 +551,9 @@ shiny::shinyApp(
 
 ## Exporting droplet amplitudes from _QuantaSoft_ to CSV files
 
-If you have run your own ddPCR experiments that have produced a _QuantaSoft_ 
-Plate (`.qlp`) file, then the raw droplet amplitudes can be extracted for use 
-with the `twoddpcr` package. To do this:
+If you have run your own two channel ddPCR experiments that have produced a
+_QuantaSoft_ Plate (`.qlp`) file, then the raw droplet amplitudes can be
+extracted for use with the `twoddpcr` package. To do this:
 
 1. Run _QuantaSoft_.
 2. Load a plate (from a _QuantaSoft_ Plate `.qlp` file).
@@ -605,7 +605,8 @@ columns should fix the problem.
 
 # Citing `twoddpcr`
 
-If you use the `twoddpcr` package in your work, please cite it:
+If you use the `twoddpcr` package in your work, please cite the [Bioinformatics 
+paper](http://dx.doi.org/10.1093/bioinformatics/btx308):
 
 ```{r}
 citation("twoddpcr")

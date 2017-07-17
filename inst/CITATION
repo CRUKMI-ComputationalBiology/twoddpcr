@@ -3,8 +3,10 @@ citHeader("To cite twoddpcr in publications, please use:")
 citEntry(entry = "Article",
   author = "Anthony Chiu and Mahmood Ayub and Caroline Dive and Ged Brady and Crispin Miller",
   title = "twoddpcr: An R/Bioconductor package and Shiny app for Droplet Digital PCR analysis",
-  journal = "In preparation",
-  publisher = "In preparation",
+  journal = "Bioinformatics",
+  publisher = "Oxford University Press",
   year = "2017",
-  textVersion = "A. Chiu et al. twoddpcr: An R/Bioconductor package and Shiny app for Droplet Digital PCR analysis. In preparation, 2017."
+  textVersion = "Anthony Chiu, Mahmood Ayub, Caroline Dive, Ged Brady, Crispin 
+J Miller; twoddpcr: An R/Bioconductor package and Shiny app for Droplet Digital 
+PCR analysis. Bioinformatics 2017 btx308. doi: 10.1093/bioinformatics/btx308"
 )

@@ -74,11 +74,11 @@ NULL
     # QuantaSoft format.
     else if(all(unique(well[, colName]) %in% c(1, 2, 3, 4)))
     {
-      factor(ifelse(well$Cluster==1, ddpcr$nn,
-                   ifelse(well$Cluster==2, ddpcr$pn,
-                   ifelse(well$Cluster==4, ddpcr$np,
-                                           ddpcr$pp))),
-                   levels=ddpcr$classesRain)
+      factor(ifelse(well[, colName]==1, ddpcr$nn,
+             ifelse(well[, colName]==2, ddpcr$pn,
+             ifelse(well[, colName]==4, ddpcr$np,
+                                        ddpcr$pp))),
+             levels=ddpcr$classesRain)
     }
     else
     {
