@@ -10,16 +10,18 @@
 \title{Draw each of the individual wells in a ddPCR experiment.}
 \usage{
 facetPlot(droplets, ch1Label = "Ch1 Amplitude", ch2Label = "Ch2 Amplitude",
-  binwidth = 100, plotLimits = list(x = c(1000, 9000), y = c(3000, 13500)),
-  showEmptyWells = FALSE)
+  cMethod = NULL, binwidth = 100, pointSize = 0.1, plotLimits = list(x =
+  c(1000, 9000), y = c(3000, 13500)), showEmptyWells = FALSE)
 
 \S4method{facetPlot}{data.frame}(droplets, ch1Label = "Ch1 Amplitude",
-  ch2Label = "Ch2 Amplitude", binwidth = 100, plotLimits = list(x =
-  c(1000, 9000), y = c(3000, 13500)), showEmptyWells = FALSE)
+  ch2Label = "Ch2 Amplitude", cMethod = NULL, binwidth = 100,
+  pointSize = 0.1, plotLimits = list(x = c(1000, 9000), y = c(3000, 13500)),
+  showEmptyWells = FALSE)
 
 \S4method{facetPlot}{ddpcrPlate}(droplets, ch1Label = "Ch1 Amplitude",
-  ch2Label = "Ch2 Amplitude", binwidth = 100, plotLimits = list(x =
-  c(1000, 9000), y = c(3000, 13500)), showEmptyWells = FALSE)
+  ch2Label = "Ch2 Amplitude", cMethod = NULL, binwidth = 100,
+  pointSize = 0.1, plotLimits = list(x = c(1000, 9000), y = c(3000, 13500)),
+  showEmptyWells = FALSE)
 }
 \arguments{
 \item{droplets}{A \code{ddpcrPlate} object or a data frame of droplet 
@@ -31,8 +33,19 @@ Amplitude".}
 \item{ch2Label}{The label for the channel 2 target. Defaults to "Ch2 
 Amplitude".}
 
-\item{binwidth}{The width of each hexagonal bin in the density plot. 
+\item{cMethod}{This should be the name or column number of \code{droplets} 
+corresponding to the classification to be plotted. This column should only 
+have entries in "NN", "PN", "NP, "PP", "Rain" and "N/A". If "None", plots 
+the droplets with all of them classified as \code{N/A}. If \code{NULL}, 
+a density plot is plotted. Defaults to \code{NULL}.}
+
+\item{binwidth}{The width of each hexagonal bin in the density plot. Ignored 
+if \code{cMethod} is not \code{NULL} (see \code{pointSize} instead). 
 Defaults to 100.}
+
+\item{pointSize}{If \code{cMethod} is not \code{NULL}, this is the size to 
+draw each droplet. Otherwise this parameter is ignored (see \code{binwidth} 
+instead). Defaults to 0.1.}
 
 \item{plotLimits}{A list of 2-element vectors with names \code{x} and 
 \code{y}. These are used to fix the x and y limits of the plot, which is 
@@ -45,12 +58,12 @@ the empty ones. If \code{FALSE}, plots a \code{\link[ggplot2]{facet_wrap}}
 of only the loaded (nonempty) wells. Defaults to \code{FALSE}.}
 }
 \value{
-A collection of heat plots as a \code{\link[ggplot2]{ggplot}} 
-object.
+A collection of plots as a \code{\link[ggplot2]{ggplot}} object.
 }
 \description{
-Plot each of the wells in a \code{\link{ddpcrPlate}} 
-object or a large data frame of droplets. Use a density plot for speed.
+Plot each of the wells in a \code{\link{ddpcrPlate}} object or 
+a large data frame of droplets. By default, a density plot is returned for 
+speed purposes.
 }
 \examples{
 ## Plot a facet wrap of density plots of each well.
@@ -63,7 +76,7 @@ The nice log-scaled palette was achieved using
 \url{http://www.everydayanalytics.ca/2014/09/5-ways-to-do-2d-histograms-in-r.html}
 }
 \seealso{
-Each subplot uses the same plotting style as 
+By default, each subplot uses the same plotting style as 
 \code{\link{heatPlot}}.
 }
 \author{

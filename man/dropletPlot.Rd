@@ -16,21 +16,21 @@ dropletPlot(droplets, ch1Label = "Ch1 Amplitude",
   ch2Label = "Ch2 Amplitude", cMethod = "None", mapping = aes_string(x =
   "Ch2.Amplitude", y = "Ch1.Amplitude", colour = cMethod),
   finalCentres = NULL, initialCentres = NULL, selectedCentre = NULL,
-  plotLimits = list(x = c(1000, 9000), y = c(3000, 13500)),
+  pointSize = 1, plotLimits = list(x = c(1000, 9000), y = c(3000, 13500)),
   legendLabels = ddpcr$classesRain)
 
 \S4method{dropletPlot}{ddpcrWell}(droplets, ch1Label = "Ch1 Amplitude",
   ch2Label = "Ch2 Amplitude", cMethod = "None", mapping = aes_string(x =
   "Ch2.Amplitude", y = "Ch1.Amplitude", colour = cMethod),
   finalCentres = NULL, initialCentres = NULL, selectedCentre = NULL,
-  plotLimits = list(x = c(1000, 9000), y = c(3000, 13500)),
+  pointSize = 1, plotLimits = list(x = c(1000, 9000), y = c(3000, 13500)),
   legendLabels = ddpcr$classesRain)
 
 \S4method{dropletPlot}{ddpcrPlate}(droplets, ch1Label = "Ch1 Amplitude",
   ch2Label = "Ch2 Amplitude", cMethod = "None", mapping = aes_string(x =
   "Ch2.Amplitude", y = "Ch1.Amplitude", colour = cMethod),
   finalCentres = NULL, initialCentres = NULL, selectedCentre = NULL,
-  plotLimits = list(x = c(1000, 9000), y = c(3000, 13500)),
+  pointSize = 1, plotLimits = list(x = c(1000, 9000), y = c(3000, 13500)),
   legendLabels = ddpcr$classesRain)
 }
 \arguments{
@@ -76,6 +76,8 @@ Defaults to \code{NULL}. This parameter is useful for illustrative reasons.}
 \item{selectedCentre}{An initial centre to highlight. This should be either
 "NN", "NP", "PN" or "PP". If \code{NULL}, nothing is highlighted. Defaults 
 to \code{NULL}. This parameter is useful for illustrative reasons.}
+
+\item{pointSize}{The size to draw each droplet. Defaults to 1.}
 
 \item{plotLimits}{A list of 2-element vectors with names \code{x} and 
 \code{y}. These are used to fix the x and y limits of the plot, which is 

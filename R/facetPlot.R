@@ -8,8 +8,9 @@ NULL
 
 #' @title Draw each of the individual wells in a ddPCR experiment.
 #'
-#' @description Plot each of the wells in a \code{\link{ddpcrPlate}} 
-#' object or a large data frame of droplets. Use a density plot for speed.
+#' @description Plot each of the wells in a \code{\link{ddpcrPlate}} object or 
+#' a large data frame of droplets. By default, a density plot is returned for 
+#' speed purposes.
 #'
 #' @param droplets A \code{ddpcrPlate} object or a data frame of droplet 
 #' amplitudes with a "Well" column.
@@ -17,8 +18,17 @@ NULL
 #' Amplitude".
 #' @param ch2Label The label for the channel 2 target. Defaults to "Ch2 
 #' Amplitude".
-#' @param binwidth The width of each hexagonal bin in the density plot. 
+#' @param cMethod This should be the name or column number of \code{droplets} 
+#' corresponding to the classification to be plotted. This column should only 
+#' have entries in "NN", "PN", "NP, "PP", "Rain" and "N/A". If "None", plots 
+#' the droplets with all of them classified as \code{N/A}. If \code{NULL}, 
+#' a density plot is plotted. Defaults to \code{NULL}.
+#' @param binwidth The width of each hexagonal bin in the density plot. Ignored 
+#' if \code{cMethod} is not \code{NULL} (see \code{pointSize} instead). 
 #' Defaults to 100.
+#' @param pointSize If \code{cMethod} is not \code{NULL}, this is the size to 
+#' draw each droplet. Otherwise this parameter is ignored (see \code{binwidth} 
+#' instead). Defaults to 0.1.
 #' @param plotLimits A list of 2-element vectors with names \code{x} and 
 #' \code{y}. These are used to fix the x and y limits of the plot, which is 
 #' especially useful for comparing plots. Defaults to \code{list(x=c(1000, 
@@ -28,12 +38,11 @@ NULL
 #' the empty ones. If \code{FALSE}, plots a \code{\link[ggplot2]{facet_wrap}} 
 #' of only the loaded (nonempty) wells. Defaults to \code{FALSE}.
 #'
-#' @return A collection of heat plots as a \code{\link[ggplot2]{ggplot}} 
-#' object.
+#' @return A collection of plots as a \code{\link[ggplot2]{ggplot}} object.
 #'
 #' @aliases allPlot plotAll
 #'
-#' @seealso Each subplot uses the same plotting style as 
+#' @seealso By default, each subplot uses the same plotting style as 
 #' \code{\link{heatPlot}}.
 #'
 #' @author Anthony Chiu, \email{anthony.chiu@cruk.manchester.ac.uk}
@@ -50,7 +59,8 @@ NULL
 
 setGeneric("facetPlot",
   function(droplets, ch1Label="Ch1 Amplitude", ch2Label="Ch2 Amplitude",
-           binwidth=100, plotLimits=list(x=c(1000, 9000), y=c(3000, 13500)),
+           cMethod=NULL, binwidth=100, pointSize=0.1,
+           plotLimits=list(x=c(1000, 9000), y=c(3000, 13500)),
            showEmptyWells=FALSE)
   {
     standardGeneric("facetPlot")
@@ -67,10 +77,16 @@ setGeneric("facetPlot",
 setMethod("facetPlot", "data.frame",
   function(droplets,
            ch1Label="Ch1 Amplitude", ch2Label="Ch2 Amplitude",
-           binwidth=100,
+           cMethod=NULL, binwidth=100, pointSize=0.1,
            plotLimits=list(x=c(1000, 9000), y=c(3000, 13500)),
            showEmptyWells=FALSE)
   {
+    if(!is.null(cMethod) &&
+       (cMethod == "Well" || cMethod == which(colnames(droplets) == "Well")))
+      stop("The parameter 'cMethod' should not be the 'Well' column.")
+    else if(!is.null(cMethod) && !cMethod %in% colnames(droplets))
+      stop("'", cMethod, "' is not a valid 'cMethod' value.")
+    
     if(nrow(droplets) > 0)
     {
       droplets$WellLetter <-
@@ -85,14 +101,16 @@ setMethod("facetPlot", "data.frame",
       r <- rf(32)
 
       # Draw the heat plot with the colours on a log scale.
-      p <-
-        ggplot(droplets, aes_string(x="Ch2.Amplitude", y="Ch1.Amplitude")) +
+      if(is.null(cMethod))
+        p <- ggplot(droplets, aes_string(x="Ch2.Amplitude", y="Ch1.Amplitude")) +
           stat_binhex(binwidth=c(binwidth,binwidth)) +
           scale_fill_gradientn(
             name="# droplets", colours=r, trans="log",
             labels=scales::trans_format(
               "identity", function(x) round(x, 0))) +
           expand_limits(x=plotLimits$x, y=plotLimits$y)
+      else # standard droplet plot
+        p <- dropletPlot(droplets, cMethod=cMethod, pointSize=pointSize)
       
       # Display all of the wells or just the nonempty ones.
       if(showEmptyWells)
@@ -121,7 +139,7 @@ setMethod("facetPlot", "data.frame",
 setMethod("facetPlot", "ddpcrPlate",
   function(droplets,
            ch1Label="Ch1 Amplitude", ch2Label="Ch2 Amplitude",
-           binwidth=100,
+           cMethod=NULL, binwidth=100, pointSize=0.1,
            plotLimits=list(x=c(1000, 9000), y=c(3000, 13500)),
            showEmptyWells=FALSE)
   {
@@ -130,8 +148,8 @@ setMethod("facetPlot", "ddpcrPlate",
       cl <- do.call(rbind, plateClassification(droplets, wellCol=TRUE))
       facetPlot(cl,
                 ch1Label=ch1Label, ch2Label=ch2Label,
-                binwidth=binwidth, plotLimits=plotLimits,
-                showEmptyWells=showEmptyWells)
+                cMethod=cMethod, binwidth=binwidth, pointSize=pointSize,
+                plotLimits=plotLimits, showEmptyWells=showEmptyWells)
     }
     else
       dropletPlot(droplets, ch1Label=ch1Label, ch2Label=ch2Label,
