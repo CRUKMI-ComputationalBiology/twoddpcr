@@ -1,3 +1,11 @@
+twoddpcr v1.3.1 (Devel release date: 2018-01-10)
+============
+
+Bug fixes:
+* Fix Issue #2: The 'plotLimits' parameter now works as intended for the
+  'facetPlot' function when used with the 'cMethod' parameter.
+
+
 twoddpcr v1.1.3 (Devel release date: 2017-07-31)
 ============
 
