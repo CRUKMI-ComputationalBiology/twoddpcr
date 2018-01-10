@@ -107,10 +107,10 @@ setMethod("facetPlot", "data.frame",
           scale_fill_gradientn(
             name="# droplets", colours=r, trans="log",
             labels=scales::trans_format(
-              "identity", function(x) round(x, 0))) +
-          expand_limits(x=plotLimits$x, y=plotLimits$y)
+              "identity", function(x) round(x, 0)))
       else # standard droplet plot
         p <- dropletPlot(droplets, cMethod=cMethod, pointSize=pointSize)
+      p <- p + expand_limits(x=plotLimits$x, y=plotLimits$y)
       
       # Display all of the wells or just the nonempty ones.
       if(showEmptyWells)
