@@ -1,12 +1,12 @@
 Package: twoddpcr
 Title: Classify 2-d Droplet Digital PCR (ddPCR) data and quantify the number
     of starting molecules
-Version: 1.5.0
+Version: 1.5.1
 Authors@R: person("Anthony", "Chiu",
-    email="anthony.chiu@cruk.manchester.ac.uk",
+    email="anthony@achiu.me",
     role=c("aut", "cre"))
 Author: Anthony Chiu [aut, cre]
-Maintainer: Anthony Chiu <anthony.chiu@cruk.manchester.ac.uk>
+Maintainer: Anthony Chiu <anthony@achiu.me>
 URL: http://github.com/CRUKMI-ComputationalBiology/twoddpcr/
 BugReports: http://github.com/CRUKMI-ComputationalBiology/twoddpcr/issues/
 Description: The twoddpcr package takes Droplet Digital PCR (ddPCR)
