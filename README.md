@@ -16,8 +16,8 @@ QuantaSoft.
 The package can be installed from Bioconductor using:
 
 ```
-source("https://bioconductor.org/biocLite.R")
-biocLite("twoddpcr")
+install.packages("BiocManager")
+BiocManager::install("twoddpcr")
 ```
 
 Alternatively, it can be installed from GitHub using:
