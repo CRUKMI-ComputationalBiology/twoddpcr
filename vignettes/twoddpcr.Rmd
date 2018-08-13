@@ -1,8 +1,8 @@
 ---
 title: "twoddpcr: A package for Droplet Digital PCR analysis"
 author: "Anthony Chiu"
-date: "`r doc_date()`"
-package: "`r pkg_ver('twoddpcr')`"
+date: "`r BiocStyle::doc_date()`"
+package: "`r BiocStyle::pkg_ver('twoddpcr')`"
 output:
   BiocStyle::html_document:
     fig_width: 5
