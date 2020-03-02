@@ -14,13 +14,13 @@ amplitudes(theObject)
 \S4method{amplitudes}{ddpcrPlate}(theObject)
 }
 \arguments{
-\item{theObject}{A \code{\link{ddpcrWell}} or \code{\link{ddpcrPlate}} 
+\item{theObject}{A \code{\link{ddpcrWell}} or \code{\link{ddpcrPlate}}
 object.}
 }
 \value{
-If \code{theObject} is a \code{\link{ddpcrWell}} object, return 
-a data frame of droplet amplitudes with columns "Ch1.Amplitude" and 
-"Ch2.Amplitude". If \code{theObject} is a \code{\link{ddpcrPlate}} object, 
+If \code{theObject} is a \code{\link{ddpcrWell}} object, return
+a data frame of droplet amplitudes with columns "Ch1.Amplitude" and
+"Ch2.Amplitude". If \code{theObject} is a \code{\link{ddpcrPlate}} object,
 return a list of data frames.
 }
 \description{
@@ -47,7 +47,7 @@ str(allDroplets)
 
 }
 \seealso{
-\code{\link{wellClassification}} for the classification of the 
+\code{\link{wellClassification}} for the classification of the
 droplets.
 }
 \author{

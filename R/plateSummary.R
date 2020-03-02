@@ -3,10 +3,10 @@ NULL
 
 #' Round to at least n decimal places.
 #'
-#' For a data frame, if an extry is < 1, then round it to n significant 
+#' For a data frame, if an extry is < 1, then round it to n significant
 #' figures. If it is >= 1, then round it to n decimal places.
 #'
-#' @param x A data frame.
+#' @param df A data frame.
 #' @param n How many decimal places/significant figures to round to.
 #'
 #' @return The data frame \code{x} with rounded entries.
@@ -51,7 +51,7 @@ positiveCounts <- function(cl)
   pnCount <- sum(cl == ddpcr$pn)
   npCount <- sum(cl == ddpcr$np)
   nnCount <- sum(cl == ddpcr$nn)
-  
+
   data.frame("PP"=ppCount, "PN"=pnCount, "NP"=npCount, "NN"=nnCount)
 }
 
@@ -59,24 +59,24 @@ positiveCounts <- function(cl)
 #' Counts the number of positives and negatives in an experiment and
 #' produces estimates for the number of molecules.
 #'
-#' Takes a collection of classified droplets, each corresponding to a well, and 
-#' produces a list of positive/negative counts and estimates of how many 
+#' Takes a collection of classified droplets, each corresponding to a well, and
+#' produces a list of positive/negative counts and estimates of how many
 #' molecules are in each well.
 #'
-#' @param wells Either a \code{\link{ddpcrPlate}} object or a list of data 
-#' frames, each of which comprises droplet amplitudes and their corresponding 
+#' @param wells Either a \code{\link{ddpcrPlate}} object or a list of data
+#' frames, each of which comprises droplet amplitudes and their corresponding
 #' classifications in a given well.
 #' @param ... Other options depending on the type of \code{wells}.
-#' @param ch1Label The prefix to use for the channel 1 target. Defaults to 
+#' @param ch1Label The prefix to use for the channel 1 target. Defaults to
 #' "Mt".
-#' @param ch2Label The prefix to use for the channel 2 target. Defaults to 
+#' @param ch2Label The prefix to use for the channel 2 target. Defaults to
 #' "Wt".
-#' @param sortByLetter If \code{TRUE}, the resulting data frame is sorted by 
-#' the letter in the well names first, e.g. "A02" comes before "B01". If 
-#' \code{FALSE}, the result is sorted by the numeric component of the well 
+#' @param sortByLetter If \code{TRUE}, the resulting data frame is sorted by
+#' the letter in the well names first, e.g. "A02" comes before "B01". If
+#' \code{FALSE}, the result is sorted by the numeric component of the well
 #' names first, e.g. "B01" comes before "A02". Defaults to \code{FALSE}.
 #'
-#' @return A data frame with droplet counts and molecules number estimates for 
+#' @return A data frame with droplet counts and molecules number estimates for
 #' each well.
 #'
 #' @author Anthony Chiu, \email{anthony.chiu@cruk.manchester.ac.uk}
@@ -114,10 +114,10 @@ setMethod("plateSummary", "list",
       cs <- fullCountsSummary(
         data.frame(Well=names(wells), allCounts),
         ch1Label=ch1Label, ch2Label=ch2Label)
-      
+
       # Sort the wells by letters or numbers first.
       cs <- sortDataFrame(cs, sortByLetter=sortByLetter)
-      
+
       .roundIt(cs)
     }
   }
@@ -131,7 +131,7 @@ setMethod("plateSummary", "list",
 #' @exportMethod plateSummary
 
 setMethod("plateSummary", "ddpcrPlate",
-  function(wells, cMethod, ch1Label="Mt", ch2Label="Wt", 
+  function(wells, cMethod, ch1Label="Mt", ch2Label="Wt",
                sortByLetter=FALSE)
   {
     cl <- plateClassification(wells, cMethod=cMethod, withAmplitudes=TRUE)

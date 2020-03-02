@@ -3,13 +3,13 @@ NULL
 
 #' Get the mean of each cluster.
 #'
-#' @description After classifying droplets, we can compute the mean for each 
+#' @description After classifying droplets, we can compute the mean for each
 #' class.
 #'
-#' @param droplets A data frame of droplets with \code{Ch1.Amplitude} and 
-#' \code{Ch2.Amplitude} columns, as well as a classification column (see the 
+#' @param droplets A data frame of droplets with \code{Ch1.Amplitude} and
+#' \code{Ch2.Amplitude} columns, as well as a classification column (see the
 #' parameter \code{classCol}).
-#' @param classCol The column (name or number) from \code{droplets} 
+#' @param classCol The column (name or number) from \code{droplets}
 #' representing the class.
 #'
 #' @return A list or data frame of means of each class.
@@ -42,13 +42,13 @@ classMeans <- function(droplets, classCol="class")
 #' Get the covariance of a single cluster.
 #'
 #' @param cl The cluster of which to find the covariance.
-#' @param droplets A data frame of droplets with \code{Ch1.Amplitude} and 
-#' \code{Ch2.Amplitude} columns, as well as a class column (see the parameter 
+#' @param droplets A data frame of droplets with \code{Ch1.Amplitude} and
+#' \code{Ch2.Amplitude} columns, as well as a class column (see the parameter
 #' \code{classCol}).
-#' @param classCol The column (name or number) from \code{droplets} 
+#' @param classCol The column (name or number) from \code{droplets}
 #' representing the class.
 #'
-#' @return The covariance matrix of the chosen cluster. If not defined, return 
+#' @return The covariance matrix of the chosen cluster. If not defined, return
 #' \code{NULL}.
 #'
 #' @author Anthony Chiu, \email{anthony.chiu@cruk.manchester.ac.uk}
@@ -72,10 +72,10 @@ classMeans <- function(droplets, classCol="class")
 #'
 #' After classifying droplets, we can compute the covariance for each class.
 #'
-#' @param droplets A data frame of droplets with \code{Ch1.Amplitude} and 
-#' \code{Ch2.Amplitude} columns, as well as a class column (see the parameter 
+#' @param droplets A data frame of droplets with \code{Ch1.Amplitude} and
+#' \code{Ch2.Amplitude} columns, as well as a class column (see the parameter
 #' \code{classCol}).
-#' @param classCol The column (name or number) from \code{droplets} 
+#' @param classCol The column (name or number) from \code{droplets}
 #' representing the class.
 #'
 #' @return A list of covariance matrices of each cluster.
@@ -104,6 +104,10 @@ classCov <- function(droplets, classCol="class")
 
 #' Get the inverse of a matrix
 #'
+#' @param s A 2x2 matrix.
+#'
+#' @return The inverse of `s`, or NULL if the matrix is singular
+#'
 #' Given a matrix, compute the inverse or return \code{NULL} if it is singular.
 
 .matrixInverse <- function(s)
@@ -121,17 +125,17 @@ classCov <- function(droplets, classCol="class")
 
 #' Get some basic statistical properties for each class.
 #'
-#' This function gives the mean, covariance and inverse of the covariance for 
+#' This function gives the mean, covariance and inverse of the covariance for
 #' each of the classes.
 #'
-#' @param droplets A data frame of droplets with \code{Ch1.Amplitude} and 
-#' \code{Ch2.Amplitude} columns, as well as a class column (see the parameter 
+#' @param droplets A data frame of droplets with \code{Ch1.Amplitude} and
+#' \code{Ch2.Amplitude} columns, as well as a class column (see the parameter
 #' \code{classCol}).
-#' @param classCol The column (name or number) from \code{droplets} 
+#' @param classCol The column (name or number) from \code{droplets}
 #' representing the class.
 #'
-#' @return A list (grouped by class name) of lists with keys \code{mean}, 
-#' \code{cov} and \code{cov.inv}. If \code{cov} is a singular matrix, then 
+#' @return A list (grouped by class name) of lists with keys \code{mean},
+#' \code{cov} and \code{cov.inv}. If \code{cov} is a singular matrix, then
 #' \code{cov.inv} will be \code{NULL}.
 #'
 #' @author Anthony Chiu, \email{anthony.chiu@cruk.manchester.ac.uk}
@@ -156,11 +160,11 @@ classStats <- function(droplets, classCol="class")
 {
   means <- classMeans(droplets, classCol)
   covs <- classCov(droplets, classCol)
-  
+
   # Compute the inverses of the covariance matrices.
   covs.inv <- lapply(covs, .matrixInverse)
-  
-  # Return everything as a list with class as the key, followed by mean, cov 
+
+  # Return everything as a list with class as the key, followed by mean, cov
   # and cov.inv.
   s <- lapply(ddpcr$classes,
               function(cl)

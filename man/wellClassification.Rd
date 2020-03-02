@@ -20,21 +20,21 @@ wellClassification(theObject, cMethod) <- value
 \arguments{
 \item{theObject}{A \code{\link{ddpcrWell}} object.}
 
-\item{cMethod}{The names (or column numbers) of the classification to 
-retrieve. If \code{NULL}, then all of the classifications are obtained. 
-Defaults to \code{NULL} when retrieving. When setting a classification, this 
+\item{cMethod}{The names (or column numbers) of the classification to
+retrieve. If \code{NULL}, then all of the classifications are obtained.
+Defaults to \code{NULL} when retrieving. When setting a classification, this
 cannot be \code{NULL}.}
 
-\item{withAmplitudes}{Logical value. If \code{TRUE}, returns a data frame 
-with the droplet amplitudes and corresponding classifications. If 
-\code{FALSE}, returns the classification vector only. Defaults to 
+\item{withAmplitudes}{Logical value. If \code{TRUE}, returns a data frame
+with the droplet amplitudes and corresponding classifications. If
+\code{FALSE}, returns the classification vector only. Defaults to
 \code{FALSE}.}
 
-\item{value}{A factor with the same length as the number of droplets in 
+\item{value}{A factor with the same length as the number of droplets in
 \code{theObject}, with levels in \code{ddpcr$classesRain}.}
 }
 \value{
-A factor or data frame corresponding to the requested 
+A factor or data frame corresponding to the requested
 classification(s).
 }
 \description{
@@ -60,7 +60,7 @@ head(wellClassification(aWell, withAmplitudes=TRUE))
 
 }
 \seealso{
-\code{\link{wellClassificationMethod}} for the name of the 
+\code{\link{wellClassificationMethod}} for the name of the
 classification method.
 }
 \author{

@@ -21,8 +21,8 @@ exportTable(theObject, location, delim = ",", ...)
 \S4method{exportTable}{ddpcrPlate}(theObject, location, delim = ",",
   cMethod = NULL, prefix = "", suffix = "_Amplitude.csv")
 
-exportZip(theObject, location, delim = ",", cMethod = NULL, prefix = "",
-  suffix = "_Amplitude.csv")
+exportZip(theObject, location, delim = ",", cMethod = NULL,
+  prefix = "", suffix = "_Amplitude.csv")
 
 \S4method{exportZip}{ddpcrPlate}(theObject, location, delim = ",",
   cMethod = NULL, prefix = "", suffix = "_Amplitude.csv")

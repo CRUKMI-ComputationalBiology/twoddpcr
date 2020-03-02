@@ -7,11 +7,11 @@
 classCov(droplets, classCol = "class")
 }
 \arguments{
-\item{droplets}{A data frame of droplets with \code{Ch1.Amplitude} and 
-\code{Ch2.Amplitude} columns, as well as a class column (see the parameter 
+\item{droplets}{A data frame of droplets with \code{Ch1.Amplitude} and
+\code{Ch2.Amplitude} columns, as well as a class column (see the parameter
 \code{classCol}).}
 
-\item{classCol}{The column (name or number) from \code{droplets} 
+\item{classCol}{The column (name or number) from \code{droplets}
 representing the class.}
 }
 \value{

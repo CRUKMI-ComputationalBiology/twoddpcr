@@ -9,7 +9,7 @@ NULL
 #' @slot dropletAmplitudes A data frame with columns \code{Ch1.Amplitude}
 #' and \code{Ch2.Amplitude} corresponding to all the droplets in the ddPCR
 #' well.
-#' @slot classification A vector of factors, where the levels are given by 
+#' @slot classification A vector of factors, where the levels are given by
 #' \code{ddpcr$classesRain}.
 #'
 #' @name ddpcrWell-class
@@ -51,7 +51,7 @@ NULL
 
 #' Extract a classification from a data frame.
 #'
-#' Check that non-Ch*Amplitude columns are in a known classification format and 
+#' Check that non-Ch*Amplitude columns are in a known classification format and
 #' coerce it to a factor.
 #'
 #' @param colName The name of the column to focus on.
@@ -67,7 +67,7 @@ NULL
   {
     # "NN", "NP", "PN", "PP" format.
     if(is.factor(well[, colName]) &&
-       levels(well[, colName]) %in% ddpcr$classesRain)
+       all(levels(well[, colName]) %in% ddpcr$classesRain))
     {
       factor(well[, colName], levels=ddpcr$classesRain)
     }
@@ -93,8 +93,8 @@ NULL
 
 #' The constructor for the \code{ddpcrWell} class.
 #'
-#' @param well A well with columns \code{Ch1.Amplitude} and 
-#' \code{Ch2.Amplitude} and optional classification columns. This can be in the 
+#' @param well A well with columns \code{Ch1.Amplitude} and
+#' \code{Ch2.Amplitude} and optional classification columns. This can be in the
 #' form of a data frame or the path to a droplet amplitude CSV file.
 #'
 #' @return A \code{ddpcrWell} object with the given droplets in the well.
@@ -109,7 +109,7 @@ NULL
 #' ddpcrWell(KRASdata[[1]])
 #'
 #' ## An CSV file of droplet amplitudes can also be loaded.
-#' ampFile <- system.file("extdata/amplitudes/sample_B03_Amplitude.csv", 
+#' ampFile <- system.file("extdata/amplitudes/sample_B03_Amplitude.csv",
 #'                        package="twoddpcr")
 #' ddpcrWell(ampFile)
 #'
@@ -141,7 +141,7 @@ setMethod("ddpcrWell", "data.frame", function(well)
       cl <- lapply(colnames(well), .getClassificationData, well)
       names(cl) <- colnames(well)
       cl <- as.data.frame(do.call(cbind, cl))
-      
+
       # Add a default "None" column to droplet classifications (if needed).
       dc <- factor(rep(ddpcr$na, nrow(well)), levels=ddpcr$classesRain)
       if(!is.null(cl) && !"None" %in% colnames(cl))
@@ -212,16 +212,16 @@ setMethod("ddpcrWell", "ddpcrWell", function(well)
 #' @title Retrieve droplet amplitudes.
 #'
 #' @description Retrieve the droplet amplitudes from an object.
-#' 
-#' @param theObject A \code{\link{ddpcrWell}} or \code{\link{ddpcrPlate}} 
+#'
+#' @param theObject A \code{\link{ddpcrWell}} or \code{\link{ddpcrPlate}}
 #' object.
 #'
-#' @return If \code{theObject} is a \code{\link{ddpcrWell}} object, return 
-#' a data frame of droplet amplitudes with columns "Ch1.Amplitude" and 
-#' "Ch2.Amplitude". If \code{theObject} is a \code{\link{ddpcrPlate}} object, 
+#' @return If \code{theObject} is a \code{\link{ddpcrWell}} object, return
+#' a data frame of droplet amplitudes with columns "Ch1.Amplitude" and
+#' "Ch2.Amplitude". If \code{theObject} is a \code{\link{ddpcrPlate}} object,
 #' return a list of data frames.
 #'
-#' @seealso \code{\link{wellClassification}} for the classification of the 
+#' @seealso \code{\link{wellClassification}} for the classification of the
 #' droplets.
 #'
 #' @name amplitudes
@@ -230,16 +230,16 @@ setMethod("ddpcrWell", "ddpcrWell", function(well)
 #' ## Set a ddpcrWell object with no data.
 #' aWell <- ddpcrWell(well=data.frame("Ch1.Amplitude"=double(),
 #'                                    "Ch2.Amplitude"=double()))
-#' 
+#'
 #' ## This can be checked to be empty.
 #' amplitudes(aWell)
 #'
 #' ## Alternatively, load some data.
 #' aWell <- ddpcrWell(well=KRASdata[["E03"]])
-#' 
+#'
 #' ## We check again and see that it has been populated.
 #' head(amplitudes(aWell))
-#' 
+#'
 #' # Get all of the KRASdata droplet amplitudes.
 #' krasPlate <- ddpcrPlate(wells=KRASdata)
 #' allDroplets <- amplitudes(krasPlate)
@@ -269,23 +269,23 @@ setMethod("amplitudes", "ddpcrWell", function(theObject)
 #' Retrieve a classification vector.
 #'
 #' Retrieve the classification from a \code{\link{ddpcrWell}} object.
-#' 
+#'
 #' @param theObject A \code{\link{ddpcrWell}} object.
-#' @param cMethod The names (or column numbers) of the classification to 
-#' retrieve. If \code{NULL}, then all of the classifications are obtained. 
-#' Defaults to \code{NULL} when retrieving. When setting a classification, this 
+#' @param cMethod The names (or column numbers) of the classification to
+#' retrieve. If \code{NULL}, then all of the classifications are obtained.
+#' Defaults to \code{NULL} when retrieving. When setting a classification, this
 #' cannot be \code{NULL}.
-#' @param withAmplitudes Logical value. If \code{TRUE}, returns a data frame 
-#' with the droplet amplitudes and corresponding classifications. If 
-#' \code{FALSE}, returns the classification vector only. Defaults to 
+#' @param withAmplitudes Logical value. If \code{TRUE}, returns a data frame
+#' with the droplet amplitudes and corresponding classifications. If
+#' \code{FALSE}, returns the classification vector only. Defaults to
 #' \code{FALSE}.
-#' @param value A factor with the same length as the number of droplets in 
+#' @param value A factor with the same length as the number of droplets in
 #' \code{theObject}, with levels in \code{ddpcr$classesRain}.
 #'
-#' @return A factor or data frame corresponding to the requested 
+#' @return A factor or data frame corresponding to the requested
 #' classification(s).
 #'
-#' @seealso \code{\link{wellClassificationMethod}} for the name of the 
+#' @seealso \code{\link{wellClassificationMethod}} for the name of the
 #' classification method.
 #'
 #' @examples
@@ -294,10 +294,10 @@ setMethod("amplitudes", "ddpcrWell", function(theObject)
 #'
 #' ## Create a ddpcrWell object with the amplitudes only.
 #' aWell <- ddpcrWell(well=amplitudes)
-#' 
+#'
 #' ## This has no classification yet.
 #' head(wellClassification(aWell))
-#' 
+#'
 #' ## We check the classification now, showing the amplitudes as well.
 #' head(wellClassification(aWell, withAmplitudes=TRUE))
 #'
@@ -373,27 +373,27 @@ setReplaceMethod("wellClassification", "ddpcrWell",
 
 #' Retrieve the classification method.
 #'
-#' Retrieve the names of the classification methods for 
+#' Retrieve the names of the classification methods for
 #' a \code{\link{ddpcrWell}} object.
-#' 
+#'
 #' @param theObject A \code{\link{ddpcrWell}} object.
-#' @param cMethod If modifying the classification methods, this should be  
+#' @param cMethod If modifying the classification methods, this should be
 #' a vector of existing classification names or numbers.
-#' @param value A character vector (of the same length as \code{cMethod}) 
+#' @param value A character vector (of the same length as \code{cMethod})
 #' giving a new names for the chosen classification methods.
 #'
 #' @return The classification method names.
 #'
-#' @seealso \code{\link{wellClassification}} for the classification of the 
+#' @seealso \code{\link{wellClassification}} for the classification of the
 #' droplets.
 #'
 #' @examples
 #' ## Create a ddpcrWell object with some data and classification.
 #' aWell <- ddpcrWell(well=KRASdata[["E03"]])
-#' 
+#'
 #' ## Retrieve the classification method names.
 #' head(wellClassificationMethod(aWell))
-#' 
+#'
 #' ## Set a classification method name to something new.
 #' wellClassificationMethod(aWell, cMethod="Cluster") <- "QuantaSoft"
 #'

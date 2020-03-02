@@ -8,7 +8,8 @@
 \alias{thresholdClassify,ddpcrPlate-method}
 \title{Set thresholds to classify droplets.}
 \usage{
-thresholdClassify(droplets, ch1Threshold = 6500, ch2Threshold = 2900, ...)
+thresholdClassify(droplets, ch1Threshold = 6500, ch2Threshold = 2900,
+  ...)
 
 \S4method{thresholdClassify}{data.frame}(droplets, ch1Threshold = 6500,
   ch2Threshold = 2900, fullTable = TRUE)

@@ -18,32 +18,32 @@ plateSummary(wells, ..., ch1Label = "Mt", ch2Label = "Wt",
   ch2Label = "Wt", sortByLetter = FALSE)
 }
 \arguments{
-\item{wells}{Either a \code{\link{ddpcrPlate}} object or a list of data 
-frames, each of which comprises droplet amplitudes and their corresponding 
+\item{wells}{Either a \code{\link{ddpcrPlate}} object or a list of data
+frames, each of which comprises droplet amplitudes and their corresponding
 classifications in a given well.}
 
 \item{...}{Other options depending on the type of \code{wells}.}
 
-\item{ch1Label}{The prefix to use for the channel 1 target. Defaults to 
+\item{ch1Label}{The prefix to use for the channel 1 target. Defaults to
 "Mt".}
 
-\item{ch2Label}{The prefix to use for the channel 2 target. Defaults to 
+\item{ch2Label}{The prefix to use for the channel 2 target. Defaults to
 "Wt".}
 
-\item{sortByLetter}{If \code{TRUE}, the resulting data frame is sorted by 
-the letter in the well names first, e.g. "A02" comes before "B01". If 
-\code{FALSE}, the result is sorted by the numeric component of the well 
+\item{sortByLetter}{If \code{TRUE}, the resulting data frame is sorted by
+the letter in the well names first, e.g. "A02" comes before "B01". If
+\code{FALSE}, the result is sorted by the numeric component of the well
 names first, e.g. "B01" comes before "A02". Defaults to \code{FALSE}.}
 
 \item{cMethod}{The classification method to create a summary for.}
 }
 \value{
-A data frame with droplet counts and molecules number estimates for 
+A data frame with droplet counts and molecules number estimates for
 each well.
 }
 \description{
-Takes a collection of classified droplets, each corresponding to a well, and 
-produces a list of positive/negative counts and estimates of how many 
+Takes a collection of classified droplets, each corresponding to a well, and
+produces a list of positive/negative counts and estimates of how many
 molecules are in each well.
 }
 \examples{

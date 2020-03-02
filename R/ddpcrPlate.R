@@ -39,7 +39,7 @@ setMethod("elementType", "SimpleList", function(x) x@elementType)
       # All elements of 'wells' should be 'ddpcrWell' objects.
       if(any(lapply(object, class) != "ddpcrWell"))
         return("All wells should be 'ddpcrWell' objects.")
-      
+
       return(TRUE)
     }
   )
@@ -51,7 +51,7 @@ setMethod("elementType", "SimpleList", function(x) x@elementType)
 #' \itemize{
 #'   \item a list of \code{\link{ddpcrWell}} objects,
 #'   \item a list of data frames of droplet amplitudes, or
-#'   \item a character vector corresponding to a file path(s) containing CSV 
+#'   \item a character vector corresponding to a file path(s) containing CSV
 #'   files of raw droplet amplitude data.
 #' }
 #'
@@ -62,11 +62,11 @@ setMethod("elementType", "SimpleList", function(x) x@elementType)
 #' @author Anthony Chiu, \email{anthony.chiu@cruk.manchester.ac.uk}
 #'
 #' @examples
-#' ## A \code{ddpcrPlate} object can be created from data from a list of data 
+#' ## A \code{ddpcrPlate} object can be created from data from a list of data
 #' ## frames.
 #' ddpcrPlate(KRASdata)
 #'
-#' ## A directory (or individual files) of droplet amplitude CSVs can also be 
+#' ## A directory (or individual files) of droplet amplitude CSVs can also be
 #' ## loaded.
 #' moreAmpsDir <- system.file("extdata", "more-amplitudes", package="twoddpcr")
 #' ddpcrPlate(moreAmpsDir)
@@ -93,7 +93,7 @@ setMethod("ddpcrPlate", "list", function(wells)
       wells <- setChannelNames(wells)
       wells <- lapply(wells, ddpcrWell)
     }
-    
+
     setNames(.ddpcrPlate(listData=wells), names(wells))
   }
 )
@@ -157,9 +157,9 @@ setMethod("amplitudes", "ddpcrPlate", function(theObject)
 
 #' Splits a long vector and according to a vector of sizes.
 #'
-#' Takes one long vector/factor and splits it into a list of vectors, where the 
-#' lengths are given by a vector of sizes. This may be the same as another 
-#' given list of vectors. Particularly useful if we want to combine a list of 
+#' Takes one long vector/factor and splits it into a list of vectors, where the
+#' lengths are given by a vector of sizes. This may be the same as another
+#' given list of vectors. Particularly useful if we want to combine a list of
 #' data, do some analysis on the combined data, then split the analysis.
 #'
 #' @param vec The vector to split.
@@ -169,25 +169,6 @@ setMethod("amplitudes", "ddpcrPlate", function(theObject)
 #' @return A list of vectors split into the given lengths.
 #'
 #' @author Anthony Chiu, \email{anthony.chiu@cruk.manchester.ac.uk}
-#'
-#' @examples
-#' ### Work with data frames only to illustrate how this is used internally.
-#'
-#' ## Combine the list of dataframe in KRASdata and classify them as a whole.
-#' combWells <- do.call(rbind, KRASdata)
-#' cl <- kmeansClassify(combWells)
-#'
-#' ## Count the number of droplets in each well.
-#' numberDroplets <- vapply(KRASdata, nrow, character(1))
-#'
-#' ## Get the well names.
-#' wellNames <- names(KRASdata)
-#'
-#' ## Slice The classification into a list of vectors.
-#' slicedCl <- .slice(cl, numberDroplets, wellNames)
-#'
-#' ## See how long each of the sliced vectors is.
-#' vapply(slicedCl, length, character(1))
 
 .slice <- function(vec, wellSizes, wellNames)
 {
@@ -204,42 +185,22 @@ setMethod("amplitudes", "ddpcrPlate", function(theObject)
 
 
 #' Retrieve the well names to use from a given list.
-#' 
-#' We simply retrieve the \code{names} from a given list, but also perform some 
-#' checks to make sure that the names are consistent with a given 
+#'
+#' We simply retrieve the \code{names} from a given list, but also perform some
+#' checks to make sure that the names are consistent with a given
 #' \code{\link{ddpcrPlate}} object.
-#' 
+#'
 #' @param theObject A \code{\link{ddpcrPlate}} object.
 #' @param aList A list from which we wish to extract well names.
 #'
 #' @return The names of \code{aList}.
 #'
 #' @author Anthony Chiu, \email{anthony.chiu@cruk.manchester.ac.uk}
-#'
-#' @examples
-#' ## Set a ddpcrPlate object.
-#' krasPlate <- ddpcrPlate(wells=KRASdata)
-#'
-#' ## The following classifications will yield a list with recognised names;
-#' ## .extractWellNames should simply return the names of cl.
-#' cl <- plateClassification(krasPlate)
-#' .extractWellNames(krasPlate, cl)
-#'
-#' ## Remove the list names; this will result in an error (essentially, we want
-#' ## to tell which well should be assigned which classification).
-#' names(cl) <- NULL
-#' .extractWellNames(krasPlate, cl)
-#'
-#' ## We don't have to focus on all of the wells; a subset will do.
-#' firstTwoCl <- cl[1:2]
-#' names(firstTwoCl) <- c("E03", "F03")
-#' .extractWellNames(krasPlate, firstTwoCl)
 
 .extractWellNames <- function(theObject, aList)
 {
   # Set well names.
-  if(!is.null(names(aList)) &&
-     all(names(aList) %in% names(theObject)))
+  if(!all(is.null(names(aList))) && all(names(aList) %in% names(theObject)))
     wells <- names(aList)
   else
     stop("Not all names specified in the list 'aList' ",
@@ -249,58 +210,58 @@ setMethod("amplitudes", "ddpcrPlate", function(theObject)
   if(!all(wells %in% names(theObject)))
     stop("Some of the given 'wells' are not valid well names in ",
          "'theObject'.")
-  
+
   wells
 }
 
 
 #' Set and retrieve classifications for multiple wells.
-#' 
-#' Retrieve multiple classification factors that have been assigned to 
+#'
+#' Retrieve multiple classification factors that have been assigned to
 #' a \code{ddpcrPlate} object.
-#' 
+#'
 #' @param theObject A \code{\link{ddpcrPlate}} object.
-#' @param cMethod This is the name of the classification to retrieve and should 
-#' be a character vector. If \code{NULL}, then all of the classifications are 
+#' @param cMethod This is the name of the classification to retrieve and should
+#' be a character vector. If \code{NULL}, then all of the classifications are
 #' obtained. Defaults to \code{NULL}.
 #' @param value Either:
 #' \itemize{
-#'   \item A list of factors, where each item of the list corresponds to 
+#'   \item A list of factors, where each item of the list corresponds to
 #'   a well;
-#'   \item A single factor corresponding to all of the wells combined. This 
-#'   should be ordered by the order of the output of the 
-#'   \code{\link{amplitudes}} function when the rows of the data frames have 
-#'   been bound together, i.e. with \code{do.call(rbind, 
+#'   \item A single factor corresponding to all of the wells combined. This
+#'   should be ordered by the order of the output of the
+#'   \code{\link{amplitudes}} function when the rows of the data frames have
+#'   been bound together, i.e. with \code{do.call(rbind,
 #'   amplitudes(theObject))}.
 #' }
-#' @param withAmplitudes If \code{TRUE}, the droplet amplitudes are included. 
+#' @param withAmplitudes If \code{TRUE}, the droplet amplitudes are included.
 #' Defaults to \code{FALSE}.
-#' @param wellCol If \code{TRUE}, an additional column is included in the 
-#' output, where each entry is the name of the well from which the droplet 
-#' originated. In this case, this setting forces the \code{withAmplitudes} 
+#' @param wellCol If \code{TRUE}, an additional column is included in the
+#' output, where each entry is the name of the well from which the droplet
+#' originated. In this case, this setting forces the \code{withAmplitudes}
 #' parameter to \code{TRUE}. Defaults to \code{FALSE}.
-#' 
 #'
-#' @return If requesting one classification without the amplitudes, a list of 
-#' factors corresponding to the classifications is returned. Otherwise, a list 
-#' of data frames is returned where each row corresponds to a droplet in the 
+#'
+#' @return If requesting one classification without the amplitudes, a list of
+#' factors corresponding to the classifications is returned. Otherwise, a list
+#' of data frames is returned where each row corresponds to a droplet in the
 #' corresponding well.
 #'
 #' @author Anthony Chiu, \email{anthony.chiu@cruk.manchester.ac.uk}
 #'
 #' @examples
-#' ### The examples here show how this method works by setting classifications 
+#' ### The examples here show how this method works by setting classifications
 #' ### using data frames. To do this, we use the
 #' ### \code{\link{thresholdClassify}} method on _data frames_. Note that
 #' ### \code{thresholdClassify} also works directly on \code{ddpcrWell} and
 #' ### \code{ddpcrPlate} objects; this is simply an illustration of
-#' ### how to use the \code{plateClassification} method directly. In general, 
+#' ### how to use the \code{plateClassification} method directly. In general,
 #' ### it is recommended to use \code{thresholdClassify} directly on
 #' ### \code{ddpcrPlate} objects.
 #'
 #' ## Create a ddpcrPlate object.
 #' krasPlate <- ddpcrPlate(wells=KRASdata)
-#' 
+#'
 #' ## Classify a data frame of droplets and keep it in a _single_ data frame.
 #' ## Set the new classification from this.
 #' droplets <- do.call(rbind, amplitudes(krasPlate))
@@ -355,9 +316,9 @@ setMethod("plateClassification", "ddpcrPlate",
     if(wellCol && !withAmplitudes)
       withAmplitudes <- TRUE
 
-    mc <- lapply(theObject, wellClassification, 
+    mc <- lapply(theObject, wellClassification,
                  withAmplitudes=withAmplitudes, cMethod=cMethod)
-    
+
     # Retrieve the classification. Simplify to a factor if one classification
     # has been requested without amplitudes; use data frames otherwise.
     # if(!withAmplitudes && (length(cMethod) == 1))
@@ -408,7 +369,7 @@ setReplaceMethod("plateClassification", c("ddpcrPlate", "character", "list"),
       w <- wells[i]
       wellClassification(theObject[[w]], cMethod=cMethod) <- value[[i]]
     }
-      
+
     validObject(theObject)
     return(theObject)
   }
@@ -421,21 +382,21 @@ setReplaceMethod("plateClassification", c("ddpcrPlate", "character", "list"),
 setReplaceMethod("plateClassification", c("ddpcrPlate", "character", "factor"),
   function(theObject, cMethod, value)
   {
-    # The classification 'value' is one long factor, so should be for the 
+    # The classification 'value' is one long factor, so should be for the
     # combined wells.
-    
+
     # Check that the vector length is correct.
     multiNumDroplets <- numDroplets(theObject)
     if(length(value) != sum(multiNumDroplets))
       stop("The length of 'vec' is not the same as the sum of 'wellSizes'.")
-    
+
     # Slice it.
     cl <- .slice(value, multiNumDroplets, names(theObject))
-    
+
     # Set the classification.
     for(w in names(theObject))
       wellClassification(theObject[[w]], cMethod=cMethod) <- cl[[w]]
-      
+
     validObject(theObject)
     return(theObject)
   }
@@ -443,22 +404,22 @@ setReplaceMethod("plateClassification", c("ddpcrPlate", "character", "factor"),
 
 
 #' Set or retrieve the classification method strings for multiple wells.
-#' 
-#' \code{plateClassificationMethod} retrieves multiple classification methods 
+#'
+#' \code{plateClassificationMethod} retrieves multiple classification methods
 #' that have been assigned to a \code{ddpcrPlate} object.
-#' 
+#'
 #' @param theObject A \code{\link{ddpcrPlate}} object.
-#' @param cMethod This should represent existing classification method(s) for 
+#' @param cMethod This should represent existing classification method(s) for
 #' all wells in \code{theObject}. It can be given in the form of a:
 #' \itemize{
-#'   \item Character vector. If this vector is shorter than the length of 
+#'   \item Character vector. If this vector is shorter than the length of
 #'   \code{wells}, this vector's elements will be repeated.
 #'   \item List of character vectors.
 #' }
-#' @param value New classification method(s) in the same form as 
+#' @param value New classification method(s) in the same form as
 #' \code{cMethod}.
 #'
-#' @return \code{plateClassificationMethod} returns a list of character strings 
+#' @return \code{plateClassificationMethod} returns a list of character strings
 #' corresponding to the classification methods.
 #'
 #' @seealso \code{\link{plateClassification}} for the classifications.
@@ -528,7 +489,7 @@ setReplaceMethod("plateClassificationMethod", "ddpcrPlate",
     {
       wells <- names(theObject)
 
-      # Set classification method for all wells, repeating elements of 
+      # Set classification method for all wells, repeating elements of
       # cMethod if necessary.
       for(i in seq_along(wells))
       {
@@ -551,11 +512,11 @@ setReplaceMethod("plateClassificationMethod", "ddpcrPlate",
 
 
 #' @rdname plateClassificationMethod
-#' 
-#' @description \code{commonClassificationMethod} retrieves the classification 
+#'
+#' @description \code{commonClassificationMethod} retrieves the classification
 #' methods common to all the wells in the given \code{ddpcrPlate} object.
-#' 
-#' @return \code{commonClassificationMethod} returns a vector of character 
+#'
+#' @return \code{commonClassificationMethod} returns a vector of character
 #' strings indicating which classification methods appear in all wells.
 #'
 #' @export

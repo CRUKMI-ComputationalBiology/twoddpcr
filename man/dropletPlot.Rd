@@ -13,25 +13,25 @@ dropletPlot(droplets, ch1Label = "Ch1 Amplitude",
   ch2Label = "Ch2 Amplitude", ...)
 
 \S4method{dropletPlot}{data.frame}(droplets, ch1Label = "Ch1 Amplitude",
-  ch2Label = "Ch2 Amplitude", cMethod = "None", mapping = aes_string(x =
-  "Ch2.Amplitude", y = "Ch1.Amplitude", colour = cMethod),
-  finalCentres = NULL, initialCentres = NULL, selectedCentre = NULL,
-  pointSize = 1, plotLimits = list(x = c(1000, 9000), y = c(3000, 13500)),
-  legendLabels = ddpcr$classesRain)
+  ch2Label = "Ch2 Amplitude", cMethod = "None",
+  mapping = aes_string(x = "Ch2.Amplitude", y = "Ch1.Amplitude", colour =
+  cMethod), finalCentres = NULL, initialCentres = NULL,
+  selectedCentre = NULL, pointSize = 1, plotLimits = list(x = c(1000,
+  9000), y = c(3000, 13500)), legendLabels = ddpcr$classesRain)
 
 \S4method{dropletPlot}{ddpcrWell}(droplets, ch1Label = "Ch1 Amplitude",
-  ch2Label = "Ch2 Amplitude", cMethod = "None", mapping = aes_string(x =
-  "Ch2.Amplitude", y = "Ch1.Amplitude", colour = cMethod),
-  finalCentres = NULL, initialCentres = NULL, selectedCentre = NULL,
-  pointSize = 1, plotLimits = list(x = c(1000, 9000), y = c(3000, 13500)),
-  legendLabels = ddpcr$classesRain)
+  ch2Label = "Ch2 Amplitude", cMethod = "None",
+  mapping = aes_string(x = "Ch2.Amplitude", y = "Ch1.Amplitude", colour =
+  cMethod), finalCentres = NULL, initialCentres = NULL,
+  selectedCentre = NULL, pointSize = 1, plotLimits = list(x = c(1000,
+  9000), y = c(3000, 13500)), legendLabels = ddpcr$classesRain)
 
 \S4method{dropletPlot}{ddpcrPlate}(droplets, ch1Label = "Ch1 Amplitude",
-  ch2Label = "Ch2 Amplitude", cMethod = "None", mapping = aes_string(x =
-  "Ch2.Amplitude", y = "Ch1.Amplitude", colour = cMethod),
-  finalCentres = NULL, initialCentres = NULL, selectedCentre = NULL,
-  pointSize = 1, plotLimits = list(x = c(1000, 9000), y = c(3000, 13500)),
-  legendLabels = ddpcr$classesRain)
+  ch2Label = "Ch2 Amplitude", cMethod = "None",
+  mapping = aes_string(x = "Ch2.Amplitude", y = "Ch1.Amplitude", colour =
+  cMethod), finalCentres = NULL, initialCentres = NULL,
+  selectedCentre = NULL, pointSize = 1, plotLimits = list(x = c(1000,
+  9000), y = c(3000, 13500)), legendLabels = ddpcr$classesRain)
 }
 \arguments{
 \item{droplets}{An object corresponding to droplet amplitudes and their 

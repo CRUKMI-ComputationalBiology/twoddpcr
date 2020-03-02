@@ -14,7 +14,8 @@ wellClassificationMethod(theObject)
 
 wellClassificationMethod(theObject, cMethod) <- value
 
-\S4method{wellClassificationMethod}{ddpcrWell}(theObject, cMethod) <- value
+\S4method{wellClassificationMethod}{ddpcrWell}(theObject,
+  cMethod) <- value
 }
 \arguments{
 \item{theObject}{A \code{\link{ddpcrWell}} object.}
@@ -22,14 +23,14 @@ wellClassificationMethod(theObject, cMethod) <- value
 \item{cMethod}{If modifying the classification methods, this should be
 a vector of existing classification names or numbers.}
 
-\item{value}{A character vector (of the same length as \code{cMethod}) 
+\item{value}{A character vector (of the same length as \code{cMethod})
 giving a new names for the chosen classification methods.}
 }
 \value{
 The classification method names.
 }
 \description{
-Retrieve the names of the classification methods for 
+Retrieve the names of the classification methods for
 a \code{\link{ddpcrWell}} object.
 }
 \examples{
@@ -47,7 +48,7 @@ wellClassificationMethod(aWell)
 
 }
 \seealso{
-\code{\link{wellClassification}} for the classification of the 
+\code{\link{wellClassification}} for the classification of the
 droplets.
 }
 \author{

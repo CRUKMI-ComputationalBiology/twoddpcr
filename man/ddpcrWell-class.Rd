@@ -26,8 +26,8 @@ ddpcrWell(well)
 \S4method{show}{ddpcrWell}(object)
 }
 \arguments{
-\item{well}{A well with columns \code{Ch1.Amplitude} and 
-\code{Ch2.Amplitude} and optional classification columns. This can be in the 
+\item{well}{A well with columns \code{Ch1.Amplitude} and
+\code{Ch2.Amplitude} and optional classification columns. This can be in the
 form of a data frame or the path to a droplet amplitude CSV file.}
 
 \item{object}{Any R object}
@@ -48,7 +48,7 @@ The constructor for the \code{ddpcrWell} class.
 and \code{Ch2.Amplitude} corresponding to all the droplets in the ddPCR
 well.}
 
-\item{\code{classification}}{A vector of factors, where the levels are given by 
+\item{\code{classification}}{A vector of factors, where the levels are given by
 \code{ddpcr$classesRain}.}
 }}
 
@@ -58,7 +58,7 @@ well.}
 ddpcrWell(KRASdata[[1]])
 
 ## An CSV file of droplet amplitudes can also be loaded.
-ampFile <- system.file("extdata/amplitudes/sample_B03_Amplitude.csv", 
+ampFile <- system.file("extdata/amplitudes/sample_B03_Amplitude.csv",
                        package="twoddpcr")
 ddpcrWell(ampFile)
 

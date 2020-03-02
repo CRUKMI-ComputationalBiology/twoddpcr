@@ -4,7 +4,8 @@
 \alias{relabelClasses}
 \title{Re-label clusters.}
 \usage{
-relabelClasses(droplets, classCol = "class", presentClasses = ddpcr$classes)
+relabelClasses(droplets, classCol = "class",
+  presentClasses = ddpcr$classes)
 }
 \arguments{
 \item{droplets}{A data frame of droplet amplitudes with a classification.}

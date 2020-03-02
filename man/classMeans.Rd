@@ -7,18 +7,18 @@
 classMeans(droplets, classCol = "class")
 }
 \arguments{
-\item{droplets}{A data frame of droplets with \code{Ch1.Amplitude} and 
-\code{Ch2.Amplitude} columns, as well as a classification column (see the 
+\item{droplets}{A data frame of droplets with \code{Ch1.Amplitude} and
+\code{Ch2.Amplitude} columns, as well as a classification column (see the
 parameter \code{classCol}).}
 
-\item{classCol}{The column (name or number) from \code{droplets} 
+\item{classCol}{The column (name or number) from \code{droplets}
 representing the class.}
 }
 \value{
 A list or data frame of means of each class.
 }
 \description{
-After classifying droplets, we can compute the mean for each 
+After classifying droplets, we can compute the mean for each
 class.
 }
 \examples{

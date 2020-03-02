@@ -4,17 +4,18 @@
 \name{heatPlot}
 \alias{heatPlot}
 \alias{densityPlot}
-\alias{heatPlot}
 \alias{heatPlot,data.frame-method}
 \alias{heatPlot,ddpcrWell-method}
 \alias{heatPlot,ddpcrPlate-method}
 \title{Draw a heat plot of the droplets.}
 \usage{
-heatPlot(droplets, ch1Label = "Ch1 Amplitude", ch2Label = "Ch2 Amplitude",
-  binwidth = 100, plotLimits = list(x = c(1000, 9000), y = c(3000, 13500)))
+heatPlot(droplets, ch1Label = "Ch1 Amplitude",
+  ch2Label = "Ch2 Amplitude", binwidth = 100, plotLimits = list(x =
+  c(1000, 9000), y = c(3000, 13500)))
 
-heatPlot(droplets, ch1Label = "Ch1 Amplitude", ch2Label = "Ch2 Amplitude",
-  binwidth = 100, plotLimits = list(x = c(1000, 9000), y = c(3000, 13500)))
+heatPlot(droplets, ch1Label = "Ch1 Amplitude",
+  ch2Label = "Ch2 Amplitude", binwidth = 100, plotLimits = list(x =
+  c(1000, 9000), y = c(3000, 13500)))
 
 \S4method{heatPlot}{data.frame}(droplets, ch1Label = "Ch1 Amplitude",
   ch2Label = "Ch2 Amplitude", binwidth = 100, plotLimits = list(x =

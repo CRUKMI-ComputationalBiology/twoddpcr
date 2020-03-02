@@ -9,25 +9,30 @@
 \title{Use a 'grid' to create training data for classification algorithms.}
 \usage{
 gridClassify(droplets, ch1NNThreshold = 6500, ch2NNThreshold = 1900,
-  ch1NPThreshold = 6500, ch2NPThreshold = 5000, ch1PNThreshold = 10000,
-  ch2PNThreshold = 2900, ch1PPThreshold = 7500, ch2PPThreshold = 5000,
-  ...)
+  ch1NPThreshold = 6500, ch2NPThreshold = 5000,
+  ch1PNThreshold = 10000, ch2PNThreshold = 2900,
+  ch1PPThreshold = 7500, ch2PPThreshold = 5000, ...)
 
 \S4method{gridClassify}{data.frame}(droplets, ch1NNThreshold = 6500,
-  ch2NNThreshold = 1900, ch1NPThreshold = 6500, ch2NPThreshold = 5000,
-  ch1PNThreshold = 10000, ch2PNThreshold = 2900, ch1PPThreshold = 7500,
+  ch2NNThreshold = 1900, ch1NPThreshold = 6500,
+  ch2NPThreshold = 5000, ch1PNThreshold = 10000,
+  ch2PNThreshold = 2900, ch1PPThreshold = 7500,
   ch2PPThreshold = 5000, trainingData = TRUE, fullTable = TRUE,
   naLabel = ddpcr$rain)
 
 \S4method{gridClassify}{ddpcrWell}(droplets, ch1NNThreshold = 6500,
-  ch2NNThreshold = 1900, ch1NPThreshold = 6500, ch2NPThreshold = 5000,
-  ch1PNThreshold = 10000, ch2PNThreshold = 2900, ch1PPThreshold = 7500,
-  ch2PPThreshold = 5000, classMethodLabel = "grid", naLabel = ddpcr$rain)
+  ch2NNThreshold = 1900, ch1NPThreshold = 6500,
+  ch2NPThreshold = 5000, ch1PNThreshold = 10000,
+  ch2PNThreshold = 2900, ch1PPThreshold = 7500,
+  ch2PPThreshold = 5000, classMethodLabel = "grid",
+  naLabel = ddpcr$rain)
 
 \S4method{gridClassify}{ddpcrPlate}(droplets, ch1NNThreshold = 6500,
-  ch2NNThreshold = 1900, ch1NPThreshold = 6500, ch2NPThreshold = 5000,
-  ch1PNThreshold = 10000, ch2PNThreshold = 2900, ch1PPThreshold = 7500,
-  ch2PPThreshold = 5000, classMethodLabel = "grid", naLabel = ddpcr$rain)
+  ch2NNThreshold = 1900, ch1NPThreshold = 6500,
+  ch2NPThreshold = 5000, ch1PNThreshold = 10000,
+  ch2PNThreshold = 2900, ch1PPThreshold = 7500,
+  ch2PPThreshold = 5000, classMethodLabel = "grid",
+  naLabel = ddpcr$rain)
 }
 \arguments{
 \item{droplets}{A \code{\link{ddpcrWell}} object or a data frame of droplet 

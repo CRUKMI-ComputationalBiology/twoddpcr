@@ -7,7 +7,6 @@
 \alias{ggplot.plate}
 \alias{ggplot.multiwell}
 \alias{ggplot.well,ddpcrWell-method}
-\alias{ggplot.plate}
 \alias{ggplot.plate,ddpcrPlate-method}
 \title{ggplot methods for the \code{\link{ddpcrWell}} and 
 \code{\link{ddpcrPlate}} classes.}
@@ -17,16 +16,16 @@ ggplot.well(data, mapping = aes_string(x = "Ch2.Amplitude", y =
   environment = parent.frame())
 
 \S4method{ggplot.well}{ddpcrWell}(data, mapping = aes_string(x =
-  "Ch2.Amplitude", y = "Ch1.Amplitude", colour = cMethod), cMethod = "None",
-  ..., environment = parent.frame())
+  "Ch2.Amplitude", y = "Ch1.Amplitude", colour = cMethod),
+  cMethod = "None", ..., environment = parent.frame())
 
 ggplot.plate(data, mapping = aes_string(x = "Ch2.Amplitude", y =
   "Ch1.Amplitude", colour = class), cMethod = "None", ...,
   environment = parent.frame())
 
 \S4method{ggplot.plate}{ddpcrPlate}(data, mapping = aes_string(x =
-  "Ch2.Amplitude", y = "Ch1.Amplitude", colour = cMethod), cMethod = "None",
-  ..., environment = parent.frame())
+  "Ch2.Amplitude", y = "Ch1.Amplitude", colour = cMethod),
+  cMethod = "None", ..., environment = parent.frame())
 }
 \arguments{
 \item{data}{A \code{ddpcrWell} or \code{ddpcrPlate} object.}

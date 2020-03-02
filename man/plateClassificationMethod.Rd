@@ -19,7 +19,8 @@ plateClassificationMethod(theObject)
 
 plateClassificationMethod(theObject, cMethod) <- value
 
-\S4method{plateClassificationMethod}{ddpcrPlate}(theObject, cMethod) <- value
+\S4method{plateClassificationMethod}{ddpcrPlate}(theObject,
+  cMethod) <- value
 
 commonClassificationMethod(theObject)
 
@@ -28,29 +29,29 @@ commonClassificationMethod(theObject)
 \arguments{
 \item{theObject}{A \code{\link{ddpcrPlate}} object.}
 
-\item{cMethod}{This should represent existing classification method(s) for 
+\item{cMethod}{This should represent existing classification method(s) for
 all wells in \code{theObject}. It can be given in the form of a:
 \itemize{
-  \item Character vector. If this vector is shorter than the length of 
+  \item Character vector. If this vector is shorter than the length of
   \code{wells}, this vector's elements will be repeated.
   \item List of character vectors.
 }}
 
-\item{value}{New classification method(s) in the same form as 
+\item{value}{New classification method(s) in the same form as
 \code{cMethod}.}
 }
 \value{
-\code{plateClassificationMethod} returns a list of character strings 
+\code{plateClassificationMethod} returns a list of character strings
 corresponding to the classification methods.
 
-\code{commonClassificationMethod} returns a vector of character 
+\code{commonClassificationMethod} returns a vector of character
 strings indicating which classification methods appear in all wells.
 }
 \description{
-\code{plateClassificationMethod} retrieves multiple classification methods 
+\code{plateClassificationMethod} retrieves multiple classification methods
 that have been assigned to a \code{ddpcrPlate} object.
 
-\code{commonClassificationMethod} retrieves the classification 
+\code{commonClassificationMethod} retrieves the classification
 methods common to all the wells in the given \code{ddpcrPlate} object.
 }
 \examples{

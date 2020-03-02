@@ -7,20 +7,20 @@
 classStats(droplets, classCol = "class")
 }
 \arguments{
-\item{droplets}{A data frame of droplets with \code{Ch1.Amplitude} and 
-\code{Ch2.Amplitude} columns, as well as a class column (see the parameter 
+\item{droplets}{A data frame of droplets with \code{Ch1.Amplitude} and
+\code{Ch2.Amplitude} columns, as well as a class column (see the parameter
 \code{classCol}).}
 
-\item{classCol}{The column (name or number) from \code{droplets} 
+\item{classCol}{The column (name or number) from \code{droplets}
 representing the class.}
 }
 \value{
-A list (grouped by class name) of lists with keys \code{mean}, 
-\code{cov} and \code{cov.inv}. If \code{cov} is a singular matrix, then 
+A list (grouped by class name) of lists with keys \code{mean},
+\code{cov} and \code{cov.inv}. If \code{cov} is a singular matrix, then
 \code{cov.inv} will be \code{NULL}.
 }
 \description{
-This function gives the mean, covariance and inverse of the covariance for 
+This function gives the mean, covariance and inverse of the covariance for
 each of the classes.
 }
 \examples{

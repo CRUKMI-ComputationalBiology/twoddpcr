@@ -9,19 +9,20 @@
 \alias{facetPlot,ddpcrPlate-method}
 \title{Draw each of the individual wells in a ddPCR experiment.}
 \usage{
-facetPlot(droplets, ch1Label = "Ch1 Amplitude", ch2Label = "Ch2 Amplitude",
-  cMethod = NULL, binwidth = 100, pointSize = 0.1, plotLimits = list(x =
-  c(1000, 9000), y = c(3000, 13500)), showEmptyWells = FALSE)
+facetPlot(droplets, ch1Label = "Ch1 Amplitude",
+  ch2Label = "Ch2 Amplitude", cMethod = NULL, binwidth = 100,
+  pointSize = 0.1, plotLimits = list(x = c(1000, 9000), y = c(3000,
+  13500)), showEmptyWells = FALSE)
 
 \S4method{facetPlot}{data.frame}(droplets, ch1Label = "Ch1 Amplitude",
   ch2Label = "Ch2 Amplitude", cMethod = NULL, binwidth = 100,
-  pointSize = 0.1, plotLimits = list(x = c(1000, 9000), y = c(3000, 13500)),
-  showEmptyWells = FALSE)
+  pointSize = 0.1, plotLimits = list(x = c(1000, 9000), y = c(3000,
+  13500)), showEmptyWells = FALSE)
 
 \S4method{facetPlot}{ddpcrPlate}(droplets, ch1Label = "Ch1 Amplitude",
   ch2Label = "Ch2 Amplitude", cMethod = NULL, binwidth = 100,
-  pointSize = 0.1, plotLimits = list(x = c(1000, 9000), y = c(3000, 13500)),
-  showEmptyWells = FALSE)
+  pointSize = 0.1, plotLimits = list(x = c(1000, 9000), y = c(3000,
+  13500)), showEmptyWells = FALSE)
 }
 \arguments{
 \item{droplets}{A \code{ddpcrPlate} object or a data frame of droplet 

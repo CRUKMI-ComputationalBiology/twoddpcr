@@ -29,7 +29,7 @@ ddpcrPlate(wells)
 \itemize{
   \item a list of \code{\link{ddpcrWell}} objects,
   \item a list of data frames of droplet amplitudes, or
-  \item a character vector corresponding to a file path(s) containing CSV 
+  \item a character vector corresponding to a file path(s) containing CSV
   files of raw droplet amplitude data.
 }}
 
@@ -44,11 +44,11 @@ An S4 class for multiple wells in a ddPCR experiment.
 The constructor for the \code{ddpcrPlate} class.
 }
 \examples{
-## A \\code{ddpcrPlate} object can be created from data from a list of data 
+## A \\code{ddpcrPlate} object can be created from data from a list of data
 ## frames.
 ddpcrPlate(KRASdata)
 
-## A directory (or individual files) of droplet amplitude CSVs can also be 
+## A directory (or individual files) of droplet amplitude CSVs can also be
 ## loaded.
 moreAmpsDir <- system.file("extdata", "more-amplitudes", package="twoddpcr")
 ddpcrPlate(moreAmpsDir)

@@ -26,46 +26,46 @@ plateClassification(theObject, cMethod) <- value
 \arguments{
 \item{theObject}{A \code{\link{ddpcrPlate}} object.}
 
-\item{cMethod}{This is the name of the classification to retrieve and should 
-be a character vector. If \code{NULL}, then all of the classifications are 
+\item{cMethod}{This is the name of the classification to retrieve and should
+be a character vector. If \code{NULL}, then all of the classifications are
 obtained. Defaults to \code{NULL}.}
 
-\item{withAmplitudes}{If \code{TRUE}, the droplet amplitudes are included. 
+\item{withAmplitudes}{If \code{TRUE}, the droplet amplitudes are included.
 Defaults to \code{FALSE}.}
 
-\item{wellCol}{If \code{TRUE}, an additional column is included in the 
-output, where each entry is the name of the well from which the droplet 
-originated. In this case, this setting forces the \code{withAmplitudes} 
+\item{wellCol}{If \code{TRUE}, an additional column is included in the
+output, where each entry is the name of the well from which the droplet
+originated. In this case, this setting forces the \code{withAmplitudes}
 parameter to \code{TRUE}. Defaults to \code{FALSE}.}
 
 \item{value}{Either:
 \itemize{
-  \item A list of factors, where each item of the list corresponds to 
+  \item A list of factors, where each item of the list corresponds to
   a well;
-  \item A single factor corresponding to all of the wells combined. This 
-  should be ordered by the order of the output of the 
-  \code{\link{amplitudes}} function when the rows of the data frames have 
-  been bound together, i.e. with \code{do.call(rbind, 
+  \item A single factor corresponding to all of the wells combined. This
+  should be ordered by the order of the output of the
+  \code{\link{amplitudes}} function when the rows of the data frames have
+  been bound together, i.e. with \code{do.call(rbind,
   amplitudes(theObject))}.
 }}
 }
 \value{
-If requesting one classification without the amplitudes, a list of 
-factors corresponding to the classifications is returned. Otherwise, a list 
-of data frames is returned where each row corresponds to a droplet in the 
+If requesting one classification without the amplitudes, a list of
+factors corresponding to the classifications is returned. Otherwise, a list
+of data frames is returned where each row corresponds to a droplet in the
 corresponding well.
 }
 \description{
-Retrieve multiple classification factors that have been assigned to 
+Retrieve multiple classification factors that have been assigned to
 a \code{ddpcrPlate} object.
 }
 \examples{
-### The examples here show how this method works by setting classifications 
+### The examples here show how this method works by setting classifications
 ### using data frames. To do this, we use the
 ### \\code{\\link{thresholdClassify}} method on _data frames_. Note that
 ### \\code{thresholdClassify} also works directly on \\code{ddpcrWell} and
 ### \\code{ddpcrPlate} objects; this is simply an illustration of
-### how to use the \\code{plateClassification} method directly. In general, 
+### how to use the \\code{plateClassification} method directly. In general,
 ### it is recommended to use \\code{thresholdClassify} directly on
 ### \\code{ddpcrPlate} objects.
 

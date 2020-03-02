@@ -9,9 +9,10 @@
 \title{Plot droplet amplitudes with all droplets classified as "N/A" (or 
 a chosen class).}
 \usage{
-flatPlot(droplets, ch1Label = "Ch1 Amplitude", ch2Label = "Ch2 Amplitude",
-  classString = ddpcr$na, initialCentres = NULL, selectedCentre = NULL,
-  plotLimits = list(x = c(1000, 9000), y = c(3000, 13500)))
+flatPlot(droplets, ch1Label = "Ch1 Amplitude",
+  ch2Label = "Ch2 Amplitude", classString = ddpcr$na,
+  initialCentres = NULL, selectedCentre = NULL, plotLimits = list(x =
+  c(1000, 9000), y = c(3000, 13500)))
 
 \S4method{flatPlot}{data.frame}(droplets, ch1Label = "Ch1 Amplitude",
   ch2Label = "Ch2 Amplitude", classString = ddpcr$na,

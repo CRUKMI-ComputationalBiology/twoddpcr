@@ -35,7 +35,7 @@ Imports:
     S4Vectors
 License: GPL-3
 LazyData: true
-RoxygenNote: 6.0.1
+RoxygenNote: 6.1.1
 Collate:
     'KRAScounts.R'
     'KRASdata.R'

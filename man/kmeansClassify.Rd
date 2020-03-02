@@ -9,14 +9,15 @@
 \title{K-means classify the wells in a \code{ddpcrWell} or 
 \code{ddpcrPlate} object, or in a data frame.}
 \usage{
-kmeansClassify(droplets, centres = matrix(c(0, 0, 10000, 0, 0, 7000, 10000,
-  7000), ncol = 2, byrow = TRUE), ...)
+kmeansClassify(droplets, centres = matrix(c(0, 0, 10000, 0, 0, 7000,
+  10000, 7000), ncol = 2, byrow = TRUE), ...)
 
 \S4method{kmeansClassify}{data.frame}(droplets, centres = matrix(c(0, 0,
-  10000, 0, 0, 7000, 10000, 7000), ncol = 2, byrow = TRUE), fullTable = TRUE)
+  10000, 0, 0, 7000, 10000, 7000), ncol = 2, byrow = TRUE),
+  fullTable = TRUE)
 
-\S4method{kmeansClassify}{ddpcrWell}(droplets, centres = matrix(c(0, 0, 10000,
-  0, 0, 7000, 10000, 7000), ncol = 2, byrow = TRUE))
+\S4method{kmeansClassify}{ddpcrWell}(droplets, centres = matrix(c(0, 0,
+  10000, 0, 0, 7000, 10000, 7000), ncol = 2, byrow = TRUE))
 
 \S4method{kmeansClassify}{ddpcrPlate}(droplets, centres = matrix(c(0, 0,
   10000, 0, 0, 7000, 10000, 7000), ncol = 2, byrow = TRUE))
