@@ -5,8 +5,12 @@
 \title{Normalise all wells in a plate to the overall/average cluster
 positions.}
 \usage{
-renormalisePlate(plate, initialCentres = matrix(c(0, 0, 10000, 0, 0,
-  7000, 10000, 7000), ncol = 2, byrow = TRUE), minSeparation = 2000)
+renormalisePlate(
+  plate,
+  initialCentres = matrix(c(0, 0, 10000, 0, 0, 7000, 10000, 7000), ncol = 2, byrow =
+    TRUE),
+  minSeparation = 2000
+)
 }
 \arguments{
 \item{plate}{A \code{ddpcrPlate} object.}

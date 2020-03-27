@@ -4,8 +4,15 @@
 \alias{fullCountsSummary}
 \title{Take a data frame and compute the abundance of molecules.}
 \usage{
-fullCountsSummary(df, ch1Label = "Mt", ch2Label = "Wt", rows = NULL,
-  rowID = NULL, keepCols = NULL, keepColNames = NULL)
+fullCountsSummary(
+  df,
+  ch1Label = "Mt",
+  ch2Label = "Wt",
+  rows = NULL,
+  rowID = NULL,
+  keepCols = NULL,
+  keepColNames = NULL
+)
 }
 \arguments{
 \item{df}{A data frame with droplet count columns in one of the following 

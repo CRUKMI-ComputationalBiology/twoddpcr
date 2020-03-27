@@ -4,7 +4,9 @@
 \name{shinyVis}
 \alias{shinyVis}
 \title{A Shiny environment.}
-\format{An object of class \code{environment} of length 3.}
+\format{
+An object of class \code{environment} of length 3.
+}
 \usage{
 shinyVis
 }

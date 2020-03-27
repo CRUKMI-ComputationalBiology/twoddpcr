@@ -4,8 +4,10 @@
 \name{KRASdata}
 \alias{KRASdata}
 \title{Droplet amplitude data for KRAS mutant and wild type molecules.}
-\format{A list of data frames, each of which has columns 
-\code{Ch1.Amplitude}, \code{Ch2.Amplitude} and \code{Cluster}.}
+\format{
+A list of data frames, each of which has columns 
+\code{Ch1.Amplitude}, \code{Ch2.Amplitude} and \code{Cluster}.
+}
 \usage{
 data(KRASdata)
 }

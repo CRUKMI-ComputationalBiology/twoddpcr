@@ -44,7 +44,7 @@ An S4 class for multiple wells in a ddPCR experiment.
 The constructor for the \code{ddpcrPlate} class.
 }
 \examples{
-## A \\code{ddpcrPlate} object can be created from data from a list of data
+## A \code{ddpcrPlate} object can be created from data from a list of data
 ## frames.
 ddpcrPlate(KRASdata)
 

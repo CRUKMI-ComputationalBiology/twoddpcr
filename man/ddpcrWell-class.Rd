@@ -53,7 +53,7 @@ well.}
 }}
 
 \examples{
-## A \\code{ddpcrWell} object can be created from data from a list of data
+## A \code{ddpcrWell} object can be created from data from a list of data
 ## frames.
 ddpcrWell(KRASdata[[1]])
 

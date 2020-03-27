@@ -6,7 +6,13 @@
 \alias{KRAScountsWellCol}
 \alias{KRAScountsQS}
 \title{KRAS mutant and wild type droplet counts and Poisson estimates.}
-\format{A data frame where each row corresponds to a well/sample.}
+\format{
+A data frame where each row corresponds to a well/sample.
+
+An object of class \code{data.frame} with 12 rows and 18 columns.
+
+An object of class \code{data.frame} with 24 rows and 63 columns.
+}
 \usage{
 data(KRAScounts)
 

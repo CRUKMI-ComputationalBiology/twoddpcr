@@ -4,8 +4,13 @@
 \alias{parseClusterCounts}
 \title{Retain cluster counts and user-specified columns in data frames.}
 \usage{
-parseClusterCounts(df, rows = NULL, rowID = NULL, keepCols = NULL,
-  keepColNames = NULL)
+parseClusterCounts(
+  df,
+  rows = NULL,
+  rowID = NULL,
+  keepCols = NULL,
+  keepColNames = NULL
+)
 }
 \arguments{
 \item{df}{A data frame with droplet count columns in one of the following 

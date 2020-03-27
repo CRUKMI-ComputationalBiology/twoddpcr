@@ -4,7 +4,9 @@
 \name{ddpcr}
 \alias{ddpcr}
 \title{An environment for package variables.}
-\format{An object of class \code{environment} of length 10.}
+\format{
+An object of class \code{environment} of length 10.
+}
 \usage{
 ddpcr
 }
