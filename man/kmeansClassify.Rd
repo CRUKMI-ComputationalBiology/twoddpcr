@@ -5,7 +5,7 @@
 \alias{kmeansClassify,data.frame-method}
 \alias{kmeansClassify,ddpcrWell-method}
 \alias{kmeansClassify,ddpcrPlate-method}
-\title{K-means classify the wells in a \code{ddpcrWell} or 
+\title{K-means classify the wells in a \code{ddpcrWell} or
 \code{ddpcrPlate} object, or in a data frame.}
 \usage{
 kmeansClassify(
@@ -31,44 +31,44 @@ kmeansClassify(
 )
 }
 \arguments{
-\item{droplets}{A \code{\link{ddpcrWell}} or \code{\link{ddpcrPlate}} 
-object, or a data frame with columns \code{Ch1.Amplitude} and 
+\item{droplets}{A \code{\link{ddpcrWell}} or \code{\link{ddpcrPlate}}
+object, or a data frame with columns \code{Ch1.Amplitude} and
 \code{Ch2.Amplitude}.}
 
 \item{centres}{Either:
 \itemize{
-  \item A matrix corresponding to the initial centres to use for the k-means 
+  \item A matrix corresponding to the initial centres to use for the k-means
   algorithm; or
-  \item An integer corresponding to the number of clusters. If this is set, 
+  \item An integer corresponding to the number of clusters. If this is set,
   the initial centres are randomly set.
 }
-Defaults to \code{matrix(c(0, 0, 10000, 0, 0, 7000, 10000, 7000), ncol=2, 
+Defaults to \code{matrix(c(0, 0, 10000, 0, 0, 7000, 10000, 7000), ncol=2,
 byrow=TRUE)}}
 
 \item{...}{Other options depending on the type of \code{droplets}.}
 
-\item{fullTable}{If \code{TRUE}, returns a full data frame of droplets and 
-their classification; if \code{FALSE}, simply returns a factor corresponding 
+\item{fullTable}{If \code{TRUE}, returns a full data frame of droplets and
+their classification; if \code{FALSE}, simply returns a factor corresponding
 to this classification. Defaults to \code{TRUE}.}
 }
 \value{
 An object with the new classification.
 
-If \code{droplets} is a data frame, a list is returned with the 
+If \code{droplets} is a data frame, a list is returned with the
 following components:
   \item{data}{A data frame or vector corresponding to the classification.}
-  \item{centres}{A data frame listing the final centre points from the 
+  \item{centres}{A data frame listing the final centre points from the
   k-means algorithm with the corresponding cluster labels.}
 }
 \description{
-If \code{droplets} is a data frame, the droplets are classified 
+If \code{droplets} is a data frame, the droplets are classified
 using the k-means clustering algorithm.
 
-For \code{ddpcrWell}, the droplets are classified by using the 
+For \code{ddpcrWell}, the droplets are classified by using the
 k-means clustering algorithm.
 
-For \code{ddpcrPlate}, all of the wells are combined and 
-classified, with this new classification assigned to the 
+For \code{ddpcrPlate}, all of the wells are combined and
+classified, with this new classification assigned to the
 \code{ddpcrPlate} object.
 }
 \examples{
@@ -88,7 +88,7 @@ head(aWell$data)
 
 ## We can be more specific with the choice of centres.
 aWell <- kmeansClassify(KRASdata[["H04"]],
-                       centres=matrix(c(5000, 1500, 5500, 7000, 10000, 
+                       centres=matrix(c(5000, 1500, 5500, 7000, 10000,
                                         2000), ncol=2, byrow=TRUE))
 
 ## We can use \code{ddpcrWell} objects directly as a parameter.
@@ -104,11 +104,11 @@ kmeansClassify(krasPlate)
 \seealso{
 This method uses the \code{\link[stats]{kmeans}} function.
 
-To manually set and retrieve classifications, use the 
+To manually set and retrieve classifications, use the
 \code{\link{wellClassification}}, \code{\link{plateClassification}} and
 \code{\link{plateClassificationMethod}} methods.
 
-For a supervised classification approach, one may want to consider 
+For a supervised classification approach, one may want to consider
 \code{\link{knnClassify}}.
 }
 \author{

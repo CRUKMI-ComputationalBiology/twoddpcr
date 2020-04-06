@@ -9,18 +9,18 @@ relabelClasses(droplets, classCol = "class", presentClasses = ddpcr$classes)
 \arguments{
 \item{droplets}{A data frame of droplet amplitudes with a classification.}
 
-\item{classCol}{The column (name or number) from 'droplets' representing 
+\item{classCol}{The column (name or number) from 'droplets' representing
 the class.}
 
-\item{presentClasses}{A vector of classes that we want to label. Must be 
-a subset of c("NN", "NP", "PN", "PP") and must have the same number of 
+\item{presentClasses}{A vector of classes that we want to label. Must be
+a subset of c("NN", "NP", "PN", "PP") and must have the same number of
 classes as the number of unique classes in the class column.}
 }
 \value{
 The classification column relabelled with "NN", "NP", "PN" and "PP".
 }
 \description{
-An attempt to label clusters with "NN", "NP", "PN" or "PP" automatically. 
+An attempt to label clusters with "NN", "NP", "PN" or "PP" automatically.
 (This will not generalise to amplitudes in only a single channel.)
 }
 \examples{
@@ -34,7 +34,7 @@ str(relabelled)
 levels(relabelled)
 
 ## We choose a sample with 3 clusters.
-unique(KRASdata[["H04"]]$Cluster) 
+unique(KRASdata[["H04"]]$Cluster)
 
 ## We can check that there is no "PP" class, so specify the others only.
 relabelled <- relabelClasses(KRASdata[["H04"]], classCol="Cluster",

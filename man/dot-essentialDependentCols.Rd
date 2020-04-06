@@ -7,14 +7,14 @@
 .essentialDependentCols(prefix = "")
 }
 \arguments{
-\item{prefix}{A string to prepend to each of the essential column names. 
+\item{prefix}{A string to prepend to each of the essential column names.
 Defaults to \code{""} (the empty string).}
 }
 \value{
 A vector of essential column names with an optional prefix.
 }
 \description{
-Get a list of the essential columns in the ddPCR data that depend on the 
+Get a list of the essential columns in the ddPCR data that depend on the
 target (e.g. mutant or wild type).
 }
 \author{

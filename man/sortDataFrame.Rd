@@ -9,16 +9,16 @@ sortDataFrame(df, sortByLetter = FALSE)
 \arguments{
 \item{df}{A data frame with row names of the form A01, A02, B01, etc.}
 
-\item{sortByLetter}{If \code{TRUE}, the resulting list is sorted by the 
-letter in the well names first, e.g. "A02" comes before "B01". If 
-\code{FALSE}, the result is sorted by the numeric component of the well 
+\item{sortByLetter}{If \code{TRUE}, the resulting list is sorted by the
+letter in the well names first, e.g. "A02" comes before "B01". If
+\code{FALSE}, the result is sorted by the numeric component of the well
 names first, e.g. "B01" comes before "A02". Defaults to \code{FALSE}.}
 }
 \value{
 The data frame \code{df} with the rows sorted.
 }
 \description{
-Well names can be sorted according to the leading letter or the trailing 
+Well names can be sorted according to the leading letter or the trailing
 digit.
 }
 \examples{

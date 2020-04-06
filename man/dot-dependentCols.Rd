@@ -7,15 +7,15 @@
 .dependentCols(prefix = "")
 }
 \arguments{
-\item{prefix}{A string to prepend to each of the column names. Defaults to 
+\item{prefix}{A string to prepend to each of the column names. Defaults to
 \code{""} (the empty string).}
 }
 \value{
 A vector of column names with an optional prefix.
 }
 \description{
-Get a list of the columns in the ddPCR data that depend on the target (e.g. 
-mutant or wild type). This includes columns that cannot be calculated from 
+Get a list of the columns in the ddPCR data that depend on the target (e.g.
+mutant or wild type). This includes columns that cannot be calculated from
 the very basic droplet counts.
 }
 \author{

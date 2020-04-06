@@ -23,24 +23,21 @@ NULL
 #' @importFrom stats dist
 
 .classifyDfOnChannel <- function(df, channel, centres=NULL,
-                                 minSeparation=2000, fullTable=TRUE)
-{
+                                 minSeparation=2000, fullTable=TRUE) {
   # K-means classify with two clusters.
   km <- kmeansClassify(df, centres=centres, fullTable=fullTable)
 
   # If the cluster centres are too close, reject the classification
   # and use the original one.
-  if(dist(km$centres[, channel]) >= minSeparation)
+  if(dist(km$centres[, channel]) >= minSeparation) {
     km$data
-  else
-  {
-    if(fullTable)
-    {
+  } else {
+    if(fullTable) {
       colnames(df)[3] <- "class"
       df
-    }
-    else
+    } else {
       df$kmeans
+    }
   }
 }
 
@@ -65,17 +62,12 @@ NULL
 #' @author Anthony Chiu, \email{anthony.chiu@cruk.manchester.ac.uk}
 
 .classifyOnChannel <- function(cl, channel, centres=NULL, minSeparation=2000,
-                               fullTable=TRUE)
-{
-  if(is.null(centres))
-  {
-    if(channel == 1)
-    {
+                               fullTable=TRUE) {
+  if(is.null(centres)) {
+    if(channel == 1) {
       centres <- data.frame(Ch1.Amplitude=c(0, 10000), Ch2.Amplitude=c(0, 0))
       rownames(centres) <- c("NN", "PN")
-    }
-    else if(channel == 2)
-    {
+    } else if(channel == 2) {
       centres <- data.frame(Ch1.Amplitude=c(0, 0), Ch2.Amplitude=c(0, 7000))
       rownames(centres) <- c("NN", "NP")
     }
@@ -101,37 +93,36 @@ NULL
 #' @author Anthony Chiu, \email{anthony.chiu@cruk.manchester.ac.uk}
 
 .renormaliseByChannel <- function(wellDf, combinedCentres, wellCentres,
-                                  channel)
-{
-  if(!channel %in% c(1, 2))
+                                  channel) {
+  if(!channel %in% c(1, 2)) {
     stop("The parameter 'channel' should be 1 or 2.")
+  }
 
   # Select the well.
   s <- wellDf
 
   # Positive and negative cluster labels.
   n <- ddpcr$nn
-  if(channel == 1)
-  {
+  if(channel == 1) {
     ch <- "Ch1.Amplitude"
     p <- ddpcr$pn
-  }
-  else if(channel == 2)
-  {
+  } else if(channel == 2) {
     ch <- "Ch2.Amplitude"
     p <- ddpcr$np
   }
 
   # Set transformation factors if they don't exist.
-  if(is.na(wellCentres[n, ch]))
+  if(is.na(wellCentres[n, ch])) {
     wellCentreN <- combinedCentres[n, ch]
-  else
+  } else {
     wellCentreN <- wellCentres[n, ch]
+  }
 
-  if(is.na(wellCentres[p, ch]))
+  if(is.na(wellCentres[p, ch])) {
     wellCentreP <- combinedCentres[p, ch]
-  else
+  } else {
     wellCentreP <- wellCentres[p, ch]
+  }
 
   # Transform.
   translFactor <- wellCentreN
@@ -164,8 +155,7 @@ NULL
 #' @author Anthony Chiu, \email{anthony.chiu@cruk.manchester.ac.uk}
 
 .renormaliseWell <- function(allDf, well, combinedCentres,
-                             indivCentres1, indivCentres2)
-{
+                             indivCentres1, indivCentres2) {
   s <- allDf[[well]]
   s <- .renormaliseByChannel(s, combinedCentres, indivCentres2[[well]],
                              channel=2)
@@ -190,14 +180,14 @@ NULL
 #'
 #' @author Anthony Chiu, \email{anthony.chiu@cruk.manchester.ac.uk}
 
-.getChannelCentres <- function(plate, cMethod, channel, minSeparation=2000)
-{
-  if(channel == 1)
+.getChannelCentres <- function(plate, cMethod, channel, minSeparation=2000) {
+  if(channel == 1) {
     toRemove <- c("NP", "PP")
-  else if(channel == 2)
+  } else if(channel == 2) {
     toRemove <- c("PN", "PP")
-  else
+  } else {
     stop("The parameter 'channel' should be 1 or 2.")
+  }
 
   # Remove the unneeded droplets.
   cl <- removeDropletClasses(plate, cMethod=cMethod, classesToRemove=toRemove)
@@ -252,8 +242,7 @@ renormalisePlate <- function(plate,
                              initialCentres=matrix(c(0, 0, 10000, 0,
                                                      0, 7000, 10000, 7000),
                                                    ncol=2, byrow=TRUE),
-                             minSeparation=2000)
-{
+                             minSeparation=2000) {
   # Classify everything first and get the combined centres.
   plate <- kmeansClassify(plate, centres=initialCentres)
   combCentres <- combinedCentres(plate, cMethod="kmeans")
@@ -274,4 +263,3 @@ renormalisePlate <- function(plate,
 
   ddpcrPlate(setNames(normAll, names(clAll)))
 }
-

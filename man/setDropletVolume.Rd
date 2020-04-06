@@ -10,7 +10,7 @@
 setDropletVolume(volume = 0.00085)
 }
 \arguments{
-\item{volume}{The new volume of each droplet. Defaults to 0.00085, which is 
+\item{volume}{The new volume of each droplet. Defaults to 0.00085, which is
 the default given by Bio-Rad.}
 }
 \value{

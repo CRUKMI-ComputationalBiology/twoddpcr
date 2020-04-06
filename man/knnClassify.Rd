@@ -5,7 +5,7 @@
 \alias{knnClassify,data.frame-method}
 \alias{knnClassify,ddpcrWell-method}
 \alias{knnClassify,ddpcrPlate-method}
-\title{Use the k-nearest neighbour algorithm to classify the wells in 
+\title{Use the k-nearest neighbour algorithm to classify the wells in
 a \code{ddpcrWell} or \code{ddpcrPlate} object, or in a data frame.}
 \usage{
 knnClassify(droplets, trainData, cl, k, prob = 0, ...)
@@ -17,45 +17,45 @@ knnClassify(droplets, trainData, cl, k, prob = 0, ...)
 \S4method{knnClassify}{ddpcrPlate}(droplets, trainData, cl, k, prob = 0)
 }
 \arguments{
-\item{droplets}{A \code{\link{ddpcrWell}} or \code{\link{ddpcrPlate}} 
-object, or a data frame with columns \code{Ch1.Amplitude} and 
+\item{droplets}{A \code{\link{ddpcrWell}} or \code{\link{ddpcrPlate}}
+object, or a data frame with columns \code{Ch1.Amplitude} and
 \code{Ch2.Amplitude}.}
 
-\item{trainData}{A data frame of training data with columns 
+\item{trainData}{A data frame of training data with columns
 \code{Ch1.Amplitude} and \code{Ch2.Amplitude}.}
 
 \item{cl}{A vector of classes corresponding to \code{trainData}.}
 
 \item{k}{The number of nearest neighbours to use in the algorithm.}
 
-\item{prob}{The minimal proportion of votes for the winning class needed to 
-assert that a droplet belongs to the class. This figure should be a float 
-between 0 and 1. For example, if 0.6 then at least 60% of a droplet's 
-k-nearest neighbours need to be of one class, otherwise it is classified as 
+\item{prob}{The minimal proportion of votes for the winning class needed to
+assert that a droplet belongs to the class. This figure should be a float
+between 0 and 1. For example, if 0.6 then at least 60% of a droplet's
+k-nearest neighbours need to be of one class, otherwise it is classified as
 "Rain". Defaults to 0, i.e. we do not use "Rain".}
 
 \item{...}{Other options depending on the type of \code{droplets}.}
 
-\item{fullTable}{If \code{TRUE}, returns a full data frame of droplets and 
-their classification; if \code{FALSE}, simply returns the classified vector. 
+\item{fullTable}{If \code{TRUE}, returns a full data frame of droplets and
+their classification; if \code{FALSE}, simply returns the classified vector.
 Defaults to \code{TRUE}.}
 }
 \value{
 An object with the new classification.
 
-If \code{droplets} is a data frame, return data frame or factor 
-(depending on the value of \code{fullTable}) of the droplet classification 
+If \code{droplets} is a data frame, return data frame or factor
+(depending on the value of \code{fullTable}) of the droplet classification
 under the k-NN algorithm.
 }
 \description{
-If \code{droplets} is a data frame, the droplets are classified 
+If \code{droplets} is a data frame, the droplets are classified
 using the k-nearest neighbour algorithm against a training data set.
 
-If \code{droplets} is a \code{ddpcrWell} object, the droplets 
+If \code{droplets} is a \code{ddpcrWell} object, the droplets
 in the well are classified and returned in another \code{ddpcrWell} object.
 
-If \code{droplets} is a \code{ddpcrPlate} object, the 
-wells are combined and classified together, with the resulting 
+If \code{droplets} is a \code{ddpcrPlate} object, the
+wells are combined and classified together, with the resulting
 classification assigned to the \code{ddpcrPlate} object.
 }
 \examples{
@@ -99,11 +99,11 @@ dropletPlot(krasPlate, cMethod="knn")  # visualising the classification
 \seealso{
 This method uses the \code{\link[class]{knn}} function.
 
-To manually set and retrieve classifications, use the 
+To manually set and retrieve classifications, use the
 \code{\link{wellClassification}}, \code{\link{plateClassification}} and
 \code{\link{plateClassificationMethod}} methods.
 
-\code{kmeansClassify} provides a wrapper for the k-means clustering 
+\code{kmeansClassify} provides a wrapper for the k-means clustering
 algorithm.
 }
 \author{

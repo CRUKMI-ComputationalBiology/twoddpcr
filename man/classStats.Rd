@@ -34,9 +34,6 @@ aWell <- KRASdata[["H04"]]
 aWell$Cluster <- relabelClasses(aWell, classCol="Cluster")
 classStats(aWell, classCol="Cluster")
 
-
-
-
 }
 \author{
 Anthony Chiu, \email{anthony.chiu@cruk.manchester.ac.uk}

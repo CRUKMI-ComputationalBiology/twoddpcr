@@ -64,75 +64,75 @@ gridClassify(
 )
 }
 \arguments{
-\item{droplets}{A \code{\link{ddpcrWell}} object or a data frame of droplet 
+\item{droplets}{A \code{\link{ddpcrWell}} object or a data frame of droplet
 amplitudes with columns \code{Ch1.Amplitude} and \code{Ch2.Amplitude}.}
 
-\item{ch1NNThreshold}{The channel 1 upper bound for the NN class. Defaults 
+\item{ch1NNThreshold}{The channel 1 upper bound for the NN class. Defaults
 to 6500.}
 
-\item{ch2NNThreshold}{The channel 2 upper bound for the NN class. Defaults 
+\item{ch2NNThreshold}{The channel 2 upper bound for the NN class. Defaults
 to 1900.}
 
-\item{ch1NPThreshold}{The channel 1 upper bound for the NP class. Defaults 
+\item{ch1NPThreshold}{The channel 1 upper bound for the NP class. Defaults
 to 6500.}
 
-\item{ch2NPThreshold}{The channel 2 lower bound for the NP class. Defaults 
+\item{ch2NPThreshold}{The channel 2 lower bound for the NP class. Defaults
 to 5000.}
 
-\item{ch1PNThreshold}{The channel 1 lower bound for the PN class. Defaults 
+\item{ch1PNThreshold}{The channel 1 lower bound for the PN class. Defaults
 to 10000.}
 
-\item{ch2PNThreshold}{The channel 2 upper bound for the PN class. Defaults 
+\item{ch2PNThreshold}{The channel 2 upper bound for the PN class. Defaults
 to 2900.}
 
-\item{ch1PPThreshold}{The channel 1 lower bound for the PP class. Defaults 
+\item{ch1PPThreshold}{The channel 1 lower bound for the PP class. Defaults
 to 7500.}
 
-\item{ch2PPThreshold}{The channel 2 lower bound for the PP class. Defaults 
+\item{ch2PPThreshold}{The channel 2 lower bound for the PP class. Defaults
 to 5000.}
 
 \item{...}{Other options depending on the type of \code{droplets}.}
 
-\item{trainingData}{Whether to use the output as training data. If 
-\code{TRUE}, returns the _full table_ with the "N/A" entries removed; if 
-\code{FALSE}, the "N/A" entries are retained. Taken to be \code{FALSE} if 
-\code{fullTable} is set to \code{FALSE}. Defaults to \code{TRUE}. Ignored 
+\item{trainingData}{Whether to use the output as training data. If
+\code{TRUE}, returns the _full table_ with the "N/A" entries removed; if
+\code{FALSE}, the "N/A" entries are retained. Taken to be \code{FALSE} if
+\code{fullTable} is set to \code{FALSE}. Defaults to \code{TRUE}. Ignored
 if \code{droplets} is not a data frame.}
 
-\item{fullTable}{Whether to return a data frame including amplitude 
-figures. If \code{TRUE}, a data frame with columns \code{Ch1.Amplitude}, 
-\code{Ch1.Amplitude} and \code{class} is returned. If \code{FALSE}, a factor 
-with levels in \code{ddpcr$classesRain} is returned, where each entry 
-corresponds to each row in \code{droplets} (and \code{trainingData} is 
-automatically set to \code{FALSE}). Defaults to \code{TRUE}. Ignored if 
+\item{fullTable}{Whether to return a data frame including amplitude
+figures. If \code{TRUE}, a data frame with columns \code{Ch1.Amplitude},
+\code{Ch1.Amplitude} and \code{class} is returned. If \code{FALSE}, a factor
+with levels in \code{ddpcr$classesRain} is returned, where each entry
+corresponds to each row in \code{droplets} (and \code{trainingData} is
+automatically set to \code{FALSE}). Defaults to \code{TRUE}. Ignored if
 \code{droplets} is not a data frame.}
 
-\item{naLabel}{The label to use for unclassified droplets. Should be either 
+\item{naLabel}{The label to use for unclassified droplets. Should be either
 ddpcr$na ("N/A") or ddpcr$rain ("Rain"). Defaults to ddpcr$rain.}
 
-\item{classMethodLabel}{A name (as a character string) of the classification 
+\item{classMethodLabel}{A name (as a character string) of the classification
 method. Defaults to "grid".}
 }
 \value{
-If \code{droplets} is a data frame, return a data frame or factor 
-(depending on the \code{trainingData} and \code{fullTable} parameters) with 
+If \code{droplets} is a data frame, return a data frame or factor
+(depending on the \code{trainingData} and \code{fullTable} parameters) with
 a classification for droplets in the chosen regions.
 
-If \code{droplets} is a \code{ddpcrWell} object, return 
+If \code{droplets} is a \code{ddpcrWell} object, return
 a \code{ddpcrWell} object with the appropriate classification.
 
-If \code{droplets} is a \code{ddpcrPlate} object, return 
+If \code{droplets} is a \code{ddpcrPlate} object, return
 a \code{ddpcrPlate} object with the appropriate classification.
 }
 \description{
-Classify droplets as "NN", "NP", "PN" or "PP". The 
-classification is based on upper bounds for negative readings and lower 
-bounds for positive readings; see the details and parameters for more 
-detail. If required (see the \code{trainingData} parameter), droplets that 
+Classify droplets as "NN", "NP", "PN" or "PP". The
+classification is based on upper bounds for negative readings and lower
+bounds for positive readings; see the details and parameters for more
+detail. If required (see the \code{trainingData} parameter), droplets that
 are not classified will be given the label "N/A".
 }
 \details{
-The \code{threshold} parameters correspond to those in the 
+The \code{threshold} parameters correspond to those in the
 following diagram:
 \preformatted{Ch1 ^        |  |
     |        |  |
@@ -204,7 +204,7 @@ lapply(plateClassification(krasPlate, withAmplitudes=TRUE), head, n=1)
 function.
 
 \code{\link{removeDropletClasses}} retrieves a data frame with the
-"N/A" (and "Rain") droplets removed. This can used for transforming 
+"N/A" (and "Rain") droplets removed. This can used for transforming
 a grid-like classification into usable training data.
 }
 \author{

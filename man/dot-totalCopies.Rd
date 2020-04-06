@@ -13,7 +13,7 @@
 A vector listing the total numbers of copies per 20ul well.
 }
 \description{
-Get the total number of copies of mutant and wild type molecules in a 20ul 
+Get the total number of copies of mutant and wild type molecules in a 20ul
 well.
 }
 \author{

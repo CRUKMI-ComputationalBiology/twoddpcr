@@ -1,10 +1,11 @@
 context("Classification means, covariances")
 
+testDir <- system.file("testdata", package = "twoddpcr")
 
 test_that("centres for three clusters are found", {
-  testWell <- ddpcrWell("data/sample_A04_Amplitude.csv")
+  testWell <- ddpcrWell(file.path(testDir, "sample_A04_Amplitude.csv"))
   cl <- wellClassification(testWell, cMethod="Sample", withAmplitudes=TRUE)
-  
+
   centres <- data.frame(c("NN", "NP", "PN"),
                         "Ch1.Amplitude"=c(5015, 5430, 10100),
                         "Ch2.Amplitude"=c(2510, 7060, 2100),
@@ -13,9 +14,9 @@ test_that("centres for three clusters are found", {
 })
 
 test_that("centres for four clusters are found", {
-  testWell <- ddpcrWell("data/sample_A05_Amplitude.csv")
+  testWell <- ddpcrWell(file.path(testDir, "sample_A05_Amplitude.csv"))
   cl <- wellClassification(testWell, cMethod="Sample", withAmplitudes=TRUE)
-  
+
   centres <- data.frame(c("NN", "NP", "PN", "PP"),
                         "Ch1.Amplitude"=c(5020, 5450, 10050, 9050),
                         "Ch2.Amplitude"=c(1520, 7050, 2050, 6050),
@@ -24,9 +25,9 @@ test_that("centres for four clusters are found", {
 })
 
 test_that("centres for four clusters are found (more droplets)", {
-  testWell <- ddpcrWell("data/sample_B03_Amplitude.csv")
+  testWell <- ddpcrWell(file.path(testDir, "sample_B03_Amplitude.csv"))
   cl <- wellClassification(testWell, cMethod="Sample", withAmplitudes=TRUE)
-  
+
   centres <- data.frame(c("NN", "NP", "PN", "PP"),
                         "Ch1.Amplitude"=c((5000 + 5000 + 6800) / 3,
                                           5500, 10000, 9000),
@@ -37,7 +38,7 @@ test_that("centres for four clusters are found (more droplets)", {
 })
 
 test_that("centres for two clusters are found (more droplets)", {
-  testWell <- ddpcrWell("data/sample_B06_Amplitude.csv")
+  testWell <- ddpcrWell(file.path(testDir, "sample_B06_Amplitude.csv"))
   cl <- wellClassification(testWell, cMethod="Sample", withAmplitudes=TRUE)
   centres <-
     data.frame(c("NN", "NP"),
@@ -62,7 +63,7 @@ getDfDiff <- function(x, cl, knownCovs)
 }
 
 test_that("covariances for two clusters are found (more droplets)", {
-  testWell <- ddpcrWell("data/sample_B06_Amplitude.csv")
+  testWell <- ddpcrWell(file.path(testDir, "sample_B06_Amplitude.csv"))
   cl <- wellClassification(testWell, cMethod="Sample", withAmplitudes=TRUE)
   knownCovs <-
     list("NN"=data.frame(c("Ch1.Amplitude", "Ch2.Amplitude"),

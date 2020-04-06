@@ -6,83 +6,82 @@ NULL
 
 #' Plot nothing.
 #'
-#' We may sometimes request that the \code{\link{dropletPlot}} method takes an 
-#' empty data frame as its argument, e.g. an empty CSV file is loaded. This 
-#' normally presents an error, which is not the desired output. This function 
+#' We may sometimes request that the \code{\link{dropletPlot}} method takes an
+#' empty data frame as its argument, e.g. an empty CSV file is loaded. This
+#' normally presents an error, which is not the desired output. This function
 #' plots nothing to show that there was no data to plot.
 #'
-#' @seealso \code{\link{ggplot.well}} and 
-#' \code{\link[=ggplot.well]{ggplot.plate}} are wrappers for plotting 
+#' @seealso \code{\link{ggplot.well}} and
+#' \code{\link[=ggplot.well]{ggplot.plate}} are wrappers for plotting
 #' \code{\link{ddpcrWell}} and \code{\link{ddpcrPlate}} objects.
-#' @seealso If there is at least one droplet, the \code{\link{dropletPlot}} 
+#' @seealso If there is at least one droplet, the \code{\link{dropletPlot}}
 #' method plots droplet amplitude classifications.
 #'
 #' @return A blank \code{ggplot} object.
 #'
 
-drawBlank <- function()
-{
+drawBlank <- function() {
   ggplot() + geom_blank() +
     whiteTheme(legendPosition=c(1, 1), legendJustification=c(1, 1))
 }
 
 
-# Use an S3 generic because the default class for 'droplets' is a 'gg' object, 
+# Use an S3 generic because the default class for 'droplets' is a 'gg' object,
 # which is not an S4 class.
 
-#' @title Plot a droplet classification with a colour-blind palette, optional 
+#' @title Plot a droplet classification with a colour-blind palette, optional
 #' cluster centres and fixed axes.
 #'
-#' @description Plot an object comprising droplet amplitudes and their 
-#' classification. If specified, centres of clusters can be marked, e.g. 
-#' k-means clustering can take a set of centres as the initial centres of the 
-#' algorithm, and the algorithm also outputs the final cluster centres. Limits 
+#' @description Plot an object comprising droplet amplitudes and their
+#' classification. If specified, centres of clusters can be marked, e.g.
+#' k-means clustering can take a set of centres as the initial centres of the
+#' algorithm, and the algorithm also outputs the final cluster centres. Limits
 #' to the axes can also be set for ease of comparison and consistency.
 #'
-#' If a \code{ggplot} object is given as a parameter, this method will simply 
+#' If a \code{ggplot} object is given as a parameter, this method will simply
 #' plot it with the pretty colours, centres and restrictions on the axes.
 #'
-#' @param droplets An object corresponding to droplet amplitudes and their 
+#' @param droplets An object corresponding to droplet amplitudes and their
 #' classifications. This can be in the form of:
 #' \itemize{
-#'   \item A data frame with columns \code{Ch1.Amplitude}, \code{Ch2.Amplitude} 
+#'   \item A data frame with columns \code{Ch1.Amplitude}, \code{Ch2.Amplitude}
 #'   and a classification column (see the parameter \code{cMethod}).
 #'   \item A \code{\link{ddpcrWell}} object.
 #'   \item A \code{\link{ddpcrPlate}} object.
-#'   \item A \code{\link[ggplot2]{ggplot}} (\code{gg}) object. For example, 
-#'   this could be the output of \code{\link[twoddpcr]{ggplot.well}} or 
-#'   \code{\link[=ggplot.well]{ggplot.plate}}. We should not need to use this 
+#'   \item A \code{\link[ggplot2]{ggplot}} (\code{gg}) object. For example,
+#'   this could be the output of \code{\link[twoddpcr]{ggplot.well}} or
+#'   \code{\link[=ggplot.well]{ggplot.plate}}. We should not need to use this
 #'   unless we are writing new methods to plot new data types.
 #' }
-#' @param ch1Label The label for the channel 1 target. Defaults to "Ch1 
+#' @param ch1Label The label for the channel 1 target. Defaults to "Ch1
 #' Amplitude".
-#' @param ch2Label The label for the channel 2 target. Defaults to "Ch2 
+#' @param ch2Label The label for the channel 2 target. Defaults to "Ch2
 #' Amplitude".
-#' @param ... Other plotting parameters that depend on the object type of 
+#' @param ... Other plotting parameters that depend on the object type of
 #' \code{droplets}.
-#' @param cMethod This should be the name or column number of \code{droplets} 
-#' corresponding to the classification. This column should only have entries in 
-#' "NN", "PN", "NP, "PP", "Rain" and "N/A". If "None", plots the droplets with 
+#' @param cMethod This should be the name or column number of \code{droplets}
+#' corresponding to the classification. This column should only have entries in
+#' "NN", "PN", "NP, "PP", "Rain" and "N/A". If "None", plots the droplets with
 #' all of them classified as \code{N/A}. Defaults to "None".
-#' @param mapping A list of aesthetic mappings to use for the plot. Defaults to 
-#' \code{ggplot2::aes_string(x="Ch2.Amplitude", y="Ch1.Amplitude", 
+#' @param mapping A list of aesthetic mappings to use for the plot. Defaults to
+#' \code{ggplot2::aes_string(x="Ch2.Amplitude", y="Ch1.Amplitude",
 #' colours=cMethod)}. Not used if \code{droplets} is a \code{ggplot} object.
 #' @param finalCentres A data frmae of final centres to plot (e.g. those
-#' returned by the k-means or c-means algorithms). If \code{NULL}, nothing is 
+#' returned by the k-means or c-means algorithms). If \code{NULL}, nothing is
 #' plotted. Defaults to \code{NULL}.
 #' @param initialCentres A data frame of initial centres to plot (e.g. initial
-#' cluster centres used in the k-means). If \code{NULL}, nothing is plotted. 
+#' cluster centres used in the k-means). If \code{NULL}, nothing is plotted.
 #' Defaults to \code{NULL}. This parameter is useful for illustrative reasons.
 #' @param selectedCentre An initial centre to highlight. This should be either
-#' "NN", "NP", "PN" or "PP". If \code{NULL}, nothing is highlighted. Defaults 
+#' "NN", "NP", "PN" or "PP". If \code{NULL}, nothing is highlighted. Defaults
 #' to \code{NULL}. This parameter is useful for illustrative reasons.
 #' @param pointSize The size to draw each droplet. Defaults to 1.
-#' @param plotLimits A list of 2-element vectors with names \code{x} and 
-#' \code{y}. These are used to fix the x and y limits of the plot, which is 
-#' especially useful for comparing plots. Defaults to \code{list(x=c(1000, 
+#' @param plotLimits A list of 2-element vectors with names \code{x} and
+#' \code{y}. These are used to fix the x and y limits of the plot, which is
+#' especially useful for comparing plots. Defaults to \code{list(x=c(1000,
 #' 9000), y=c(3000, 13500))}.
-#' @param legendLabels The character vector corresponding to the labels for the 
-#' legend. The elements of the vector should correspond to the NN, NP, PN, PP, 
+#' @param legendLabels The character vector corresponding to the labels for the
+#' legend. The elements of the vector should correspond to the NN, NP, PN, PP,
 #' Rain and N/A classes, respectively. Defaults to \code{ddpcr$classesRain}.
 #'
 #' @return A \code{ggplot} object with all of the given information above.
@@ -118,8 +117,7 @@ drawBlank <- function()
 dropletPlot <- function(droplets,
                         ch1Label="Ch1 Amplitude",
                         ch2Label="Ch2 Amplitude",
-                        ...)
-{
+                        ...) {
   UseMethod("dropletPlot")
 }
 
@@ -142,15 +140,13 @@ dropletPlot.gg <- function(droplets,
                            selectedCentre=NULL,
                            pointSize=1,
                            plotLimits=list(x=c(1000, 9000), y=c(3000, 13500)),
-                           legendLabels=ddpcr$classesRain)
-{
+                           legendLabels=ddpcr$classesRain) {
   p <- droplets +
     geom_point(alpha=0.3, size=pointSize) +
     scale_colour_manual(values=ddpcr$dropColours, labels=legendLabels)
 
   # Plot the final centres.
-  if(!is.null(finalCentres))
-  {
+  if(!is.null(finalCentres)) {
     p <- p + geom_point(data=finalCentres,
                         fill="#000000",
                         colour="#FFFFFF",
@@ -160,10 +156,10 @@ dropletPlot.gg <- function(droplets,
   }
 
   # Plot the initial centres, highlighting any selected ones.
-  if(!is.null(initialCentres))
-  {
-    if(is.null(selectedCentre))
+  if(!is.null(initialCentres)) {
+    if(is.null(selectedCentre)) {
       selectedCentre <- ddpcr$na
+    }
     p <- p +
       geom_point(
         data=initialCentres[rownames(initialCentres)==selectedCentre, ],
@@ -176,21 +172,22 @@ dropletPlot.gg <- function(droplets,
   # Label the axes.
   p <- p + ylab(ch1Label)
   p <- p + xlab(ch2Label)
-      
+
   # Standardise the limits to make it easy to compare plots.
   p + expand_limits(x=plotLimits$x, y=plotLimits$y) +
     whiteTheme(legendPosition=c(1, 1), legendJustification=c(1, 1))
 }
 
 
-#' @description If a \code{data.frame} is given as a parameter, it should 
+#' @description If a \code{data.frame} is given as a parameter, it should
 #' correspond to droplets with their classification.
 #'
 #' @rdname dropletPlot
 #'
 #' @exportMethod dropletPlot
 
-setMethod("dropletPlot", "data.frame",
+setMethod(
+  "dropletPlot", "data.frame",
   function(droplets,
            ch1Label="Ch1 Amplitude",
            ch2Label="Ch2 Amplitude",
@@ -200,20 +197,18 @@ setMethod("dropletPlot", "data.frame",
                               colour=cMethod),
            finalCentres=NULL, initialCentres=NULL, selectedCentre=NULL,
            pointSize=1, plotLimits=list(x=c(1000, 9000), y=c(3000, 13500)),
-           legendLabels=ddpcr$classesRain)
-
-  {
-    if(nrow(droplets) > 0)
-    {
+           legendLabels=ddpcr$classesRain) {
+    if(nrow(droplets) > 0) {
       # Add a dummy column if needed.
       if(cMethod == "None" && !"None" %in% colnames(droplets))
         droplets$None <- factor(c("N/A"), levels=ddpcr$classesRain)
-      
+
       # Get the right ggplot object.
       p <- ggplot(droplets, mapping=mapping)
-    }
-    else # Nothing to draw.
+    } else {
+      # Nothing to draw.
       p <- drawBlank()
+    }
 
     dropletPlot(p,
                 ch1Label=ch1Label, ch2Label=ch2Label,
@@ -226,14 +221,15 @@ setMethod("dropletPlot", "data.frame",
 )
 
 
-#' @description If a \code{ddpcrWell} object is given as a parameter, plot the 
+#' @description If a \code{ddpcrWell} object is given as a parameter, plot the
 #' droplets in the well with its classification.
 #'
 #' @rdname dropletPlot
 #'
 #' @exportMethod dropletPlot
 
-setMethod("dropletPlot", "ddpcrWell",
+setMethod(
+  "dropletPlot", "ddpcrWell",
   function(droplets,
            ch1Label="Ch1 Amplitude",
            ch2Label="Ch2 Amplitude",
@@ -243,8 +239,7 @@ setMethod("dropletPlot", "ddpcrWell",
                               colour=cMethod),
            finalCentres=NULL, initialCentres=NULL, selectedCentre=NULL,
            pointSize=1, plotLimits=list(x=c(1000, 9000), y=c(3000, 13500)),
-           legendLabels=ddpcr$classesRain)
-  {
+           legendLabels=ddpcr$classesRain) {
     p <- ggplot.well(droplets, cMethod=cMethod, mapping=mapping)
     dropletPlot(p,
                 ch1Label=ch1Label, ch2Label=ch2Label,
@@ -259,12 +254,13 @@ setMethod("dropletPlot", "ddpcrWell",
 
 #' @rdname dropletPlot
 
-#' @description If a \code{ddpcrPlate} object is given as a parameter, plot the 
+#' @description If a \code{ddpcrPlate} object is given as a parameter, plot the
 #' droplets from all wells with their classifications.
 #'
 #' @exportMethod dropletPlot
 
-setMethod("dropletPlot", "ddpcrPlate",
+setMethod(
+  "dropletPlot", "ddpcrPlate",
   function(droplets,
            ch1Label="Ch1 Amplitude",
            ch2Label="Ch2 Amplitude",
@@ -274,8 +270,7 @@ setMethod("dropletPlot", "ddpcrPlate",
                               colour=cMethod),
            finalCentres=NULL, initialCentres=NULL, selectedCentre=NULL,
            pointSize=1, plotLimits=list(x=c(1000, 9000), y=c(3000, 13500)),
-           legendLabels=ddpcr$classesRain)
-  {
+           legendLabels=ddpcr$classesRain) {
     p <- ggplot.plate(droplets, cMethod=cMethod, mapping=mapping)
     dropletPlot(p, ch1Label=ch1Label, ch2Label=ch2Label,
                 finalCentres=finalCentres,
@@ -285,4 +280,3 @@ setMethod("dropletPlot", "ddpcrPlate",
                 legendLabels=legendLabels)
   }
 )
-

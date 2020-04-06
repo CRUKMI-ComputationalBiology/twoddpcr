@@ -13,7 +13,7 @@
 A factor of row names.
 }
 \description{
-Get the well names from a data frame, checking if there is a \code{Well} 
+Get the well names from a data frame, checking if there is a \code{Well}
 column or by using the row numbering.
 }
 \author{

@@ -13,8 +13,8 @@ setChannelNames(droplets, ch1 = "Ch1.Amplitude", ch2 = "Ch2.Amplitude")
 \S4method{setChannelNames}{list}(droplets, ch1 = "Ch1.Amplitude", ch2 = "Ch2.Amplitude")
 }
 \arguments{
-\item{droplets}{A data frame or list of data frames. Each data frame should 
-have at least two columns, where the first two columns should be vectors of 
+\item{droplets}{A data frame or list of data frames. Each data frame should
+have at least two columns, where the first two columns should be vectors of
 doubles.}
 
 \item{ch1}{The channel 1 label.}
@@ -25,7 +25,7 @@ doubles.}
 The object \code{droplets} with the channels renamed.
 }
 \description{
-We use the channel names "Ch1.Amplitude" and "Ch2.Amplitude" by default. 
+We use the channel names "Ch1.Amplitude" and "Ch2.Amplitude" by default.
 This method allows us to change it at will.
 }
 \examples{

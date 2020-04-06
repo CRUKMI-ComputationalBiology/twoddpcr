@@ -30,17 +30,14 @@ NULL
                                    "Ch2.Amplitude"=double()),
       classification=data.frame(factor(c(), levels=ddpcr$classesRain))
     ),
-    validity=function(object)
-    {
+    validity=function(object) {
       if(!all(c("Ch1.Amplitude", "Ch2.Amplitude") %in%
-              colnames(object@dropletAmplitudes)))
-      {
+              colnames(object@dropletAmplitudes))) {
         return(paste("The droplet amplitudes data frame does not have the ",
                      "correct column names."))
       }
       if(nrow(object@classification) > 0 &&
-              nrow(object@dropletAmplitudes) != nrow(object@classification))
-      {
+              nrow(object@dropletAmplitudes) != nrow(object@classification)) {
         return(paste("The number of droplets is not the same as the number ",
                      "of classifications."))
       }
@@ -61,33 +58,28 @@ NULL
 #'
 #' @author Anthony Chiu, \email{anthony.chiu@cruk.manchester.ac.uk}
 
-.getClassificationData <- function(colName, well)
-{
-  if(!colName %in% c("Ch1.Amplitude", "Ch2.Amplitude"))
-  {
+.getClassificationData <- function(colName, well) {
+  if(!colName %in% c("Ch1.Amplitude", "Ch2.Amplitude")) {
     # "NN", "NP", "PN", "PP" format.
-    if(is.factor(well[, colName]) &&
-       all(levels(well[, colName]) %in% ddpcr$classesRain))
-    {
+    if((is.factor(well[, colName])
+        && all(levels(well[, colName]) %in% ddpcr$classesRain))
+       || (is.character(well[, colName])
+           && all(well[, colName] %in% ddpcr$classesRain))) {
       factor(well[, colName], levels=ddpcr$classesRain)
-    }
-    # QuantaSoft format.
-    else if(all(unique(well[, colName]) %in% c(1, 2, 3, 4)))
-    {
+    } else if(all(unique(well[, colName]) %in% c(1, 2, 3, 4))) {
+      # QuantaSoft format.
       factor(ifelse(well[, colName]==1, ddpcr$nn,
              ifelse(well[, colName]==2, ddpcr$pn,
              ifelse(well[, colName]==4, ddpcr$np,
                                         ddpcr$pp))),
              levels=ddpcr$classesRain)
-    }
-    else
-    {
+    } else {
       warning("Ignoring column ", colName, " (unrecognised format).")
       data.frame(row.names=seq_len(nrow(well)))
     }
-  }
-  else
+  } else {
     data.frame(row.names=seq_len(nrow(well)))
+  }
 }
 
 
@@ -115,24 +107,20 @@ NULL
 #'
 #' @export
 
-setGeneric("ddpcrWell", function(well)
-  {
-    standardGeneric("ddpcrWell")
-  }
-)
+setGeneric("ddpcrWell", function(well) {
+  standardGeneric("ddpcrWell")
+})
 
 #' @rdname ddpcrWell-class
 #'
 #' @export
 
-setMethod("ddpcrWell", "data.frame", function(well)
-  {
+setMethod("ddpcrWell", "data.frame", function(well) {
     # Make the data frame in the right format.
     well <- setChannelNames(well)
 
     # Try to make a ddpcrWell object the data frame.
-    if(all(c("Ch1.Amplitude", "Ch2.Amplitude") %in% colnames(well)))
-    {
+    if(all(c("Ch1.Amplitude", "Ch2.Amplitude") %in% colnames(well))) {
       # The droplet amplitudes.
       amps <- well[, c("Ch1.Amplitude", "Ch2.Amplitude")]
 
@@ -144,43 +132,17 @@ setMethod("ddpcrWell", "data.frame", function(well)
 
       # Add a default "None" column to droplet classifications (if needed).
       dc <- factor(rep(ddpcr$na, nrow(well)), levels=ddpcr$classesRain)
-      if(!is.null(cl) && !"None" %in% colnames(cl))
+      if(!is.null(cl) && !"None" %in% colnames(cl)) {
         cl <- data.frame("None"=dc, cl)
-      else if(is.null(cl))
+      } else if(is.null(cl)) {
         cl <- data.frame("None"=dc)
+      }
 
       # Set the classifications.
       .ddpcrWell(dropletAmplitudes=amps, classification=cl)
-    }
-    else
+    } else {
       stop("The given 'well' is missing the 'Ch1.Amplitude' and ",
            "'Ch2.Amplitude' columns.")
-  }
-)
-
-
-#' @rdname ddpcrWell-class
-#'
-#' @export
-
-setMethod("ddpcrWell", "character", function(well)
-  {
-    # Character string well: hopefully a filename.
-    if(is.character(well))
-    {
-      # Just look at the first one.
-      well <- well[1]
-
-      # File or directory path.
-      if(file.exists(well))
-      {
-        well <- readCSVDataFrame(well)[[1]]
-        if(nrow(well) == 0)
-          warning("No droplet amplitudes loaded. Was this intended?")
-        ddpcrWell(well)
-      }
-      else
-        stop("The string 'well' is not a file.")
     }
   }
 )
@@ -190,23 +152,42 @@ setMethod("ddpcrWell", "character", function(well)
 #'
 #' @export
 
-setMethod("ddpcrWell", "missing", function(well)
-  {
-    well <- data.frame("Ch1.Amplitude"=double(), "Ch2.Amplitude"=double())
-    ddpcrWell(well)
+setMethod("ddpcrWell", "character", function(well) {
+  # Character string well: hopefully a filename.
+  if(is.character(well)) {
+    # Just look at the first one.
+    well <- well[1]
+
+    # File or directory path.
+    if(file.exists(well)) {
+      well <- readCSVDataFrame(well)[[1]]
+      if(nrow(well) == 0)
+        warning("No droplet amplitudes loaded. Was this intended?")
+      ddpcrWell(well)
+    } else {
+      stop("The string 'well' is not a file.")
+    }
   }
-)
+})
 
 
 #' @rdname ddpcrWell-class
 #'
 #' @export
 
-setMethod("ddpcrWell", "ddpcrWell", function(well)
-  {
-    well
-  }
-)
+setMethod("ddpcrWell", "missing", function(well) {
+  well <- data.frame("Ch1.Amplitude"=double(), "Ch2.Amplitude"=double())
+  ddpcrWell(well)
+})
+
+
+#' @rdname ddpcrWell-class
+#'
+#' @export
+
+setMethod("ddpcrWell", "ddpcrWell", function(well) {
+  well
+})
 
 
 #' @title Retrieve droplet amplitudes.
@@ -249,21 +230,17 @@ setMethod("ddpcrWell", "ddpcrWell", function(well)
 #'
 #' @export
 
-setGeneric("amplitudes", function(theObject)
-  {
-    standardGeneric("amplitudes")
-  }
-)
+setGeneric("amplitudes", function(theObject) {
+  standardGeneric("amplitudes")
+})
 
 #' @rdname amplitudes
 #'
 #' @exportMethod amplitudes
 
-setMethod("amplitudes", "ddpcrWell", function(theObject)
-  {
-    theObject@dropletAmplitudes
-  }
-)
+setMethod("amplitudes", "ddpcrWell", function(theObject) {
+  theObject@dropletAmplitudes
+})
 
 
 #' Retrieve a classification vector.
@@ -313,8 +290,7 @@ setMethod("amplitudes", "ddpcrWell", function(theObject)
 #' @export
 
 setGeneric("wellClassification",
-  function(theObject, cMethod=NULL, withAmplitudes=FALSE)
-  {
+  function(theObject, cMethod=NULL, withAmplitudes=FALSE) {
     standardGeneric("wellClassification")
   }
 )
@@ -324,21 +300,20 @@ setGeneric("wellClassification",
 #' @exportMethod wellClassification
 
 setMethod("wellClassification", "ddpcrWell",
-  function(theObject, cMethod=NULL, withAmplitudes=FALSE)
-  {
-    if(is.null(cMethod))
+  function(theObject, cMethod=NULL, withAmplitudes=FALSE) {
+    if (is.null(cMethod)) {
       cMethod <- colnames(theObject@classification)
+    }
 
-    if(withAmplitudes)
-    {
+    if (withAmplitudes) {
       df <- cbind(theObject@dropletAmplitudes,
                              theObject@classification[, cMethod])
       clCols <- seq_len(ncol(df))[-c(1,2)]
       colnames(df)[clCols] <- cMethod
       return(df)
-    }
-    else
+    } else {
       return(theObject@classification[, cMethod])
+    }
   }
 )
 
@@ -347,8 +322,7 @@ setMethod("wellClassification", "ddpcrWell",
 #'
 #' @export
 
-setGeneric("wellClassification<-", function(theObject, cMethod, value)
-  {
+setGeneric("wellClassification<-", function(theObject, cMethod, value) {
     standardGeneric("wellClassification<-")
   }
 )
@@ -358,8 +332,7 @@ setGeneric("wellClassification<-", function(theObject, cMethod, value)
 #' @export
 
 setReplaceMethod("wellClassification", "ddpcrWell",
-  function(theObject, cMethod, value)
-  {
+  function(theObject, cMethod, value) {
     if(length(value) != numDroplets(theObject))
       stop("The length of 'value' should be the same as the number ",
            "of droplets in the well.")
@@ -406,53 +379,46 @@ setReplaceMethod("wellClassification", "ddpcrWell",
 #'
 #' @export
 
-setGeneric("wellClassificationMethod", function(theObject)
-  {
-    standardGeneric("wellClassificationMethod")
-  }
-)
+setGeneric("wellClassificationMethod", function(theObject) {
+  standardGeneric("wellClassificationMethod")
+})
 
 #' @rdname wellClassificationMethod
 #'
 #' @exportMethod wellClassificationMethod
 
-setMethod("wellClassificationMethod", "ddpcrWell", function(theObject)
-  {
+setMethod("wellClassificationMethod", "ddpcrWell", function(theObject) {
     colnames(theObject@classification)
-  }
-)
+})
 
 
 #' @rdname wellClassificationMethod
 #'
 #' @export
 
-setGeneric("wellClassificationMethod<-", function(theObject, cMethod, value)
-  {
-    standardGeneric("wellClassificationMethod<-")
-  }
-)
+setGeneric("wellClassificationMethod<-", function(theObject, cMethod, value) {
+  standardGeneric("wellClassificationMethod<-")
+})
 
 #' @rdname wellClassificationMethod
 #'
 #' @export
 
-setReplaceMethod("wellClassificationMethod", "ddpcrWell",
-  function(theObject, cMethod, value)
-  {
-    if(is.character(cMethod))
-    {
+setReplaceMethod(
+  "wellClassificationMethod", "ddpcrWell",
+  function(theObject, cMethod, value) {
+    if(is.character(cMethod)) {
       if(!cMethod %in% names(theObject@classification))
         stop("The parameter 'cMethod' is not an existing ",
              "classification method name.")
       n <- which(names(theObject@classification) %in% cMethod)
-    }
-    else
+    } else {
       n <- cMethod
+    }
 
-      names(theObject@classification)[n] <- value
-      validObject(theObject)
-      return(theObject)
+    names(theObject@classification)[n] <- value
+    validObject(theObject)
+    return(theObject)
   }
 )
 
@@ -461,14 +427,11 @@ setReplaceMethod("wellClassificationMethod", "ddpcrWell",
 #'
 #' @inheritParams methods::show
 
-setMethod("show",
-  "ddpcrWell",
-  function(object)
-  {
-    cat("ddpcrWell object\n")
-    cat("number of droplets: ", numDroplets(object), "\n", sep="")
-    if(!isEmpty(object))
-      cat("classification methods:", wellClassificationMethod(object), "\n")
+setMethod("show", "ddpcrWell", function(object) {
+  cat("ddpcrWell object\n")
+  cat("number of droplets: ", numDroplets(object), "\n", sep="")
+  if(!isEmpty(object)) {
+    cat("classification methods:", wellClassificationMethod(object), "\n")
   }
-)
+})
 

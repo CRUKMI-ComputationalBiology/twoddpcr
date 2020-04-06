@@ -31,45 +31,45 @@ thresholdClassify(droplets, ch1Threshold = 6500, ch2Threshold = 2900, ...)
 )
 }
 \arguments{
-\item{droplets}{A \code{\link{ddpcrWell}} object or a data frame of droplet 
+\item{droplets}{A \code{\link{ddpcrWell}} object or a data frame of droplet
 amplitudes with columns \code{Ch1.Amplitude} and \code{Ch2.Amplitude}.}
 
-\item{ch1Threshold}{The channel 1 upper bound for the NN and NP classes. 
+\item{ch1Threshold}{The channel 1 upper bound for the NN and NP classes.
 Defaults to 8000}
 
-\item{ch2Threshold}{The channel 2 upper bound for the NN and PN classes. 
+\item{ch2Threshold}{The channel 2 upper bound for the NN and PN classes.
 Defaults to 3000.}
 
 \item{...}{Other options depending on the type of \code{droplets}.}
 
-\item{fullTable}{Whether to return a data frame including amplitude figures. 
-If \code{TRUE}, a data frame with columns \code{Ch1.Amplitude}, 
-\code{Ch1.Amplitude} and \code{class} is returned. If \code{FALSE}, a factor 
-with levels in \code{ddpcr$classesRain} is returned, where each entry 
-corresponds to each row in \code{droplets} (and \code{trainingData} is 
+\item{fullTable}{Whether to return a data frame including amplitude figures.
+If \code{TRUE}, a data frame with columns \code{Ch1.Amplitude},
+\code{Ch1.Amplitude} and \code{class} is returned. If \code{FALSE}, a factor
+with levels in \code{ddpcr$classesRain} is returned, where each entry
+corresponds to each row in \code{droplets} (and \code{trainingData} is
 automatically set to \code{FALSE}). Defaults to \code{TRUE}.}
 
-\item{classMethodLabel}{A name (as a character string) of the classification 
+\item{classMethodLabel}{A name (as a character string) of the classification
 method. Defaults to "thresholds".}
 }
 \value{
-If \code{droplets} is a data frame, return a data frame or factor 
-(depending on the \code{trainingData} and \code{fullTable} parameters) with 
+If \code{droplets} is a data frame, return a data frame or factor
+(depending on the \code{trainingData} and \code{fullTable} parameters) with
 a classification for droplets in the chosen regions.
 
-If \code{droplets} is a \code{ddpcrWell} object, return 
+If \code{droplets} is a \code{ddpcrWell} object, return
 a \code{ddpcrWell} object with the appropriate classification.
 
-If \code{droplets} is a \code{ddpcrPlate} object, return 
+If \code{droplets} is a \code{ddpcrPlate} object, return
 a \code{ddpcrPlate} object with the appropriate classification.
 }
 \description{
-Classify droplets as "NN", "NP", "PN" or "PP" depending on 
-whether they lie above or below given thresholds. This is illustrated in the 
+Classify droplets as "NN", "NP", "PN" or "PP" depending on
+whether they lie above or below given thresholds. This is illustrated in the
 details and parameters for more detail.
 }
 \details{
-The \code{threshold} parameters correspond to those in the 
+The \code{threshold} parameters correspond to those in the
 following diagram:
 \preformatted{Ch1 ^          |
     |          |
@@ -112,7 +112,7 @@ lapply(plateClassification(krasPlate, withAmplitudes=TRUE), head, n=1)
 ## changed by providing a label.
 krasPlate <- ddpcrPlate(wells=KRASdata)
 krasPlate <- thresholdClassify(krasPlate,
-                               ch1Threshold=6789, ch2Threshold=3000, 
+                               ch1Threshold=6789, ch2Threshold=3000,
                                classMethodLabel="manual")
 lapply(plateClassification(krasPlate, withAmplitudes=TRUE), head, n=1)
 

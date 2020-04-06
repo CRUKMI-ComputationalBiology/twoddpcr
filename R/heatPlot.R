@@ -7,21 +7,21 @@ NULL
 
 #' @title Draw a heat plot of the droplets.
 #'
-#' @description Using alpha transparency only, it is generally difficult to see 
-#' where droplets are truly distributed and concentrated. A heat (density) plot 
+#' @description Using alpha transparency only, it is generally difficult to see
+#' where droplets are truly distributed and concentrated. A heat (density) plot
 #' gives a better illustration of this.
 #'
-#' @param droplets A data frame of droplet amplitudes, a \code{ggplot}, 
+#' @param droplets A data frame of droplet amplitudes, a \code{ggplot},
 #' \code{ddpcrWell} or \code{ddpcrPlate} object.
-#' @param ch1Label The label for the channel 1 target. Defaults to "Ch1 
+#' @param ch1Label The label for the channel 1 target. Defaults to "Ch1
 #' Amplitude".
-#' @param ch2Label The label for the channel 2 target. Defaults to "Ch2 
+#' @param ch2Label The label for the channel 2 target. Defaults to "Ch2
 #' Amplitude".
-#' @param binwidth The width of each hexagonal bin in the 2d heat (density) 
+#' @param binwidth The width of each hexagonal bin in the 2d heat (density)
 #' plot. Defaults to 100.
-#' @param plotLimits A list of 2-element vectors with names \code{x} and 
-#' \code{y}. These are used to fix the x and y limits of the plot, which is 
-#' especially useful for comparing plots. Defaults to \code{list(x=c(1000, 
+#' @param plotLimits A list of 2-element vectors with names \code{x} and
+#' \code{y}. These are used to fix the x and y limits of the plot, which is
+#' especially useful for comparing plots. Defaults to \code{list(x=c(1000,
 #' 9000), y=c(3000, 13500))}.
 #'
 #' @return A heat plot as a \code{\link[ggplot2]{ggplot}} object.
@@ -30,7 +30,7 @@ NULL
 #'
 #' @author Anthony Chiu, \email{anthony.chiu@cruk.manchester.ac.uk}
 #'
-#' @references The nice log-scaled palette was achieved using 
+#' @references The nice log-scaled palette was achieved using
 #' \url{http://www.everydayanalytics.ca/2014/09/5-ways-to-do-2d-histograms-in-r.html}
 #'
 #' @examples
@@ -51,8 +51,7 @@ heatPlot <- function(droplets,
                      ch1Label="Ch1 Amplitude",
                      ch2Label="Ch2 Amplitude",
                      binwidth=100,
-                     plotLimits=list(x=c(1000, 9000), y=c(3000, 13500)))
-{
+                     plotLimits=list(x=c(1000, 9000), y=c(3000, 13500))) {
   UseMethod("heatPlot")
 }
 
@@ -73,8 +72,7 @@ heatPlot.gg <- function(droplets,
                         ch1Label="Ch1 Amplitude",
                         ch2Label="Ch2 Amplitude",
                         binwidth=100,
-                        plotLimits=list(x=c(1000, 9000), y=c(3000, 13500)))
-{
+                        plotLimits=list(x=c(1000, 9000), y=c(3000, 13500))) {
   # Use a nice palette.
   rf <- grDevices::colorRampPalette(rev(brewer.pal(11, 'Spectral')))
   r <- rf(32)
@@ -88,7 +86,7 @@ heatPlot.gg <- function(droplets,
   # Label the axes.
   p <- p + ylab(ch1Label)
   p <- p + xlab(ch2Label)
-      
+
   p + expand_limits(x=plotLimits$x, y=plotLimits$y) +
     whiteTheme(legendPosition=c(1, 1), legendJustification=c(1, 1))
 }
@@ -98,20 +96,22 @@ heatPlot.gg <- function(droplets,
 #'
 #' @exportMethod heatPlot
 
-setMethod("heatPlot", "data.frame",
+setMethod(
+  "heatPlot", "data.frame",
   function(droplets, ch1Label="Ch1 Amplitude", ch2Label="Ch2 Amplitude",
-           binwidth=100, plotLimits=list(x=c(1000, 9000), y=c(3000, 13500)))
-  {
+           binwidth=100, plotLimits=list(x=c(1000, 9000), y=c(3000, 13500))) {
     # Something to plot.
-    if(nrow(droplets) > 0)
+    if(nrow(droplets) > 0) {
       heatPlot(ggplot(droplets,
                       aes_string(x="Ch2.Amplitude", y="Ch1.Amplitude")),
                ch1Label=ch1Label, ch2Label=ch2Label,
                binwidth=binwidth, plotLimits=plotLimits)
-    else # Nothing to plot.
+    } else {
+      # Nothing to plot.
       dropletPlot(droplets,
                   ch1Label=ch1Label, ch2Label=ch2Label,
                   plotLimits=plotLimits)
+    }
   }
 )
 
@@ -122,18 +122,19 @@ setMethod("heatPlot", "data.frame",
 
 setMethod("heatPlot", "ddpcrWell",
   function(droplets, ch1Label="Ch1 Amplitude", ch2Label="Ch2 Amplitude",
-           binwidth=100, plotLimits=list(x=c(1000, 9000), y=c(3000, 13500)))
-  {
+           binwidth=100, plotLimits=list(x=c(1000, 9000), y=c(3000, 13500))) {
     # Something to plot.
-    if(numDroplets(droplets) > 0)
+    if(numDroplets(droplets) > 0) {
       heatPlot(ggplot.well(droplets,
                            aes_string(x="Ch2.Amplitude", y="Ch1.Amplitude")),
                ch1Label=ch1Label, ch2Label=ch2Label,
                binwidth=binwidth, plotLimits=plotLimits)
-    else # Nothing to plot.
+    } else {
+      # Nothing to plot.
       dropletPlot(droplets,
                   ch1Label=ch1Label, ch2Label=ch2Label,
                   plotLimits=plotLimits)
+    }
   }
 )
 
@@ -144,20 +145,18 @@ setMethod("heatPlot", "ddpcrWell",
 
 setMethod("heatPlot", "ddpcrPlate",
   function(droplets, ch1Label="Ch1 Amplitude", ch2Label="Ch2 Amplitude",
-           binwidth=100, plotLimits=list(x=c(1000, 9000), y=c(3000, 13500)))
-  {
+           binwidth=100, plotLimits=list(x=c(1000, 9000), y=c(3000, 13500))) {
     # Something to plot.
-    if(sum(numDroplets(droplets)) > 0)
-    {
+    if(sum(numDroplets(droplets)) > 0) {
       heatPlot(ggplot.plate(droplets,
                             aes_string(x="Ch2.Amplitude", y="Ch1.Amplitude")),
                ch1Label=ch1Label, ch2Label=ch2Label,
                binwidth=binwidth, plotLimits=plotLimits)
-    }
-    else # Nothing to plot.
+    } else {
+      # Nothing to plot.
       dropletPlot(droplets,
                   ch1Label=ch1Label, ch2Label=ch2Label,
                   plotLimits=plotLimits)
+    }
   }
 )
-

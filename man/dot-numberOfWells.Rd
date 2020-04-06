@@ -13,15 +13,15 @@
 An integer giving the number of wells.
 }
 \description{
-Auxiliary function to find the number of wells that appear in the data 
-frame, each with the same frequency (almost certainly once or twice). If 
-some wells appear more than others, the function stops because the data is 
+Auxiliary function to find the number of wells that appear in the data
+frame, each with the same frequency (almost certainly once or twice). If
+some wells appear more than others, the function stops because the data is
 in an unknown format.
 }
 \details{
-Bio-Rad's QuantaSoft produces data in long form tables, i.e. for each well 
-there is a row for each target such as mutant and wild type. In this 
-package, we prefer to work with wide form tables that combine the mutant and 
+Bio-Rad's QuantaSoft produces data in long form tables, i.e. for each well
+there is a row for each target such as mutant and wild type. In this
+package, we prefer to work with wide form tables that combine the mutant and
 wild type parts.
 }
 \author{

@@ -10,12 +10,10 @@
 #'
 #' @export
 
-shinyVisApp <- function()
-{
+shinyVisApp <- function() {
   shiny::shinyApp(
     ui=shinyVisUI(),
-    server=function(input, output, session)
-    {
+    server=function(input, output, session) {
       shinyVisServer(input, output, session)
     }
   )

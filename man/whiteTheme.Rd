@@ -7,19 +7,19 @@
 whiteTheme(legendPosition = "right", legendJustification = "center")
 }
 \arguments{
-\item{legendPosition}{Where to position the legend. This can be "none", 
-"left", "right", "bottom", "top" or a numeric vector of length two. See the 
+\item{legendPosition}{Where to position the legend. This can be "none",
+"left", "right", "bottom", "top" or a numeric vector of length two. See the
 documentation for \code{\link[ggplot2]{theme}}.}
 
-\item{legendJustification}{The justification to use for the legend 
-positioning. This should be "center" or a two-element vector. Defaults to 
+\item{legendJustification}{The justification to use for the legend
+positioning. This should be "center" or a two-element vector. Defaults to
 "center".}
 }
 \value{
 A \code{ggplot} theme layer.
 }
 \description{
-The default \code{\link[ggplot2]{ggplot}} theme has a grey background. This 
+The default \code{\link[ggplot2]{ggplot}} theme has a grey background. This
 layer can be added to change the aesthetics.
 }
 \examples{

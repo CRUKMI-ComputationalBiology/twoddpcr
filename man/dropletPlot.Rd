@@ -5,7 +5,7 @@
 \alias{dropletPlot,data.frame-method}
 \alias{dropletPlot,ddpcrWell-method}
 \alias{dropletPlot,ddpcrPlate-method}
-\title{Plot a droplet classification with a colour-blind palette, optional 
+\title{Plot a droplet classification with a colour-blind palette, optional
 cluster centres and fixed axes.}
 \usage{
 dropletPlot(
@@ -58,80 +58,80 @@ dropletPlot(
 )
 }
 \arguments{
-\item{droplets}{An object corresponding to droplet amplitudes and their 
+\item{droplets}{An object corresponding to droplet amplitudes and their
 classifications. This can be in the form of:
 \itemize{
-  \item A data frame with columns \code{Ch1.Amplitude}, \code{Ch2.Amplitude} 
+  \item A data frame with columns \code{Ch1.Amplitude}, \code{Ch2.Amplitude}
   and a classification column (see the parameter \code{cMethod}).
   \item A \code{\link{ddpcrWell}} object.
   \item A \code{\link{ddpcrPlate}} object.
-  \item A \code{\link[ggplot2]{ggplot}} (\code{gg}) object. For example, 
-  this could be the output of \code{\link[twoddpcr]{ggplot.well}} or 
-  \code{\link[=ggplot.well]{ggplot.plate}}. We should not need to use this 
+  \item A \code{\link[ggplot2]{ggplot}} (\code{gg}) object. For example,
+  this could be the output of \code{\link[twoddpcr]{ggplot.well}} or
+  \code{\link[=ggplot.well]{ggplot.plate}}. We should not need to use this
   unless we are writing new methods to plot new data types.
 }}
 
-\item{ch1Label}{The label for the channel 1 target. Defaults to "Ch1 
+\item{ch1Label}{The label for the channel 1 target. Defaults to "Ch1
 Amplitude".}
 
-\item{ch2Label}{The label for the channel 2 target. Defaults to "Ch2 
+\item{ch2Label}{The label for the channel 2 target. Defaults to "Ch2
 Amplitude".}
 
-\item{...}{Other plotting parameters that depend on the object type of 
+\item{...}{Other plotting parameters that depend on the object type of
 \code{droplets}.}
 
-\item{cMethod}{This should be the name or column number of \code{droplets} 
-corresponding to the classification. This column should only have entries in 
-"NN", "PN", "NP, "PP", "Rain" and "N/A". If "None", plots the droplets with 
+\item{cMethod}{This should be the name or column number of \code{droplets}
+corresponding to the classification. This column should only have entries in
+"NN", "PN", "NP, "PP", "Rain" and "N/A". If "None", plots the droplets with
 all of them classified as \code{N/A}. Defaults to "None".}
 
-\item{mapping}{A list of aesthetic mappings to use for the plot. Defaults to 
-\code{ggplot2::aes_string(x="Ch2.Amplitude", y="Ch1.Amplitude", 
+\item{mapping}{A list of aesthetic mappings to use for the plot. Defaults to
+\code{ggplot2::aes_string(x="Ch2.Amplitude", y="Ch1.Amplitude",
 colours=cMethod)}. Not used if \code{droplets} is a \code{ggplot} object.}
 
 \item{finalCentres}{A data frmae of final centres to plot (e.g. those
-returned by the k-means or c-means algorithms). If \code{NULL}, nothing is 
+returned by the k-means or c-means algorithms). If \code{NULL}, nothing is
 plotted. Defaults to \code{NULL}.}
 
 \item{initialCentres}{A data frame of initial centres to plot (e.g. initial
-cluster centres used in the k-means). If \code{NULL}, nothing is plotted. 
+cluster centres used in the k-means). If \code{NULL}, nothing is plotted.
 Defaults to \code{NULL}. This parameter is useful for illustrative reasons.}
 
 \item{selectedCentre}{An initial centre to highlight. This should be either
-"NN", "NP", "PN" or "PP". If \code{NULL}, nothing is highlighted. Defaults 
+"NN", "NP", "PN" or "PP". If \code{NULL}, nothing is highlighted. Defaults
 to \code{NULL}. This parameter is useful for illustrative reasons.}
 
 \item{pointSize}{The size to draw each droplet. Defaults to 1.}
 
-\item{plotLimits}{A list of 2-element vectors with names \code{x} and 
-\code{y}. These are used to fix the x and y limits of the plot, which is 
-especially useful for comparing plots. Defaults to \code{list(x=c(1000, 
+\item{plotLimits}{A list of 2-element vectors with names \code{x} and
+\code{y}. These are used to fix the x and y limits of the plot, which is
+especially useful for comparing plots. Defaults to \code{list(x=c(1000,
 9000), y=c(3000, 13500))}.}
 
-\item{legendLabels}{The character vector corresponding to the labels for the 
-legend. The elements of the vector should correspond to the NN, NP, PN, PP, 
+\item{legendLabels}{The character vector corresponding to the labels for the
+legend. The elements of the vector should correspond to the NN, NP, PN, PP,
 Rain and N/A classes, respectively. Defaults to \code{ddpcr$classesRain}.}
 }
 \value{
 A \code{ggplot} object with all of the given information above.
 }
 \description{
-Plot an object comprising droplet amplitudes and their 
-classification. If specified, centres of clusters can be marked, e.g. 
-k-means clustering can take a set of centres as the initial centres of the 
-algorithm, and the algorithm also outputs the final cluster centres. Limits 
+Plot an object comprising droplet amplitudes and their
+classification. If specified, centres of clusters can be marked, e.g.
+k-means clustering can take a set of centres as the initial centres of the
+algorithm, and the algorithm also outputs the final cluster centres. Limits
 to the axes can also be set for ease of comparison and consistency.
 
-If a \code{ggplot} object is given as a parameter, this method will simply 
+If a \code{ggplot} object is given as a parameter, this method will simply
 plot it with the pretty colours, centres and restrictions on the axes.
 
-If a \code{data.frame} is given as a parameter, it should 
+If a \code{data.frame} is given as a parameter, it should
 correspond to droplets with their classification.
 
-If a \code{ddpcrWell} object is given as a parameter, plot the 
+If a \code{ddpcrWell} object is given as a parameter, plot the
 droplets in the well with its classification.
 
-If a \code{ddpcrPlate} object is given as a parameter, plot the 
+If a \code{ddpcrPlate} object is given as a parameter, plot the
 droplets from all wells with their classifications.
 }
 \examples{

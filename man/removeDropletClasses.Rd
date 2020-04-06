@@ -5,7 +5,7 @@
 \alias{removeDropletClasses,data.frame-method}
 \alias{removeDropletClasses,ddpcrWell-method}
 \alias{removeDropletClasses,ddpcrPlate-method}
-\title{Retrieve a data frame of droplet amplitudes with droplets of a given class 
+\title{Retrieve a data frame of droplet amplitudes with droplets of a given class
 removed.}
 \usage{
 removeDropletClasses(
@@ -37,34 +37,34 @@ removeDropletClasses(
 )
 }
 \arguments{
-\item{droplets}{A \code{\link{ddpcrWell}} or \code{\link{ddpcrPlate}} 
-object, or a data frame with columns \code{Ch1.Amplitude}, 
+\item{droplets}{A \code{\link{ddpcrWell}} or \code{\link{ddpcrPlate}}
+object, or a data frame with columns \code{Ch1.Amplitude},
 \code{Ch2.Amplitude} and a classification column.}
 
 \item{...}{Other parameters depending on the type of \code{droplets}.}
 
-\item{classesToRemove}{A vector of character strings corresponding to the 
-classes that should be removed. Defaults to \code{NULL}, i.e. remove 
+\item{classesToRemove}{A vector of character strings corresponding to the
+classes that should be removed. Defaults to \code{NULL}, i.e. remove
 nothing.}
 
-\item{keepUnclassified}{A logical flag determining whether unclassified 
-droplets (i.e. "Rain" or "N/A") should be kept. Defaults to \code{FALSE}, 
+\item{keepUnclassified}{A logical flag determining whether unclassified
+droplets (i.e. "Rain" or "N/A") should be kept. Defaults to \code{FALSE},
 i.e. remove them.}
 
-\item{cMethod}{This is the name or column number corresponding to the 
-classification in \code{droplets}. This column should only have entries in 
+\item{cMethod}{This is the name or column number corresponding to the
+classification in \code{droplets}. This column should only have entries in
 "NN", "PN", "NP, "PP", "Rain" and "N/A". Defaults to "class".}
 }
 \value{
-If a \code{ddpcrWell} object is given, return a data frame 
+If a \code{ddpcrWell} object is given, return a data frame
 corresponding to \code{droplets} with the given droplet classes removed.
-If a \code{ddpcrPlate} object is given, return a list of data frames 
+If a \code{ddpcrPlate} object is given, return a list of data frames
 instead.
 }
 \description{
-By default, all droplets classified as "N/A" or "Rain" will be removed. 
-Including these droplets is useful for visualisation purposes, but they 
-could be a problem in some scenarios, e.g. if we wish to use the 
+By default, all droplets classified as "N/A" or "Rain" will be removed.
+Including these droplets is useful for visualisation purposes, but they
+could be a problem in some scenarios, e.g. if we wish to use the
 classification as a training data set.
 }
 \examples{
@@ -115,7 +115,7 @@ table(td$ClusterMahRain)
 
 }
 \seealso{
-This function can remove "N/A" droplets from classifications 
+This function can remove "N/A" droplets from classifications
 produced by \code{\link{gridClassify}}.
 }
 \author{

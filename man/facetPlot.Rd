@@ -42,45 +42,45 @@ facetPlot(
 )
 }
 \arguments{
-\item{droplets}{A \code{ddpcrPlate} object or a data frame of droplet 
+\item{droplets}{A \code{ddpcrPlate} object or a data frame of droplet
 amplitudes with a "Well" column.}
 
-\item{ch1Label}{The label for the channel 1 target. Defaults to "Ch1 
+\item{ch1Label}{The label for the channel 1 target. Defaults to "Ch1
 Amplitude".}
 
-\item{ch2Label}{The label for the channel 2 target. Defaults to "Ch2 
+\item{ch2Label}{The label for the channel 2 target. Defaults to "Ch2
 Amplitude".}
 
-\item{cMethod}{This should be the name or column number of \code{droplets} 
-corresponding to the classification to be plotted. This column should only 
-have entries in "NN", "PN", "NP, "PP", "Rain" and "N/A". If "None", plots 
-the droplets with all of them classified as \code{N/A}. If \code{NULL}, 
+\item{cMethod}{This should be the name or column number of \code{droplets}
+corresponding to the classification to be plotted. This column should only
+have entries in "NN", "PN", "NP, "PP", "Rain" and "N/A". If "None", plots
+the droplets with all of them classified as \code{N/A}. If \code{NULL},
 a density plot is plotted. Defaults to \code{NULL}.}
 
-\item{binwidth}{The width of each hexagonal bin in the density plot. Ignored 
-if \code{cMethod} is not \code{NULL} (see \code{pointSize} instead). 
+\item{binwidth}{The width of each hexagonal bin in the density plot. Ignored
+if \code{cMethod} is not \code{NULL} (see \code{pointSize} instead).
 Defaults to 100.}
 
-\item{pointSize}{If \code{cMethod} is not \code{NULL}, this is the size to 
-draw each droplet. Otherwise this parameter is ignored (see \code{binwidth} 
+\item{pointSize}{If \code{cMethod} is not \code{NULL}, this is the size to
+draw each droplet. Otherwise this parameter is ignored (see \code{binwidth}
 instead). Defaults to 0.1.}
 
-\item{plotLimits}{A list of 2-element vectors with names \code{x} and 
-\code{y}. These are used to fix the x and y limits of the plot, which is 
-especially useful for comparing plots. Defaults to \code{list(x=c(1000, 
+\item{plotLimits}{A list of 2-element vectors with names \code{x} and
+\code{y}. These are used to fix the x and y limits of the plot, which is
+especially useful for comparing plots. Defaults to \code{list(x=c(1000,
 9000), y=c(3000, 13500))}.}
 
-\item{showEmptyWells}{If \code{TRUE}, plots 
-a \code{\link[ggplot2]{facet_grid}} of all the wells in the plate, including 
-the empty ones. If \code{FALSE}, plots a \code{\link[ggplot2]{facet_wrap}} 
+\item{showEmptyWells}{If \code{TRUE}, plots
+a \code{\link[ggplot2]{facet_grid}} of all the wells in the plate, including
+the empty ones. If \code{FALSE}, plots a \code{\link[ggplot2]{facet_wrap}}
 of only the loaded (nonempty) wells. Defaults to \code{FALSE}.}
 }
 \value{
 A collection of plots as a \code{\link[ggplot2]{ggplot}} object.
 }
 \description{
-Plot each of the wells in a \code{\link{ddpcrPlate}} object or 
-a large data frame of droplets. By default, a density plot is returned for 
+Plot each of the wells in a \code{\link{ddpcrPlate}} object or
+a large data frame of droplets. By default, a density plot is returned for
 speed purposes.
 }
 \examples{
@@ -90,11 +90,11 @@ facetPlot(krasPlate)
 
 }
 \references{
-The nice log-scaled palette was achieved using 
+The nice log-scaled palette was achieved using
 \url{http://www.everydayanalytics.ca/2014/09/5-ways-to-do-2d-histograms-in-r.html}
 }
 \seealso{
-By default, each subplot uses the same plotting style as 
+By default, each subplot uses the same plotting style as
 \code{\link{heatPlot}}.
 }
 \author{

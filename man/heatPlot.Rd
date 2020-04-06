@@ -49,29 +49,29 @@ heatPlot(
 )
 }
 \arguments{
-\item{droplets}{A data frame of droplet amplitudes, a \code{ggplot}, 
+\item{droplets}{A data frame of droplet amplitudes, a \code{ggplot},
 \code{ddpcrWell} or \code{ddpcrPlate} object.}
 
-\item{ch1Label}{The label for the channel 1 target. Defaults to "Ch1 
+\item{ch1Label}{The label for the channel 1 target. Defaults to "Ch1
 Amplitude".}
 
-\item{ch2Label}{The label for the channel 2 target. Defaults to "Ch2 
+\item{ch2Label}{The label for the channel 2 target. Defaults to "Ch2
 Amplitude".}
 
-\item{binwidth}{The width of each hexagonal bin in the 2d heat (density) 
+\item{binwidth}{The width of each hexagonal bin in the 2d heat (density)
 plot. Defaults to 100.}
 
-\item{plotLimits}{A list of 2-element vectors with names \code{x} and 
-\code{y}. These are used to fix the x and y limits of the plot, which is 
-especially useful for comparing plots. Defaults to \code{list(x=c(1000, 
+\item{plotLimits}{A list of 2-element vectors with names \code{x} and
+\code{y}. These are used to fix the x and y limits of the plot, which is
+especially useful for comparing plots. Defaults to \code{list(x=c(1000,
 9000), y=c(3000, 13500))}.}
 }
 \value{
 A heat plot as a \code{\link[ggplot2]{ggplot}} object.
 }
 \description{
-Using alpha transparency only, it is generally difficult to see 
-where droplets are truly distributed and concentrated. A heat (density) plot 
+Using alpha transparency only, it is generally difficult to see
+where droplets are truly distributed and concentrated. A heat (density) plot
 gives a better illustration of this.
 }
 \examples{
@@ -88,7 +88,7 @@ heatPlot(krasPlate, binwidth=50)
 
 }
 \references{
-The nice log-scaled palette was achieved using 
+The nice log-scaled palette was achieved using
 \url{http://www.everydayanalytics.ca/2014/09/5-ways-to-do-2d-histograms-in-r.html}
 }
 \author{

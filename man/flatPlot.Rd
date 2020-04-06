@@ -5,7 +5,7 @@
 \alias{flatPlot,data.frame-method}
 \alias{flatPlot,ddpcrWell-method}
 \alias{flatPlot,ddpcrPlate-method}
-\title{Plot droplet amplitudes with all droplets classified as "N/A" (or 
+\title{Plot droplet amplitudes with all droplets classified as "N/A" (or
 a chosen class).}
 \usage{
 flatPlot(
@@ -49,46 +49,46 @@ flatPlot(
 )
 }
 \arguments{
-\item{droplets}{A data frame of droplet amplitudes, or 
+\item{droplets}{A data frame of droplet amplitudes, or
 a \code{\link{ddpcrWell}} or \code{\link{ddpcrPlate}} object.}
 
-\item{ch1Label}{The label for the channel 1 target. Defaults to "Ch1 
+\item{ch1Label}{The label for the channel 1 target. Defaults to "Ch1
 Amplitude".}
 
-\item{ch2Label}{The label for the channel 2 target. Defaults to "Ch2 
+\item{ch2Label}{The label for the channel 2 target. Defaults to "Ch2
 Amplitude".}
 
-\item{classString}{The class that all droplets should be classified as. 
+\item{classString}{The class that all droplets should be classified as.
 Defaults to the \code{ddpcr$na} ("N/A") character string.}
 
 \item{initialCentres}{A data frame of initial centres to plot (e.g. initial
-cluster centres used in the k-means). This is _not_ restricted to the class 
-\code{classString} only. If \code{NULL}, nothing is plotted. Defaults to 
+cluster centres used in the k-means). This is _not_ restricted to the class
+\code{classString} only. If \code{NULL}, nothing is plotted. Defaults to
 \code{NULL}.}
 
 \item{selectedCentre}{An initial centre to highlight. This should be either
-"NN", "PN", "NP" or "PP", but is _not_ restricted to the class 'classString' 
+"NN", "PN", "NP" or "PP", but is _not_ restricted to the class 'classString'
 only. If \code{NULL}, nothing is highlighted. Defaults to \code{NULL}.}
 
-\item{plotLimits}{A list of 2-element vectors with names \code{x} and 
-\code{y}. These are used to fix the x and y limits of the plot, which is 
+\item{plotLimits}{A list of 2-element vectors with names \code{x} and
+\code{y}. These are used to fix the x and y limits of the plot, which is
 especially useful for comparing plots. Defaults to
 \code{list(x=c(1000, 9000), y=c(3000, 13500))}.}
 }
 \value{
-A ggplot object in just one colour corresponding to 
+A ggplot object in just one colour corresponding to
 \code{classString}.
 }
 \description{
-There are occasions where classification algorithms fail for 
-various reasons (such as poor choice/number of centres in k-means 
-clustering). In these cases, it may be helpful to the user if an app draws 
+There are occasions where classification algorithms fail for
+various reasons (such as poor choice/number of centres in k-means
+clustering). In these cases, it may be helpful to the user if an app draws
 a 'flat' plot with just one colour rather than nothing at all.
 
-If a \code{ddpcrWell} object is given as a parameter, plot the 
+If a \code{ddpcrWell} object is given as a parameter, plot the
 droplets in the well and colour them according to a given class.
 
-If a \code{ddpcrPlate} object is given as a parameter, 
+If a \code{ddpcrPlate} object is given as a parameter,
 plot the droplets in all wells and colour them according to a given class.
 }
 \examples{
@@ -96,7 +96,7 @@ plot the droplets in all wells and colour them according to a given class.
 aWell <- KRASdata[["E03"]]
 flatPlot(aWell)
 
-## Take a ddpcrWell object that is mostly classified as "NN" and colour it 
+## Take a ddpcrWell object that is mostly classified as "NN" and colour it
 ## as such.
 aWell <- KRASdata[["H04"]]
 emptiedWell <- aWell[aWell$Cluster == 1, ]

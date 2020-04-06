@@ -19,12 +19,10 @@ NULL
 #'
 #' @author Anthony Chiu, \email{anthony.chiu@cruk.manchester.ac.uk}
 
-.mahDist <- function(droplets, clusStats)
-{
-  if(is.null(clusStats$cov.inv))
+.mahDist <- function(droplets, clusStats) {
+  if(is.null(clusStats$cov.inv)) {
     return(0)
-  else
-  {
+  } else {
     n <- seq_along(nrow(droplets))
     x <- split(droplets[, c("Ch1.Amplitude", "Ch2.Amplitude")], n)
     mapply(mahalanobis, x,
@@ -56,8 +54,7 @@ NULL
 #' @author Anthony Chiu, \email{anthony.chiu@cruk.manchester.ac.uk}
 
 .classwiseMahalanobisRain <- function(droplets, cl, maxDistance=30,
-                                      classCol="class")
-{
+                                      classCol="class") {
   clusStats <- classStats(droplets, classCol=classCol)[[cl]]
 
   # Retain the droplets within the chosen maxDistance of the mean of its class.
@@ -66,7 +63,8 @@ NULL
       .mahDist(droplets[droplets[, classCol] == cl, ],
                clusStats=clusStats) <= maxDistance,
       as.character(droplets[droplets[, classCol] == cl, classCol]),
-      ddpcr$rain)
+      ddpcr$rain
+    )
 
   factor(droplets[, classCol], levels=ddpcr$classesRain)
 }
@@ -134,11 +132,10 @@ NULL
 #'
 #' @export
 
-setGeneric("mahalanobisRain", function(droplets, cMethod, maxDistances=30, ...)
-  {
+setGeneric(
+  "mahalanobisRain", function(droplets, cMethod, maxDistances=30,...) {
     standardGeneric("mahalanobisRain")
-  }
-)
+})
 
 
 #' @rdname mahalanobisRain
@@ -150,28 +147,25 @@ setGeneric("mahalanobisRain", function(droplets, cMethod, maxDistances=30, ...)
 #' @exportMethod mahalanobisRain
 
 setMethod("mahalanobisRain", "data.frame",
-  function(droplets, cMethod, maxDistances=30, fullTable=TRUE)
-  {
+  function(droplets, cMethod, maxDistances=30, fullTable=TRUE) {
     # maxDistances is just a number---assume that all of the classes
     # have the same maximum distances
-    if(is.numeric(maxDistances) && length(maxDistances) == 1)
-    {
+    if(is.numeric(maxDistances) && length(maxDistances) == 1) {
       n <- length(ddpcr$classes)
       maxDistances <- setNames(rep(maxDistances, n), ddpcr$classes)
-    }
-    # Assume that an empty vector means no rain.
-    else if(is.null(maxDistances))
+    } else if(is.null(maxDistances)) {
+      # Assume that an empty vector means no rain.
       maxDistances <- list()
-    # Not a list and none of the conditions above---do not know how to
-    # handle.
-    else if(!is.list(maxDistances))
+    } else if(!is.list(maxDistances)) {
+      # Not a list and none of the conditions above---do not know how to
+      # handle.
       stop("'maxDistances' should be a named list with names in c(",
            ddpcr$nn, ", ", ddpcr$np, ", ", ddpcr$pn, ", ",
            ddpcr$pp, ")")
+    }
 
     # Loop through the maxDistances and check where droplets lie.
-    for(className in names(maxDistances))
-    {
+    for(className in names(maxDistances)) {
       droplets[, cMethod] <-
         .classwiseMahalanobisRain(droplets, className,
                                   maxDistances[[className]],
@@ -179,10 +173,11 @@ setMethod("mahalanobisRain", "data.frame",
 
     }
 
-    if(fullTable)
+    if(fullTable) {
       droplets[, c("Ch1.Amplitude", "Ch2.Amplitude", cMethod)]
-    else
+    } else {
       droplets[, cMethod]
+    }
   }
 )
 
@@ -192,8 +187,7 @@ setMethod("mahalanobisRain", "data.frame",
 #' @exportMethod mahalanobisRain
 
 setMethod("mahalanobisRain", "ddpcrWell",
-  function(droplets, cMethod, maxDistances=30)
-  {
+  function(droplets, cMethod, maxDistances=30) {
     cl <- wellClassification(droplets, cMethod=cMethod, withAmplitudes=TRUE)
     cl <- mahalanobisRain(cl, cMethod=cMethod, maxDistances=maxDistances,
                           fullTable=FALSE)
@@ -208,8 +202,7 @@ setMethod("mahalanobisRain", "ddpcrWell",
 #' @exportMethod mahalanobisRain
 
 setMethod("mahalanobisRain", "ddpcrPlate",
-  function(droplets, cMethod, maxDistances=30)
-  {
+  function(droplets, cMethod, maxDistances=30) {
     cl <- plateClassification(droplets, cMethod=cMethod, withAmplitudes=TRUE)
     cl <- do.call(rbind, cl)
     rainy <- mahalanobisRain(cl, cMethod=cMethod, maxDistances=maxDistances,
@@ -218,4 +211,3 @@ setMethod("mahalanobisRain", "ddpcrPlate",
     droplets
   }
 )
-

@@ -16,7 +16,7 @@
 A logical value.
 }
 \description{
-Returns a logical value as to whether the given object has no 
+Returns a logical value as to whether the given object has no
 droplets/wells.
 }
 \examples{

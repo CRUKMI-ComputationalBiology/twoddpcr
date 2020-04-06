@@ -11,13 +11,12 @@ NULL
 #'
 #' @return The data frame \code{x} with rounded entries.
 
-.roundIt <- function(df, n=3)
-{
-  for(cn in colnames(df))
-  {
-    if(is.numeric(df[, cn]))
+.roundIt <- function(df, n=3) {
+  for(cn in colnames(df)) {
+    if(is.numeric(df[, cn])) {
       df[, cn] <-
         ifelse(abs(df[, cn]) < 1, signif(df[, cn], n), round(df[, cn], n))
+    }
   }
   df
 }
@@ -45,8 +44,7 @@ NULL
 #'
 #' @export
 
-positiveCounts <- function(cl)
-{
+positiveCounts <- function(cl) {
   ppCount <- sum(cl == ddpcr$pp)
   pnCount <- sum(cl == ddpcr$pn)
   npCount <- sum(cl == ddpcr$np)
@@ -88,9 +86,9 @@ positiveCounts <- function(cl)
 #'
 #' @export
 
-setGeneric("plateSummary",
-  function(wells, ..., ch1Label="Mt", ch2Label="Wt", sortByLetter=FALSE)
-  {
+setGeneric(
+  "plateSummary",
+  function(wells, ..., ch1Label="Mt", ch2Label="Wt", sortByLetter=FALSE) {
     standardGeneric("plateSummary")
   }
 )
@@ -100,16 +98,14 @@ setGeneric("plateSummary",
 #'
 #' @exportMethod plateSummary
 
-setMethod("plateSummary", "list",
-  function(wells, ch1Label="Mt", ch2Label="Wt", sortByLetter=FALSE)
-  {
+setMethod(
+  "plateSummary", "list",
+  function(wells, ch1Label="Mt", ch2Label="Wt", sortByLetter=FALSE) {
     # No wells; return an empty data frame.
-    if(length(wells) == 0)
-    {
+    if(length(wells) == 0) {
       data.frame()
-    }
-    else # Molecule counts.
-    {
+    } else {
+      # Molecule counts.
       allCounts <- do.call(rbind, lapply(wells, positiveCounts))
       cs <- fullCountsSummary(
         data.frame(Well=names(wells), allCounts),
@@ -132,11 +128,9 @@ setMethod("plateSummary", "list",
 
 setMethod("plateSummary", "ddpcrPlate",
   function(wells, cMethod, ch1Label="Mt", ch2Label="Wt",
-               sortByLetter=FALSE)
-  {
+               sortByLetter=FALSE) {
     cl <- plateClassification(wells, cMethod=cMethod, withAmplitudes=TRUE)
     plateSummary(cl, ch1Label=ch1Label, ch2Label=ch2Label,
                  sortByLetter=sortByLetter)
   }
 )
-

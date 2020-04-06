@@ -51,65 +51,65 @@ exportZip(
 \arguments{
 \item{theObject}{The dataframe to export.}
 
-\item{location}{The location to export to. This should be a filename if we 
-are using \code{exportZip}, or we are using \code{exportTable} and 
-\code{theObject} is a data frame or \code{ddpcrWell} object. If 
-\code{theObject} is a \code{ddpcrPlate} object, this should be 
+\item{location}{The location to export to. This should be a filename if we
+are using \code{exportZip}, or we are using \code{exportTable} and
+\code{theObject} is a data frame or \code{ddpcrWell} object. If
+\code{theObject} is a \code{ddpcrPlate} object, this should be
 a directory.}
 
-\item{delim}{The character to use as a field separator. Defaults to ",", 
+\item{delim}{The character to use as a field separator. Defaults to ",",
 i.e. export a CSV.}
 
 \item{...}{Other options depending on the type of \code{theObject}.}
 
-\item{leadingColName}{The name of the leading column, i.e. the 'row names' 
-of the dataframe. This could be a patient identifier or the well used in the 
-ddPCR experiment. If \code{NULL}, the exported heading will be an empty 
+\item{leadingColName}{The name of the leading column, i.e. the 'row names'
+of the dataframe. This could be a patient identifier or the well used in the
+ddPCR experiment. If \code{NULL}, the exported heading will be an empty
 string. Defaults to \code{NULL}.}
 
-\item{row.names}{If \code{NULL}, exports a column corresponding to the row 
-names; if \code{FALSE}, no such column is included. If 'leadingColName' is 
-not \code{FALSE}, row.names is assumed to be \code{FALSE}. Defaults to 
+\item{row.names}{If \code{NULL}, exports a column corresponding to the row
+names; if \code{FALSE}, no such column is included. If 'leadingColName' is
+not \code{FALSE}, row.names is assumed to be \code{FALSE}. Defaults to
 \code{TRUE}.}
 
-\item{cMethod}{The name or column number of the classification methods in 
-a \code{\link{ddpcrWell}} or \code{\link{ddpcrPlate}} object to export 
-to file. If \code{NULL}, all of the classification methods are exported. 
+\item{cMethod}{The name or column number of the classification methods in
+a \code{\link{ddpcrWell}} or \code{\link{ddpcrPlate}} object to export
+to file. If \code{NULL}, all of the classification methods are exported.
 Defaults to \code{NULL}.}
 
-\item{prefix}{For \code{ddpcrPlate} objects, this is the prefix to 
+\item{prefix}{For \code{ddpcrPlate} objects, this is the prefix to
 prepend to the output filenames.}
 
-\item{suffix}{For \code{ddpcrPlate} objects, this is the suffix to 
-append to the output filenames. This is typically the filename extension, 
+\item{suffix}{For \code{ddpcrPlate} objects, this is the suffix to
+append to the output filenames. This is typically the filename extension,
 e.g. ".csv" or ".txt". Defaults to ".csv".}
 }
 \value{
 Exports a file.
 }
 \description{
-If given a data frame, \code{exportTable} exports the whole 
-data frame to file. This could be a data frame of any form. A few options 
-are available that can be used to determine the format of the file that is 
-exported, e.g. using a heading for the row names 'column', or omitting row 
+If given a data frame, \code{exportTable} exports the whole
+data frame to file. This could be a data frame of any form. A few options
+are available that can be used to determine the format of the file that is
+exported, e.g. using a heading for the row names 'column', or omitting row
 names altogether.
 
-If a \code{ddpcrWell} is given, \code{exportTable} exports to 
+If a \code{ddpcrWell} is given, \code{exportTable} exports to
 a single file with specified/all classification methods.
 
-If a \code{ddpcrPlate} is given, \code{exportTable} 
-exports to a directory in the given \code{location}, where one file is 
-created for each of the wells. If it does not exist, the directory 
-\code{location} will be created as long as all other parent directories 
+If a \code{ddpcrPlate} is given, \code{exportTable}
+exports to a directory in the given \code{location}, where one file is
+created for each of the wells. If it does not exist, the directory
+\code{location} will be created as long as all other parent directories
 exist.
 
-\code{exportZip} takes a \code{ddpcrPlate} object and 
+\code{exportZip} takes a \code{ddpcrPlate} object and
 exports it as a zip file.
 }
 \details{
-Note that filenames of the form \code{Anything_A01_Amplitude.csv} 
-can be read by \code{\link{readCSVDataFrame}} so that the well name can be 
-extracted successfully (in this case \code{A01}). Where it is used, see the 
+Note that filenames of the form \code{Anything_A01_Amplitude.csv}
+can be read by \code{\link{readCSVDataFrame}} so that the well name can be
+extracted successfully (in this case \code{A01}). Where it is used, see the
 default value of the parameter \code{suffix}.
 }
 \examples{
@@ -131,7 +131,7 @@ exportTable(summaryDf, file.path(tmpOut, "summary-table.csv"),
             leadingColName="Patient")
 
 ## Read a droplet amplitude CSV file to a ddpcrWell object.
-ampFile <- system.file("extdata", "amplitudes", "sample_B03_Amplitude.csv", 
+ampFile <- system.file("extdata", "amplitudes", "sample_B03_Amplitude.csv",
                        package="twoddpcr")
 aWell <- ddpcrWell(well=ampFile)
 

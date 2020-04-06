@@ -9,16 +9,16 @@ sortWells(wellNames, sortByLetter)
 \arguments{
 \item{wellNames}{The well names to sort.}
 
-\item{sortByLetter}{If \code{TRUE}, the resulting list is sorted by the 
-letter in the well names first, e.g. "A02" comes before "B01". If 
-\code{FALSE}, the result is sorted by the numeric component of the well 
+\item{sortByLetter}{If \code{TRUE}, the resulting list is sorted by the
+letter in the well names first, e.g. "A02" comes before "B01". If
+\code{FALSE}, the result is sorted by the numeric component of the well
 names first, e.g. "B01" comes before "A02". Defaults to \code{FALSE}.}
 }
 \value{
 The well names sorted.
 }
 \description{
-Well names can be sorted according to the leading letter or the trailing 
+Well names can be sorted according to the leading letter or the trailing
 digit.
 }
 \examples{

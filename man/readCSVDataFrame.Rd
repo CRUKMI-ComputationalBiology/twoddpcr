@@ -7,27 +7,27 @@
 readCSVDataFrame(path, wellCol = FALSE, sortByLetter = FALSE)
 }
 \arguments{
-\item{path}{The path containing the CSV files (can be a combination of 
-directories and individual CSV file paths). Each file will have 
-a \code{Ch1.Amplitude}, \code{Ch2.Amplitude} and possibly classification 
+\item{path}{The path containing the CSV files (can be a combination of
+directories and individual CSV file paths). Each file will have
+a \code{Ch1.Amplitude}, \code{Ch2.Amplitude} and possibly classification
 columns, e.g. by default, QuantaSoft returns a \code{Cluster} column too.}
 
-\item{wellCol}{If \code{TRUE}, an additional column is added with the well 
-name.  This is useful if we need to merge all the data in the output list 
-and we want to identify the original well of each droplet. Defaults to 
+\item{wellCol}{If \code{TRUE}, an additional column is added with the well
+name.  This is useful if we need to merge all the data in the output list
+and we want to identify the original well of each droplet. Defaults to
 \code{FALSE}.}
 
-\item{sortByLetter}{If \code{TRUE}, the resulting list is sorted by the 
-letter in the well names first, e.g. "A02" comes before "B01". If 
-\code{FALSE}, the result is sorted by the numeric component of the well 
+\item{sortByLetter}{If \code{TRUE}, the resulting list is sorted by the
+letter in the well names first, e.g. "A02" comes before "B01". If
+\code{FALSE}, the result is sorted by the numeric component of the well
 names first, e.g. "B01" comes before "A02". Defaults to \code{FALSE}.}
 }
 \value{
-A list of data frames, each containing the data from a CSV file with 
+A list of data frames, each containing the data from a CSV file with
 the corresponding well name.
 }
 \description{
-Bio-Rad's QuantaSoft can export droplet amplitude data from multiple wells 
+Bio-Rad's QuantaSoft can export droplet amplitude data from multiple wells
 into CSV files for each well. This function can read these CSV files into
 a list. Note that empty wells will be ignored.
 }
@@ -37,7 +37,7 @@ moreAmpsDir <- system.file("extdata", "more-amplitudes", package="twoddpcr")
 someWells <- readCSVDataFrame(moreAmpsDir)
 
 ## We can read files from directories and files at the same time.
-ampFile <- system.file("extdata", "amplitudes", "sample_B03_Amplitude.csv", 
+ampFile <- system.file("extdata", "amplitudes", "sample_B03_Amplitude.csv",
                        package="twoddpcr")
 someWells <- readCSVDataFrame(c(moreAmpsDir, ampFile))
 

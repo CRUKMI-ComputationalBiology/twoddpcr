@@ -29,10 +29,11 @@ NULL
 #'
 #' @export
 
-classMeans <- function(droplets, classCol="class")
-{
-  means <- stats::aggregate(droplets[, c("Ch1.Amplitude", "Ch2.Amplitude")],
-                            by=list(droplets[, classCol]), mean)
+classMeans <- function(droplets, classCol="class") {
+  means <- stats::aggregate(
+    droplets[, c("Ch1.Amplitude", "Ch2.Amplitude")],
+    by=list(droplets[, classCol]), mean
+  )
   data.frame(means, row.names=1)
 }
 
@@ -53,18 +54,18 @@ classMeans <- function(droplets, classCol="class")
 #'
 #' @author Anthony Chiu, \email{anthony.chiu@cruk.manchester.ac.uk}
 
-.cov <- function(cl, droplets, classCol)
-{
+.cov <- function(cl, droplets, classCol) {
   # Find covariance of each cluster.
-  covariance <-
-    stats::cov(droplets[droplets[, classCol] == cl,
-               c("Ch1.Amplitude", "Ch2.Amplitude")])
+  covariance <- stats::cov(
+    droplets[droplets[, classCol] == cl, c("Ch1.Amplitude", "Ch2.Amplitude")]
+  )
 
   # Return NULL if there are no droplets in the class.
-  if(anyNA(covariance))
+  if(anyNA(covariance)) {
     return(NULL)
-  else
+  } else {
     return(covariance)
+  }
 }
 
 
@@ -95,8 +96,7 @@ classMeans <- function(droplets, classCol="class")
 #'
 #' @export
 
-classCov <- function(droplets, classCol="class")
-{
+classCov <- function(droplets, classCol="class") {
   covs <- lapply(ddpcr$classes, .cov, droplets, classCol)
   setNames(covs, ddpcr$classes)
 }
@@ -110,17 +110,17 @@ classCov <- function(droplets, classCol="class")
 #'
 #' Given a matrix, compute the inverse or return \code{NULL} if it is singular.
 
-.matrixInverse <- function(s)
-{
-  if(is.null(s))
+.matrixInverse <- function(s) {
+  if(is.null(s)) {
     return(NULL)
-  else
+  } else {
     tryCatch({
       inv <- solve(s, matrix(c(1,0,0,1), 2, 2))
       colnames(inv) <- rownames(s)
       inv
     },
-    error=function(e) { NULL })
+    error=function(e) NULL)
+  }
 }
 
 #' Get some basic statistical properties for each class.
@@ -151,13 +151,9 @@ classCov <- function(droplets, classCol="class")
 #' aWell$Cluster <- relabelClasses(aWell, classCol="Cluster")
 #' classStats(aWell, classCol="Cluster")
 #'
-#'
-#'
-#'
 #' @export
 
-classStats <- function(droplets, classCol="class")
-{
+classStats <- function(droplets, classCol="class") {
   means <- classMeans(droplets, classCol)
   covs <- classCov(droplets, classCol)
 
@@ -166,16 +162,15 @@ classStats <- function(droplets, classCol="class")
 
   # Return everything as a list with class as the key, followed by mean, cov
   # and cov.inv.
-  s <- lapply(ddpcr$classes,
-              function(cl)
-              {
-                m <- t(means[cl, ])
-                names(m) <- c("Ch1.Amplitude", "Ch2.Amplitude")
-                list("mean"=m,
-                     "cov"=covs[[cl]],
-                     "cov.inv"=covs.inv[[cl]])
-              })
+  s <- lapply(
+    ddpcr$classes,
+    function(cl) {
+      m <- t(means[cl, ])
+      names(m) <- c("Ch1.Amplitude", "Ch2.Amplitude")
+      list("mean"=m,
+           "cov"=covs[[cl]],
+           "cov.inv"=covs.inv[[cl]])
+    }
+  )
   setNames(s, ddpcr$classes)
 }
-
-

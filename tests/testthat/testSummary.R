@@ -1,6 +1,8 @@
 context("Plate summary")
 
-testPlate <- ddpcrPlate("data")
+testDir <- system.file("testdata", package = "twoddpcr")
+
+testPlate <- ddpcrPlate(testDir)
 centres <- matrix(c(5000, 1500, 5500, 7000, 10000, 2000, 9000, 6000),
                   ncol=2, byrow=TRUE)
 testPlate <- kmeansClassify(testPlate, centres=centres)

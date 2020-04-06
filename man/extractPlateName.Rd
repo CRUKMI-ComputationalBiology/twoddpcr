@@ -7,16 +7,16 @@
 extractPlateName(filename)
 }
 \arguments{
-\item{filename}{A character string corresponding to a filename with .csv 
+\item{filename}{A character string corresponding to a filename with .csv
 extension.}
 }
 \value{
-A character string corresponding to the plate name. This is "" if 
+A character string corresponding to the plate name. This is "" if
 filename is not in a known format.
 }
 \description{
-If the given filename is of the form "<PlateName>_<WellName>_Amplitude.csv", 
-where <WellName> is of the form A01, B01, etc., then this function can 
+If the given filename is of the form "<PlateName>_<WellName>_Amplitude.csv",
+where <WellName> is of the form A01, B01, etc., then this function can
 extract the <PlateName> component. Otherwise, an empty string is returned.
 }
 \examples{

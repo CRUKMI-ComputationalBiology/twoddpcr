@@ -31,14 +31,15 @@ setMethod("elementType", "SimpleList", function(x) x@elementType)
 #' @exportClass ddpcrPlate
 
 .ddpcrPlate <-
-  setClass("ddpcrPlate",
+  setClass(
+    "ddpcrPlate",
     contains="SimpleList",
     prototype=prototype(elementType="ddpcrWell"),
-    validity=function(object)
-    {
+    validity=function(object) {
       # All elements of 'wells' should be 'ddpcrWell' objects.
-      if(any(lapply(object, class) != "ddpcrWell"))
+      if(any(lapply(object, class) != "ddpcrWell")) {
         return("All wells should be 'ddpcrWell' objects.")
+      }
 
       return(TRUE)
     }
@@ -74,85 +75,75 @@ setMethod("elementType", "SimpleList", function(x) x@elementType)
 #' @export
 
 
-setGeneric("ddpcrPlate", function(wells)
-  {
-    standardGeneric("ddpcrPlate")
+setGeneric("ddpcrPlate", function(wells) {
+  standardGeneric("ddpcrPlate")
+})
+
+#' @rdname ddpcrPlate-class
+#'
+#' @export
+
+setMethod("ddpcrPlate", "list", function(wells) {
+  # Try to make ddpcrWell objects from a list of data frames.
+  if(all(vapply(wells, class, character(1)) == "data.frame")) {
+    # Set the column names to the correct format, then coerce them.
+    wells <- setChannelNames(wells)
+    wells <- lapply(wells, ddpcrWell)
   }
+
+  setNames(.ddpcrPlate(listData=wells), names(wells))
+}
 )
 
 #' @rdname ddpcrPlate-class
 #'
 #' @export
 
-setMethod("ddpcrPlate", "list", function(wells)
-  {
-    # Try to make ddpcrWell objects from a list of data frames.
-    if(all(vapply(wells, class, character(1)) == "data.frame"))
-    {
-      # Set the column names to the correct format, then coerce them.
-      wells <- setChannelNames(wells)
-      wells <- lapply(wells, ddpcrWell)
+setMethod("ddpcrPlate", "ddpcrPlate", function(wells) {
+  wells <- as.list(wells)
+  ddpcrPlate(wells)
+})
+
+#' @rdname ddpcrPlate-class
+#'
+#' @export
+
+setMethod("ddpcrPlate", "character", function(wells) {
+  # Character string wells: hopefully a directory path.
+  # File or directory path---read it.
+  if(all(file.exists(wells))) {
+    wells <- readCSVDataFrame(wells)
+    if(length(wells) == 0) {
+      warning("No droplet amplitudes loaded. Was this intended?")
     }
-
-    setNames(.ddpcrPlate(listData=wells), names(wells))
+    ddpcrPlate(lapply(wells, ddpcrWell))
+  } else {
+    stop("The string 'wells' is not a file or directory path.")
   }
+}
 )
 
 #' @rdname ddpcrPlate-class
 #'
 #' @export
 
-setMethod("ddpcrPlate", "ddpcrPlate", function(wells)
-  {
-    wells <- as.list(wells)
-    ddpcrPlate(wells)
-  }
-)
-
-#' @rdname ddpcrPlate-class
-#'
-#' @export
-
-setMethod("ddpcrPlate", "character", function(wells)
-  {
-    # Character string wells: hopefully a directory path.
-    # File or directory path---read it.
-    if(all(file.exists(wells)))
-    {
-      wells <- readCSVDataFrame(wells)
-      if(length(wells) == 0)
-        warning("No droplet amplitudes loaded. Was this intended?")
-      ddpcrPlate(lapply(wells, ddpcrWell))
-    }
-    else
-      stop("The string 'wells' is not a file or directory path.")
-  }
-)
-
-#' @rdname ddpcrPlate-class
-#'
-#' @export
-
-setMethod("ddpcrPlate", "missing", function(wells)
-  {
-    .ddpcrPlate(listData=list())
-  }
-)
+setMethod("ddpcrPlate", "missing", function(wells) {
+  .ddpcrPlate(listData=list())
+})
 
 
 #' @rdname amplitudes
 #'
 #' @exportMethod amplitudes
 
-setMethod("amplitudes", "ddpcrPlate", function(theObject)
-  {
-    if(length(theObject) == 0)
-      return(data.frame("Ch1.Amplitude"=double(),
-                        "Ch2.Amplitude"=double()))
-    else
-      return(lapply(theObject, amplitudes))
+setMethod("amplitudes", "ddpcrPlate", function(theObject) {
+  if(length(theObject) == 0) {
+    return(data.frame("Ch1.Amplitude"=double(),
+                      "Ch2.Amplitude"=double()))
+  } else {
+    return(lapply(theObject, amplitudes))
   }
-)
+})
 
 
 #' Splits a long vector and according to a vector of sizes.
@@ -170,12 +161,10 @@ setMethod("amplitudes", "ddpcrPlate", function(theObject)
 #'
 #' @author Anthony Chiu, \email{anthony.chiu@cruk.manchester.ac.uk}
 
-.slice <- function(vec, wellSizes, wellNames)
-{
+.slice <- function(vec, wellSizes, wellNames) {
   sliced <- setNames(vector("list", length(wellNames)), wellNames)
   i <- 1
-  for(j in seq_along(wellSizes))
-  {
+  for(j in seq_along(wellSizes)) {
     s <- wellSizes[j]
     sliced[[wellNames[j]]] <- vec[i:(i+s-1)]
     i <- i + s
@@ -197,19 +186,20 @@ setMethod("amplitudes", "ddpcrPlate", function(theObject)
 #'
 #' @author Anthony Chiu, \email{anthony.chiu@cruk.manchester.ac.uk}
 
-.extractWellNames <- function(theObject, aList)
-{
+.extractWellNames <- function(theObject, aList) {
   # Set well names.
-  if(!all(is.null(names(aList))) && all(names(aList) %in% names(theObject)))
+  if(!all(is.null(names(aList))) && all(names(aList) %in% names(theObject))) {
     wells <- names(aList)
-  else
+  } else {
     stop("Not all names specified in the list 'aList' ",
          "are well names in 'theObject'.")
+  }
 
   # Inconsistencies between the given list and wells.
-  if(!all(wells %in% names(theObject)))
+  if(!all(wells %in% names(theObject))) {
     stop("Some of the given 'wells' are not valid well names in ",
          "'theObject'.")
+  }
 
   wells
 }
@@ -298,9 +288,9 @@ setMethod("amplitudes", "ddpcrPlate", function(theObject)
 #'
 #' @export
 
-setGeneric("plateClassification",
-  function(theObject, cMethod=NULL, withAmplitudes=FALSE, wellCol=FALSE)
-  {
+setGeneric(
+  "plateClassification",
+  function(theObject, cMethod=NULL, withAmplitudes=FALSE, wellCol=FALSE) {
     standardGeneric("plateClassification")
   }
 )
@@ -310,11 +300,11 @@ setGeneric("plateClassification",
 #' @exportMethod plateClassification
 
 setMethod("plateClassification", "ddpcrPlate",
-  function(theObject, cMethod=NULL, withAmplitudes=FALSE, wellCol=FALSE)
-  {
+  function(theObject, cMethod=NULL, withAmplitudes=FALSE, wellCol=FALSE) {
     # Force withAmplitudes to be true if we're including a well column.
-    if(wellCol && !withAmplitudes)
+    if(wellCol && !withAmplitudes) {
       withAmplitudes <- TRUE
+    }
 
     mc <- lapply(theObject, wellClassification,
                  withAmplitudes=withAmplitudes, cMethod=cMethod)
@@ -324,11 +314,13 @@ setMethod("plateClassification", "ddpcrPlate",
     # if(!withAmplitudes && (length(cMethod) == 1))
 
     # Add a well column to show where the droplet originated.
-    if(wellCol)
-    {
+    if(wellCol) {
       wellNames <- names(theObject)
-      mc <- lapply(wellNames,
-                   function(w) { data.frame(mc[[w]], "Well"=w) })
+      mc <- lapply(
+        wellNames, function(w) {
+          data.frame(mc[[w]], "Well"=factor(w, levels = unique(wellNames)))
+        }
+      )
       names(mc) <- wellNames
     }
 
@@ -340,8 +332,7 @@ setMethod("plateClassification", "ddpcrPlate",
 #'
 #' @export
 
-setGeneric("plateClassification<-", function(theObject, cMethod, value)
-  {
+setGeneric("plateClassification<-", function(theObject, cMethod, value) {
     standardGeneric("plateClassification<-")
   }
 )
@@ -351,21 +342,18 @@ setGeneric("plateClassification<-", function(theObject, cMethod, value)
 #' @export
 
 setReplaceMethod("plateClassification", c("ddpcrPlate", "character", "list"),
-  function(theObject, cMethod, value)
-  {
+  function(theObject, cMethod, value) {
     # Basic checks on the well names.
     wells <- .extractWellNames(theObject, value)
-    wellDropletCount <- vapply(wells,
-                               function(w)
-                               {
-                                 numDroplets(theObject[[w]])
-                               }, numeric(1))
-    if(any(vapply(value, length, numeric(1)) != wellDropletCount))
+    wellDropletCount <- vapply(
+      wells, function(w) numDroplets(theObject[[w]]), numeric(1)
+    )
+    if(any(vapply(value, length, numeric(1)) != wellDropletCount)) {
       stop("The number of elements in the list items do not match ",
            "those of the existing wells of the same name.")
+    }
 
-    for(i in seq_along(wells))
-    {
+    for(i in seq_along(wells)) {
       w <- wells[i]
       wellClassification(theObject[[w]], cMethod=cMethod) <- value[[i]]
     }
@@ -380,22 +368,23 @@ setReplaceMethod("plateClassification", c("ddpcrPlate", "character", "list"),
 #' @export
 
 setReplaceMethod("plateClassification", c("ddpcrPlate", "character", "factor"),
-  function(theObject, cMethod, value)
-  {
+  function(theObject, cMethod, value) {
     # The classification 'value' is one long factor, so should be for the
     # combined wells.
 
     # Check that the vector length is correct.
     multiNumDroplets <- numDroplets(theObject)
-    if(length(value) != sum(multiNumDroplets))
+    if(length(value) != sum(multiNumDroplets)) {
       stop("The length of 'vec' is not the same as the sum of 'wellSizes'.")
+    }
 
     # Slice it.
     cl <- .slice(value, multiNumDroplets, names(theObject))
 
     # Set the classification.
-    for(w in names(theObject))
+    for(w in names(theObject)) {
       wellClassification(theObject[[w]], cMethod=cMethod) <- cl[[w]]
+    }
 
     validObject(theObject)
     return(theObject)
@@ -446,61 +435,53 @@ setReplaceMethod("plateClassification", c("ddpcrPlate", "character", "factor"),
 #'
 #' @export
 
-setGeneric("plateClassificationMethod", function(theObject)
-  {
-    standardGeneric("plateClassificationMethod")
-  }
-)
+setGeneric("plateClassificationMethod", function(theObject) {
+  standardGeneric("plateClassificationMethod")
+})
 
 #' @rdname plateClassificationMethod
 #'
 #' @exportMethod plateClassificationMethod
 
-setMethod("plateClassificationMethod", "ddpcrPlate", function(theObject)
-  {
-    wellNames <- names(theObject)
-    setNames(lapply(theObject, wellClassificationMethod), wellNames)
-  }
-)
+setMethod("plateClassificationMethod", "ddpcrPlate", function(theObject) {
+  wellNames <- names(theObject)
+  setNames(lapply(theObject, wellClassificationMethod), wellNames)
+})
 
 #' @rdname plateClassificationMethod
 #'
 #' @export
 
-setGeneric("plateClassificationMethod<-", function(theObject, cMethod, value)
-  {
-    standardGeneric("plateClassificationMethod<-")
-  }
-)
+setGeneric("plateClassificationMethod<-", function(theObject, cMethod, value) {
+  standardGeneric("plateClassificationMethod<-")
+})
 
 #' @rdname plateClassificationMethod
 #'
 #' @export
 
-setReplaceMethod("plateClassificationMethod", "ddpcrPlate",
-  function(theObject, cMethod, value)
-  {
-    if(is.list(cMethod))
+setReplaceMethod(
+  "plateClassificationMethod", "ddpcrPlate",
+  function(theObject, cMethod, value) {
+    if(is.list(cMethod)) {
       cMethod <- unlist(cMethod)
-    if(is.list(value))
+    }
+    if(is.list(value)) {
       value <- unlist(value)
+    }
 
-    if(is.vector(cMethod) && is.vector(value))
-    {
+    if(is.vector(cMethod) && is.vector(value)) {
       wells <- names(theObject)
 
       # Set classification method for all wells, repeating elements of
       # cMethod if necessary.
-      for(i in seq_along(wells))
-      {
+      for(i in seq_along(wells)) {
         w <- wells[[i]]
         cmWrap <- cMethod[[(i - 1) %% length(cMethod) + 1]]
         wellClassificationMethod(theObject[[w]], cmWrap) <-
           value[[(i - 1) %% length(value) + 1]]
       }
-    }
-    else
-    {
+    } else {
       stop("'cMethod' and 'value' should be vectors or lists ",
            "of indices or character strings.")
     }
@@ -521,31 +502,26 @@ setReplaceMethod("plateClassificationMethod", "ddpcrPlate",
 #'
 #' @export
 
-setGeneric("commonClassificationMethod", function(theObject)
-  {
-    standardGeneric("commonClassificationMethod")
-  }
-)
+setGeneric("commonClassificationMethod", function(theObject) {
+  standardGeneric("commonClassificationMethod")
+})
 
 #' @rdname plateClassificationMethod
 #'
 #' @exportMethod commonClassificationMethod
 
-setMethod("commonClassificationMethod", "ddpcrPlate", function(theObject)
-  {
-    if(length(theObject) == 0)
-      return(0)
-    else
-    {
-      x <- plateClassificationMethod(theObject)
-      common <- x[[1]]
-      for(i in seq_along(x))
-      {
-        common <- intersect(common, x[[i]])
-      }
-      return(common)
+setMethod("commonClassificationMethod", "ddpcrPlate", function(theObject) {
+  if(length(theObject) == 0) {
+    return(0)
+  } else {
+    x <- plateClassificationMethod(theObject)
+    common <- x[[1]]
+    for(i in seq_along(x)) {
+      common <- intersect(common, x[[i]])
     }
+    return(common)
   }
+}
 )
 
 
@@ -553,24 +529,19 @@ setMethod("commonClassificationMethod", "ddpcrPlate", function(theObject)
 #'
 #' @inheritParams methods::show
 
-setMethod("show", "ddpcrPlate", function(object)
-  {
-    cat("ddpcrPlate object\n")
-    cat("number of wells: ", length(object), "\n", sep="")
-    if(!isEmpty(object))
-    {
-      cat("well names: ", sep="")
-      maxNumWells <- 10
-      wellNames <- names(object)
-      if(length(object) <= maxNumWells)
-        cat(wellNames, "\n", sep=" ")
-      else
-      {
-        remNumWells <- length(object) - maxNumWells
-        cat(wellNames[seq(maxNumWells)],
-            "...\n            (plus", remNumWells, "wells omitted)\n", sep=" ")
-      }
+setMethod("show", "ddpcrPlate", function(object) {
+  cat("ddpcrPlate object\n")
+  cat("number of wells: ", length(object), "\n", sep="")
+  if(!isEmpty(object)) {
+    cat("well names: ", sep="")
+    maxNumWells <- 10
+    wellNames <- names(object)
+    if(length(object) <= maxNumWells) {
+      cat(wellNames, "\n", sep=" ")
+    } else {
+      remNumWells <- length(object) - maxNumWells
+      cat(wellNames[seq(maxNumWells)],
+          "...\n            (plus", remNumWells, "wells omitted)\n", sep=" ")
     }
   }
-)
-
+})

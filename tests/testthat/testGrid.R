@@ -1,7 +1,8 @@
 context("Classifying by grid")
 
-testWell <- ddpcrWell("data/sample_B03_Amplitude.csv")
-testPlate <- ddpcrPlate("data")
+testDir <- system.file("testdata", package = "twoddpcr")
+testWell <- ddpcrWell(file.path(testDir, "sample_B03_Amplitude.csv"))
+testPlate <- ddpcrPlate(testDir)
 
 test_that("gridClassify classifies the droplets correctly", {
   testPlate <- gridClassify(testPlate,

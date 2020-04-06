@@ -2,31 +2,31 @@
 % Please edit documentation in R/sdRain.R
 \name{getCutOff}
 \alias{getCutOff}
-\title{Find the standard deviation of droplets (in a given class) multipied by 
+\title{Find the standard deviation of droplets (in a given class) multipied by
 a given constant.}
 \usage{
 getCutOff(droplets, cl, level = 3, classCol = "class")
 }
 \arguments{
-\item{droplets}{A data frame of droplets with "Ch1.Amplitude" and 
+\item{droplets}{A data frame of droplets with "Ch1.Amplitude" and
 "Ch2.Amplitude" columns, as well as a class column (see classCol).}
 
 \item{cl}{The class to focus on. Typically one of "NN", "PN", "NP" and "PP".}
 
-\item{level}{A constant by which we will multiply the standard deviation. 
+\item{level}{A constant by which we will multiply the standard deviation.
 Defaults to 5.}
 
-\item{classCol}{The column (name or number) from 'droplets' representing the 
+\item{classCol}{The column (name or number) from 'droplets' representing the
 class.}
 }
 \value{
-A list with named elements 'ch1' and 'ch2', each giving the error 
-bound for the corresponding channel. If the number of droplets is either 
-0 or 1, return list(ch1=0, ch2=0) to avoid any errors. Otherwise, return 
+A list with named elements 'ch1' and 'ch2', each giving the error
+bound for the corresponding channel. If the number of droplets is either
+0 or 1, return list(ch1=0, ch2=0) to avoid any errors. Otherwise, return
 level * (sd of the droplets in each channel).
 }
 \description{
-For a specified class, take a data frame of droplet amplitudes and compute 
+For a specified class, take a data frame of droplet amplitudes and compute
 the standard deviation multiplied by a level of accuracy.
 }
 \author{

@@ -27,28 +27,28 @@ combinedCentres(theObject, cMethod)
 \S4method{combinedCentres}{ddpcrPlate}(theObject, cMethod)
 }
 \arguments{
-\item{theObject}{A \code{\link{ddpcrWell}} or \code{\link{ddpcrPlate}} 
+\item{theObject}{A \code{\link{ddpcrWell}} or \code{\link{ddpcrPlate}}
 object.}
 
 \item{cMethod}{The classification method for which to obtain the centres.}
 }
 \value{
-If a \code{ddpcrWell} object is given, \code{clusterCentres} returns 
+If a \code{ddpcrWell} object is given, \code{clusterCentres} returns
 the cluster centres as a data frame.
 
-If a \code{ddpcrPlate} object is given, \code{clusterCentres} return 
-a list of data frames, where each data frame corresponds to the cluster 
+If a \code{ddpcrPlate} object is given, \code{clusterCentres} return
+a list of data frames, where each data frame corresponds to the cluster
 centres of a well.
 
-\code{combinedCentres} returns a data frame of the centres of all of 
+\code{combinedCentres} returns a data frame of the centres of all of
 the wells combined.
 }
 \description{
-\code{clusterCentres} retrieves the cluster centres for 
-a \code{\link{ddpcrWell}} object or the centres for each well in 
+\code{clusterCentres} retrieves the cluster centres for
+a \code{\link{ddpcrWell}} object or the centres for each well in
 a \code{\link{ddpcrPlate}} object.
 
-\code{combinedCentres} retrieves the cluster centres for all of 
+\code{combinedCentres} retrieves the cluster centres for all of
 the wells together.
 }
 \examples{
@@ -60,7 +60,7 @@ clusterCentres(aWell, "Cluster")
 aWell <- ddpcrWell(well=KRASdata[["H04"]])
 clusterCentres(aWell, "Cluster")
 
-## Retrieve the cluster centres of each of the wells in a \code{ddpcrPlate} 
+## Retrieve the cluster centres of each of the wells in a \code{ddpcrPlate}
 ## object.
 krasPlate <- ddpcrPlate(wells=KRASdata)
 clusterCentres(krasPlate, cMethod="Cluster")

@@ -15,35 +15,35 @@ fullCountsSummary(
 )
 }
 \arguments{
-\item{df}{A data frame with droplet count columns in one of the following 
+\item{df}{A data frame with droplet count columns in one of the following
 formats:
 \itemize{
   \item{\code{PP}, \code{PN}, \code{NP}, \code{NN}};
-  \item{\code{Ch1.Ch2.}, \code{Ch1.Ch2..1}, \code{Ch1.Ch2..2}, 
+  \item{\code{Ch1.Ch2.}, \code{Ch1.Ch2..1}, \code{Ch1.Ch2..2},
   \code{Ch1.Ch2..3}};
-  \item{\code{Ch1+Ch2+}, \code{Ch1+Ch2-}, \code{Ch1-Ch2+}, \code{Ch1-Ch2-}}; 
+  \item{\code{Ch1+Ch2+}, \code{Ch1+Ch2-}, \code{Ch1-Ch2+}, \code{Ch1-Ch2-}};
   or
   \item{\code{Ch1pCh2p}, \code{Ch1pCh2n}, \code{Ch1nCh2p}, \code{Ch1nCh2n}}.
 }}
 
-\item{ch1Label}{The prefix to use for the channel 1 target. Defaults to 
+\item{ch1Label}{The prefix to use for the channel 1 target. Defaults to
 "Mt".}
 
-\item{ch2Label}{The prefix to use for the channel 2 target. Defaults to 
+\item{ch2Label}{The prefix to use for the channel 2 target. Defaults to
 "Wt".}
 
-\item{rows}{A vector of rows (numbers or well names) to keep from the 
-original data frame. If set to \code{NULL}, all wells will be used. Defaults 
+\item{rows}{A vector of rows (numbers or well names) to keep from the
+original data frame. If set to \code{NULL}, all wells will be used. Defaults
 to \code{NULL}.}
 
-\item{rowID}{If set, this field is used as the row names. If \code{NULL}, 
+\item{rowID}{If set, this field is used as the row names. If \code{NULL},
 the existing row names from \code{df} are used. Defaults to \code{NULL}.}
 
-\item{keepCols}{A vector of columns to keep from \code{df}. If \code{NULL}, 
+\item{keepCols}{A vector of columns to keep from \code{df}. If \code{NULL},
 no extra columns are added. Defaults to \code{NULL}.}
 
-\item{keepColNames}{A vector of new column names for \code{keepCols}. If 
-\code{NULL}, the column names from \code{keepCols} are reused. Defaults to 
+\item{keepColNames}{A vector of new column names for \code{keepCols}. If
+\code{NULL}, the column names from \code{keepCols} are reused. Defaults to
 \code{NULL}.}
 }
 \value{
@@ -52,16 +52,16 @@ A data frame with
   \item \code{rowID} as the row names (if given);
   \item the droplet counts per channel;
   \item the number of ch1 and ch2 positive and negative readings;
-  \item the ch1 and ch2 concentration, copies per 20ul, and total copies per 
+  \item the ch1 and ch2 concentration, copies per 20ul, and total copies per
   20ul;
   \item the ratio of ch1 to ch2 molecules; and
-  \item the fractional abundance of ch1 molecules in the overall molecule 
+  \item the fractional abundance of ch1 molecules in the overall molecule
   count (as a percentage).
 }
 }
 \description{
-Returns a data frame with basic counts, the concentration of each kind of 
-target molecule, the ratio ch1:ch2 molecules, and the fractional abundance 
+Returns a data frame with basic counts, the concentration of each kind of
+target molecule, the ratio ch1:ch2 molecules, and the fractional abundance
 of ch1 molecules in the overall count.
 }
 \examples{

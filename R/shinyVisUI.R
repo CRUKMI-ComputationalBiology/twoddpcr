@@ -1,6 +1,6 @@
 #' Inline \code{textInputs}.
 #'
-#' By default, \code{\link[shiny]{textInput}} objects are added to the page 
+#' By default, \code{\link[shiny]{textInput}} objects are added to the page
 #' below each other. This function allows for inline \code{textInput} fields.
 #'
 #' @param inputId The identifier for the textInput object.
@@ -12,10 +12,9 @@
 #'
 #' @references Adapted from: http://stackoverflow.com/a/21132918/1262569
 
-textInputRow <- function (inputId, label, value="", size=NULL)
-{
+textInputRow <- function (inputId, label, value="", size=NULL) {
   div(style="display:inline-block",
-        tags$label(label, `for` = inputId), 
+        tags$label(label, `for` = inputId),
         tags$input(id = inputId, type="text", value=value,
                           class="input-small", size=size, maxlength=size)
   )
@@ -23,8 +22,8 @@ textInputRow <- function (inputId, label, value="", size=NULL)
 
 #' Inline \code{numericInputs}.
 #'
-#' By default, \code{\link[shiny]{numericInput}} objects are added to the page 
-#' below each other. This function allows for inline \code{numericInput} 
+#' By default, \code{\link[shiny]{numericInput}} objects are added to the page
+#' below each other. This function allows for inline \code{numericInput}
 #' fields.
 #'
 #' @param inputId The identifier for the numericInput object.
@@ -36,10 +35,9 @@ textInputRow <- function (inputId, label, value="", size=NULL)
 #'
 #' @references Adapted from: http://stackoverflow.com/a/21132918/1262569
 
-numericInputRow <- function (inputId, label, value="", size=NULL)
-{
+numericInputRow <- function (inputId, label, value="", size=NULL) {
   div(style="display:inline-block",
-        tags$label(label, `for` = inputId), 
+        tags$label(label, `for` = inputId),
         tags$input(id = inputId, type="number", value=value,
                           class="input-small", size=size, maxlength=size)
   )
@@ -58,8 +56,7 @@ numericInputRow <- function (inputId, label, value="", size=NULL)
 #'
 #' @export
 
-shinyVisUI <- function()
-{
+shinyVisUI <- function() {
   tagList(
     tags$head(
       tags$style(
@@ -81,7 +78,7 @@ shinyVisUI <- function()
           }
           "
         )
-      ) 
+      )
     ),
     navbarPage(title="twoddpcr", id="tdNavbarPage",
       tabPanel("Input",
@@ -125,12 +122,12 @@ shinyVisUI <- function()
                 "A Shiny web application for ddPCR analysis. It is part of
                 the ",
                 a(
-                  href="https://bioconductor.org/packages/twoddpcr/", 
+                  href="https://bioconductor.org/packages/twoddpcr/",
                   "twoddpcr", target="_blank"
                 ),
                 "Bioconductor package. If you use this package, please ",
                 a(
-                  href="https://bioconductor.org/packages/release/bioc/vignettes/twoddpcr/inst/doc/twoddpcr.html#citing-twoddpcr", 
+                  href="https://bioconductor.org/packages/release/bioc/vignettes/twoddpcr/inst/doc/twoddpcr.html#citing-twoddpcr",
                   "cite it.", target="_blank"
                 )
               ),
@@ -192,8 +189,8 @@ shinyVisUI <- function()
           ), # sidebarPanel
           mainPanel(width=8,
             h4("Wells in Plate"),
-            p("This shows an overview of the plate. Each of the smaller boxes 
-              represents a well in the plate. Droplet amplitudes are plotted 
+            p("This shows an overview of the plate. Each of the smaller boxes
+              represents a well in the plate. Droplet amplitudes are plotted
               for wells that were used."),
             plotOutput("plotFacetGrid", height="650")
           ) # mainPanel
@@ -265,12 +262,12 @@ shinyVisUI <- function()
                                    "are well-separated.")
                   ),
                   "See the",
-                  a(href="https://bioconductor.org/packages/release/bioc/vignettes/twoddpcr/inst/doc/twoddpcr.html#analysis-of-the-data", 
+                  a(href="https://bioconductor.org/packages/release/bioc/vignettes/twoddpcr/inst/doc/twoddpcr.html#analysis-of-the-data",
                     "Bioconductor vignette", target="_blank"
                   ),
                   "for a discussion comparing these two approaches.",
                   p(
-                    "Use 'Normalise data' to minimise variations between 
+                    "Use 'Normalise data' to minimise variations between
                     clusters in different wells."
                   )
                 )
@@ -290,9 +287,9 @@ shinyVisUI <- function()
                     p("Use the 'Remove This Class' checkbox if there is no
                     cluster."),
                     p(
-                      "Note that badly chosen centres could lead to error 
-                      messages. In this case, try setting centres close to the 
-                      centres of clusters and remove classes if they are not 
+                      "Note that badly chosen centres could lead to error
+                      messages. In this case, try setting centres close to the
+                      centres of clusters and remove classes if they are not
                       present."
                     )
                   )
@@ -402,9 +399,9 @@ shinyVisUI <- function()
                       "file containing CSV droplet amplitude files."
                     ),
                     tags$li(
-                      "Note: the exported amplitudes are classifed as 'NN', 
-                      'NP', 'PN' and 'PP' (N=Negative, P=Positive). Using the 
-                      default labels, these are abbreviations for 'Mt-Wt-', 
+                      "Note: the exported amplitudes are classifed as 'NN',
+                      'NP', 'PN' and 'PP' (N=Negative, P=Positive). Using the
+                      default labels, these are abbreviations for 'Mt-Wt-',
                       'Mt-Wt'+, 'Mt+Wt-' and 'Mt+Wt+', respectively."
                     ),
                     tags$li(
@@ -419,8 +416,8 @@ shinyVisUI <- function()
                 helpText(
                   tags$ul(
                     tags$li(
-                      "Droplets can fall between clusters and therefore have 
-                      classifications that can be subjective. Defining these 
+                      "Droplets can fall between clusters and therefore have
+                      classifications that can be subjective. Defining these
                       droplets as 'rain' helps to remove ambiguity."
                     ),
                     tags$li(
@@ -469,29 +466,29 @@ shinyVisUI <- function()
                       "Positive/negative droplets counts are summarised here."
                     ),
                     tags$li(
-                      "The summary can be exported to a CSV file or a report 
+                      "The summary can be exported to a CSV file or a report
                       generated using the buttons above."
                     ),
                     tags$li(
-                      "'AcceptedDroplets' is the total number of droplets in 
+                      "'AcceptedDroplets' is the total number of droplets in
                       each well (if necessary, after subtracting rain)."
                     ),
                     tags$li(
-                      "The 'Concentration' figures are estimates for the number 
+                      "The 'Concentration' figures are estimates for the number
                       of starting molecules per uL."
                     ),
                     tags$li(
-                      "The 'CopiesPer20uLWell' figures are estimates for the 
+                      "The 'CopiesPer20uLWell' figures are estimates for the
                       number of starting molecules in a 20uL well."
                     ),
                     tags$li(
-                      "'Ratio' is the ratio of channel 1 molecules to channel 2 
+                      "'Ratio' is the ratio of channel 1 molecules to channel 2
                       molecules."
                     ),
                     tags$li(
-                      "'FracAbun' is short for 'fractional abundance'. It 
-                      estimates how many starting channel 1 molecules there 
-                      were out of all molecules. The reported figure is a 
+                      "'FracAbun' is short for 'fractional abundance'. It
+                      estimates how many starting channel 1 molecules there
+                      were out of all molecules. The reported figure is a
                       percentage."
                     )
                   )
@@ -501,8 +498,8 @@ shinyVisUI <- function()
           ), # sidebarPanel
           mainPanel(width=8,
             h4("Plate summary"),
-            p("A summary of the number of droplets in each of the chosen wells. 
-              Poisson estimates of the starting numbers of molecules is also 
+            p("A summary of the number of droplets in each of the chosen wells.
+              Poisson estimates of the starting numbers of molecules is also
               provided."),
             dataTableOutput("wellsSummary")
           ) # mainPanel
@@ -576,8 +573,8 @@ shinyVisUI <- function()
                       the right."
                     ),
                     tags$li(
-                      "To create new training data, classify some data and in 
-                      the 'Results' tab click the 'Set as Training Data' 
+                      "To create new training data, classify some data and in
+                      the 'Results' tab click the 'Set as Training Data'
                       button."
                     )
                   )
@@ -586,8 +583,8 @@ shinyVisUI <- function()
             ), # sidebarPanel
             mainPanel(width=8,
               h4("Current training data"),
-              p("If set, the current training data will be shown below. This 
-                will be used as training data for the k-nearest neighbour 
+              p("If set, the current training data will be shown below. This
+                will be used as training data for the k-nearest neighbour
                 alogrithm."),
               plotOutput("plotTraining", height="650")
             ) # mainPanel
@@ -611,12 +608,12 @@ shinyVisUI <- function()
               "A Shiny web application for ddPCR analysis. It is part of
               the ",
               a(
-                href="https://bioconductor.org/packages/twoddpcr/", 
+                href="https://bioconductor.org/packages/twoddpcr/",
                 "twoddpcr", target="_blank"
               ),
               "Bioconductor package. If you use this package, please ",
               a(
-                href="https://bioconductor.org/packages/release/bioc/vignettes/twoddpcr/inst/doc/twoddpcr.html#citing-twoddpcr", 
+                href="https://bioconductor.org/packages/release/bioc/vignettes/twoddpcr/inst/doc/twoddpcr.html#citing-twoddpcr",
                 "cite it.", target="_blank"
               )
             ),
@@ -636,7 +633,7 @@ shinyVisUI <- function()
             ),
             h4("General Usage"),
             p(
-              "Work your way along the tabs from left-to-right. Help 
+              "Work your way along the tabs from left-to-right. Help
               information is available in the side-panel on each tab.
               Each tab can be summarised as:"
             ),
@@ -696,13 +693,13 @@ shinyVisUI <- function()
             ),
             h4("Classify"),
             p(
-              "This tab is used for the gating of the droplets. The 'K-means 
+              "This tab is used for the gating of the droplets. The 'K-means
               Clustering' and 'Thresholds' approaches are discussed in the ",
-              a(href="https://bioconductor.org/packages/release/bioc/vignettes/twoddpcr/inst/doc/twoddpcr.html#analysis-of-the-data", 
+              a(href="https://bioconductor.org/packages/release/bioc/vignettes/twoddpcr/inst/doc/twoddpcr.html#analysis-of-the-data",
                 "Bioconductor vignette.", target="_blank"
               ),
-              "In general, 'K-means Clustering' should work without any 
-              modifications if the data forms four clear clusters; just click 
+              "In general, 'K-means Clustering' should work without any
+              modifications if the data forms four clear clusters; just click
               'Run Classification'."
             ),
             p(
@@ -717,7 +714,7 @@ shinyVisUI <- function()
             tags$ol(
               tags$li("Choose a class from 'Selected Class'."),
               tags$li(
-                "Click on the density plot to set a new centre for the 
+                "Click on the density plot to set a new centre for the
                 selected class."
               )
             ),
@@ -725,8 +722,8 @@ shinyVisUI <- function()
               "Use the 'Remove This Class' checkbox if there is no cluster."
             ),
             p(
-              "Note that badly chosen centres could lead to error messages. In 
-              this case, try setting centres close to the centres of clusters 
+              "Note that badly chosen centres could lead to error messages. In
+              this case, try setting centres close to the centres of clusters
               and remove classes if they are not present."
             ),
             h5("Thresholds"),
@@ -752,7 +749,7 @@ shinyVisUI <- function()
             tags$ol(
               tags$li("Choose a class from 'Selected Class'."),
               tags$li(
-                "Click on the density plot to set a new region for the 
+                "Click on the density plot to set a new region for the
                 selected class."
               )
             ),
@@ -818,7 +815,7 @@ shinyVisUI <- function()
             ),
             p(
               "This summary table can be exported as a CSV file, which can
-              then be imported in a spreadsheet. The results and summary table 
+              then be imported in a spreadsheet. The results and summary table
               can also be used to create an HTML report."
             )
           )

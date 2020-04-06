@@ -13,9 +13,9 @@ extractWellNames(filenames)
 A character vector of well names.
 }
 \description{
-If each of the given filenames are of the form 
-"<PlateName>_<WellName>_Amplitude.csv", where <WellName> is of the form A01, 
-B01, etc., then this function can extract the <WellName> component. 
+If each of the given filenames are of the form
+"<PlateName>_<WellName>_Amplitude.csv", where <WellName> is of the form A01,
+B01, etc., then this function can extract the <WellName> component.
 Otherwise, the whole file name is assumed to be the well name.
 }
 \examples{

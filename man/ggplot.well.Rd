@@ -7,7 +7,7 @@
 \alias{ggplot.multiwell}
 \alias{ggplot.well,ddpcrWell-method}
 \alias{ggplot.plate,ddpcrPlate-method}
-\title{ggplot methods for the \code{\link{ddpcrWell}} and 
+\title{ggplot methods for the \code{\link{ddpcrWell}} and
 \code{\link{ddpcrPlate}} classes.}
 \usage{
 ggplot.well(
@@ -45,34 +45,34 @@ ggplot.plate(
 \arguments{
 \item{data}{A \code{ddpcrWell} or \code{ddpcrPlate} object.}
 
-\item{mapping}{A list of aesthetic mappings to use for the plot. Defaults to 
-\code{ggplot2::aes_string(x="Ch2.Amplitude", y="Ch1.Amplitude", 
-colour=cMethod)}, where \code{cMethod} is taken from the parameter of the 
+\item{mapping}{A list of aesthetic mappings to use for the plot. Defaults to
+\code{ggplot2::aes_string(x="Ch2.Amplitude", y="Ch1.Amplitude",
+colour=cMethod)}, where \code{cMethod} is taken from the parameter of the
 same name.}
 
-\item{cMethod}{The name or column number of the classification to use. This 
-is renamed internally to "class" for use with \code{mapping}. Defaults to 
+\item{cMethod}{The name or column number of the classification to use. This
+is renamed internally to "class" for use with \code{mapping}. Defaults to
 "None".}
 
 \item{...}{Other arguments passed onto \code{\link[ggplot2]{ggplot}}.}
 
-\item{environment}{Where to look if a mapping variable is not defined. 
-Defaults to \code{parent.frame()}, i.e. the environment in which 
+\item{environment}{Where to look if a mapping variable is not defined.
+Defaults to \code{parent.frame()}, i.e. the environment in which
 \code{ggplot.well()} or \code{ggplot.multiwell()} is called.}
 }
 \value{
-A \code{\link[ggplot2]{ggplot}} object using the slots in the given 
+A \code{\link[ggplot2]{ggplot}} object using the slots in the given
 object.
 }
 \description{
-These functions work in the same way as the original 
-\code{\link[ggplot2]{ggplot}} method, but handles the coercion of the object 
+These functions work in the same way as the original
+\code{\link[ggplot2]{ggplot}} method, but handles the coercion of the object
 into a data frame.
 
-\code{ggplot.well} is a \code{\link[ggplot2]{ggplot}} method 
+\code{ggplot.well} is a \code{\link[ggplot2]{ggplot}} method
 for the \code{\link{ddpcrWell}} class.
 
-\code{ggplot.multiwell} is a \code{\link[ggplot2]{ggplot}} 
+\code{ggplot.multiwell} is a \code{\link[ggplot2]{ggplot}}
 method for the \code{\link{ddpcrPlate}} class.
 }
 \examples{
@@ -87,10 +87,10 @@ ggplot.plate(krasPlate, cMethod="Cluster") + geom_point()
 
 }
 \seealso{
-\code{\link{dropletPlot}} builds upon these \code{ggplot} methods 
+\code{\link{dropletPlot}} builds upon these \code{ggplot} methods
 to plot droplet amplitude plots with a colour-blind friendly palette.
 
-The original \code{\link[ggplot2]{ggplot}} method in the 
+The original \code{\link[ggplot2]{ggplot}} method in the
 \code{ggplot2} package is used internally.
 }
 \author{

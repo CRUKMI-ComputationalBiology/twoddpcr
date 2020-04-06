@@ -7,23 +7,23 @@
 castSummary(df, ch1Label = "Mt", ch2Label = "Wt", rows = NULL)
 }
 \arguments{
-\item{df}{A data frame created by calling \code{read.csv} on the raw ddPCR 
+\item{df}{A data frame created by calling \code{read.csv} on the raw ddPCR
 output.}
 
-\item{ch1Label}{The prefix to use for the channel 1 target. Defaults to 
+\item{ch1Label}{The prefix to use for the channel 1 target. Defaults to
 "Mt".}
 
-\item{ch2Label}{The prefix to use for the channel 2 target. Defaults to 
+\item{ch2Label}{The prefix to use for the channel 2 target. Defaults to
 "Wt".}
 
-\item{rows}{The number of rows to retain from the original data frame. If 
+\item{rows}{The number of rows to retain from the original data frame. If
 \code{NULL}, all of the wells are used. Defaults to \code{NULL}.}
 }
 \value{
 A data frame with the target rows merged.
 }
 \description{
-Returns a data frame with the dependent columns prefixed with given labels 
+Returns a data frame with the dependent columns prefixed with given labels
 (depending on the targets). All relevant columns are retained.
 }
 \examples{

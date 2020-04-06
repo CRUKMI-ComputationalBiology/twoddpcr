@@ -14,7 +14,7 @@ mutantCopiesSummary(df)
 A data frame with the basic columns and mutant copies per 20ul.
 }
 \description{
-Returns a data frame with the basic figures and the number of mutant copies 
+Returns a data frame with the basic figures and the number of mutant copies
 per 20ul.
 }
 \examples{

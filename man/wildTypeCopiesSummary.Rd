@@ -2,7 +2,7 @@
 % Please edit documentation in R/summaries.R
 \name{wildTypeCopiesSummary}
 \alias{wildTypeCopiesSummary}
-\title{Get the wild type copies per 20ul of a data frame in the context of the 
+\title{Get the wild type copies per 20ul of a data frame in the context of the
 basic counts.}
 \usage{
 wildTypeCopiesSummary(df)
@@ -14,7 +14,7 @@ wildTypeCopiesSummary(df)
 A data frame with the basic columns and wild type copies per 20ul.
 }
 \description{
-Returns a data frame with the basic figures and the number of wild type 
+Returns a data frame with the basic figures and the number of wild type
 copies per 20ul.
 }
 \examples{

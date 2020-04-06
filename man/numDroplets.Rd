@@ -24,15 +24,15 @@ numDroplets(theObject, ...)
 \item{...}{Other parameters depending on the type of \code{theObject}.}
 }
 \value{
-For \code{ddpcrWell} objects, return the number of droplets as an 
+For \code{ddpcrWell} objects, return the number of droplets as an
 integer.
 
-For \code{ddpcrPlate} objects, return a named vector. The names 
-correspond to a well name and each item corresponding to the number of 
+For \code{ddpcrPlate} objects, return a named vector. The names
+correspond to a well name and each item corresponding to the number of
 droplets in that well.
 }
 \description{
-Retrieves the number of droplets in a \code{\link{ddpcrWell}} or 
+Retrieves the number of droplets in a \code{\link{ddpcrWell}} or
 \code{\link{ddpcrPlate}} object.
 }
 \examples{

@@ -19,8 +19,8 @@ numericInputRow(inputId, label, value = "", size = NULL)
 A \code{div} with the appropriate label and input field.
 }
 \description{
-By default, \code{\link[shiny]{numericInput}} objects are added to the page 
-below each other. This function allows for inline \code{numericInput} 
+By default, \code{\link[shiny]{numericInput}} objects are added to the page
+below each other. This function allows for inline \code{numericInput}
 fields.
 }
 \references{
