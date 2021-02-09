@@ -1,7 +1,7 @@
 Package: twoddpcr
 Title: Classify 2-d Droplet Digital PCR (ddPCR) data and quantify the number
     of starting molecules
-Version: 1.15.0
+Version: 1.15.1
 Authors@R: person("Anthony", "Chiu",
     email="anthony@achiu.me",
     role=c("aut", "cre"))
@@ -35,7 +35,7 @@ Imports:
     S4Vectors
 License: GPL-3
 LazyData: true
-RoxygenNote: 7.1.0
+RoxygenNote: 7.1.1
 Collate:
     'KRAScounts.R'
     'KRASdata.R'

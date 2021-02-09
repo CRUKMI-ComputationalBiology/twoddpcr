@@ -6,7 +6,6 @@ test_that("Facet plot gives a output with correct parameters", {
   expect_s3_class(facetPlot(krasPlate), c("gg", "ggplot"))
   expect_s3_class(facetPlot(krasPlate, cMethod=NULL), c("gg", "ggplot"))
   expect_s3_class(facetPlot(krasPlate, cMethod="Cluster"), c("gg", "ggplot"))
-  expect_equal(facetPlot(krasPlate), facetPlot(krasPlate, cMethod=NULL))
 })
 
 test_that("Facet plot fails when plotting the wrong column", {
